@@ -42,6 +42,18 @@
     - [GENERATE A DIGITAL CERTIFICATE REQUEST](#generate-a-digital-certificate-request)
     - [ISSUANCE OF THE DIGITAL CERTIFICATE](#issuance-of-the-digital-certificate)
     - [REVOCATION OF DIGITAL CERTIFICATES](#revocation-of-digital-certificates)
+  - [S/MIME](#smime)
+    - [CREATE KEYS AND CERTIFICATES](#create-keys-and-certificates)
+      - [Create key pairs and CSR for certificate request](#create-key-pairs-and-csr-for-certificate-request)
+      - [Request and Issue the Certificates](#request-and-issue-the-certificates)
+    - [ENCRYPT MIME INFORMATION](#encrypt-mime-information)
+    - [DECRYPT MIME INFORMATION](#decrypt-mime-information)
+    - [SIGN MIME INFORMATION](#sign-mime-information)
+    - [VERIFY DIGITAL SIGNATURE OF MIME INFORMATION](#verify-digital-signature-of-mime-information)
+  - [SECURE SOCKETS LAYER](#secure-sockets-layer)
+    - [CHECK AN SSL CONNECTION TO A SERVER](#check-an-ssl-connection-to-a-server)
+    - [GET A SERVER'S DIGITAL CERTIFICATE](#get-a-servers-digital-certificate)
+  - [REFERENCES/ADDITIONAL INFORMATION](#referencesadditional-information)
 
 ## INTRODUCTION
 This document aims to demonstrate the use of cryptographic mechanisms based on the OpenSSL/LibreSSL library. This library has the ability to work with cryptographic mechanisms such as symmetric cryptography, asymmetric cryptography, generation of message authentication codes as well as work with digital certificates and more.
@@ -1073,4 +1085,373 @@ Look at the revocationlist of the CA:
             31:f9:57:7a:be:f4:18:d9:0c:30:dd:4d:d2:8e:23:d2:0e:33:
             b7:69:9c:00:b8:4f:b7:3b:ba:35:c2:26:26:e6:fc:61:83:56:
             d8:1e
+
+## S/MIME
+S/MIME is a standard for encrypting and signing MIME (Multipurpose Internet Mail Extensions) data. It is widely used for electronic mail. OpenSSL provides support for this type of functionality.
+
+For the next operations let's assume that there are two entities, **Alice** and **Bob** who want to exchange and sign information using public key cryptography - to do this we will create key pairs and certificates (containing the public key) for each of them.
+
+### CREATE KEYS AND CERTIFICATES
+Let's create a set of key pairs and certificates for **Alice** and **Bob**.
+
+#### Create key pairs and CSR for certificate request
+
+Create a CSR for Alice:
+
+    openssl req -config ./openssl.cnf -new -nodes -keyout ./alice.key -out ./alice.csr -days 365
+
+Create a CSR for Bob:
+    
+    openssl req -config ./openssl.cnf -new -nodes -keyout ./bob.key -out ./bob.csr -days 365
+
+#### Request and Issue the Certificates
+The following command is going to be used to issue the certificate for **Alice**:
+
+    openssl ca -config ./openssl.cnf -policy policy_anything -out alice.crt -infiles alice.csr
+
+Results in the following:
+
+    Using configuration from ./openssl.cnf
+    Enter pass phrase for ./private/ca.key:
+    Check that the request matches the signature
+    Signature ok
+    Certificate Details:
+            Serial Number: 2 (0x2)
+            Validity
+                Not Before: Nov  5 08:44:07 2015 GMT
+                Not After : Nov  4 08:44:07 2016 GMT
+            Subject:
+                countryName               = PT
+                stateOrProvinceName       = Lisboa
+                localityName              = Lisboa
+                organizationName          = Internet Widgits Pty Ltd
+                commonName                = Alice
+            X509v3 extensions:
+                X509v3 Basic Constraints: 
+                    CA:FALSE
+                Netscape Comment: 
+                    OpenSSL Generated Certificate
+                X509v3 Subject Key Identifier: 
+                    BA:85:F1:09:B1:72:0C:0E:3D:93:49:34:C0:16:83:72:34:8E:CE:F4
+                X509v3 Authority Key Identifier: 
+                    keyid:CC:A9:43:88:06:8F:D4:9D:35:40:96:D9:2B:76:86:D7:39:8B:1D:43
+
+    Certificate is to be certified until Nov  4 08:44:07 2016 GMT (365 days)
+    Sign the certificate? [y/n]:y
+
+
+    1 out of 1 certificate requests certified, commit? [y/n]y
+    Write out database with 1 new entries
+    Data Base Updated
+
+The following command is going to be used to issue the certificate for **Bob**:
+
+    openssl ca -config ./openssl.cnf -policy policy_anything -out bob.crt -infiles bob.csr
+
+Results in the following:
+
+    Using configuration from ./openssl.cnf
+    Enter pass phrase for ./private/ca.key:
+    Check that the request matches the signature
+    Signature ok
+    Certificate Details:
+            Serial Number: 3 (0x3)
+            Validity
+                Not Before: Nov  5 08:45:14 2015 GMT
+                Not After : Nov  4 08:45:14 2016 GMT
+            Subject:
+                countryName               = PT
+                stateOrProvinceName       = Lisboa
+                localityName              = Lisboa
+                organizationName          = Internet Widgits Pty Ltd
+                commonName                = Bob
+            X509v3 extensions:
+                X509v3 Basic Constraints: 
+                    CA:FALSE
+                Netscape Comment: 
+                    OpenSSL Generated Certificate
+                X509v3 Subject Key Identifier: 
+                    C3:F6:E7:E8:11:49:09:A6:DC:64:69:3E:73:BB:54:54:37:2B:3F:38
+                X509v3 Authority Key Identifier: 
+                    keyid:CC:A9:43:88:06:8F:D4:9D:35:40:96:D9:2B:76:86:D7:39:8B:1D:43
+
+    Certificate is to be certified until Nov  4 08:45:14 2016 GMT (365 days)
+    Sign the certificate? [y/n]:y
+
+
+    1 out of 1 certificate requests certified, commit? [y/n]y
+    Write out database with 1 new entries
+    Data Base Updated
+
+### ENCRYPT MIME INFORMATION
+**Alice** will now encrypt a file (`SecretMessage.txt`) that she wants to send securely to **Bob**, using the public key contained in **Bob**'s certificate (`bob.crt`) (which will have *been obtained at some earlier ti*me).
+
+    openssl smime -encrypt -aes128 -in ./mensagemSecreta.txt -out ./mensagemSecreta.txt.enc -outform PEM ./bob.crt
+
+The result of the cipher is as follows:
+
+    -----BEGIN PKCS7-----
+    MIIBmAYJKoZIhvcNAQcDoIIBiTCCAYUCAQAxggEAMIH9AgEAMGYwYTELMAkGA1UE
+    BhMCUFQxDzANBgNVBAgMBkxpc2JvYTEPMA0GA1UEBwwGTGlzYm9hMRIwEAYDVQQK
+    DAlJU0NURS1JVUwxDTALBgNVBAsMBElTVEExDTALBgNVBAMMBFNSU0kCAQMwDQYJ
+    KoZIhvcNAQEBBQAEgYBHwxlei9Ww5CxBQzxgTt5mMw8NOm0TshvRKke1yAPWFt10
+    PjQ+9AM4Szr2YD2q93ziMO0fqveSJ82jjeL2TeFjjfJKo4ejycuaCggFSvyiNEou
+    s3LFcgSUq0Cu48JmNBxYOcZHdo0N/xCSW2ZPwUES6JbX49kmd5OaFQoRUlmy1TB8
+    BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAECBBC2Lg/h53AjIOgcSUy4xYc/gFCzmQPi
+    CGQU81M+3/TvAOAroNXNi6dVWxchNcm1JrFjPzl+/quZobR1MXUNO6YnHaZ4yGge
+    D+NizD2C2tg+VGXUowtXlyHvmEy7KjmXmq1dCQ==
+    -----END PKCS7-----
+
+### DECRYPT MIME INFORMATION
+**Bob**, after receiving the encrypted file (messageSecreta.txt.enc), will use his private key (`bob.key`), to decrypt the original content.
+
+    openssl smime -decrypt -aes128 -in ./mensagemSecreta.txt.enc -out ./mensagemSecreta.txt.orig -inform PEM -inkey ./bob.key 
+
+### SIGN MIME INFORMATION
+**Alice**, wants to sign the message and then send it **to** Bob. To do this, she does the following:
+
+    openssl smime -sign -in ./mensagemSecreta.txt -out ./mensagemsecreta.sig -signer ./alice.crt -inkey alice.key
+
+The result of signing the message is as follows:
+
+    MIME-Version: 1.0
+    Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----F46C4B7E272BA661D77AA4FF41655372"
+
+    This is an S/MIME signed message
+
+    ------F46C4B7E272BA661D77AA4FF41655372
+    Este é o meu email secreto que eu pretendo assinar digitalmente!
+
+    ------F46C4B7E272BA661D77AA4FF41655372
+    Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+    Content-Transfer-Encoding: base64
+    Content-Disposition: attachment; filename="smime.p7s"
+
+    MIIE6wYJKoZIhvcNAQcCoIIE3DCCBNgCAQExDzANBglghkgBZQMEAgEFADALBgkq
+    hkiG9w0BBwGgggK4MIICtDCCAh2gAwIBAgIBAjANBgkqhkiG9w0BAQsFADBhMQsw
+    CQYDVQQGEwJQVDEPMA0GA1UECAwGTGlzYm9hMQ8wDQYDVQQHDAZMaXNib2ExEjAQ
+    BgNVBAoMCUlTQ1RFLUlVTDENMAsGA1UECwwESVNUQTENMAsGA1UEAwwEU1JTSTAe
+    Fw0xNTExMDUwODQ0MDdaFw0xNjExMDQwODQ0MDdaMGIxCzAJBgNVBAYTAlBUMQ8w
+    DQYDVQQIDAZMaXNib2ExDzANBgNVBAcMBkxpc2JvYTEhMB8GA1UECgwYSW50ZXJu
+    ZXQgV2lkZ2l0cyBQdHkgTHRkMQ4wDAYDVQQDDAVBbGljZTCBnzANBgkqhkiG9w0B
+    AQEFAAOBjQAwgYkCgYEA2RSZZp0l7ZeH1PDTLelHT9KBOxTri1re9dvMTpbsfMkq
+    XZim/CXv2UGp9k4DxxIsSbqoARxajK8t81zvBh/ttbZjgT1MTi3K0ywpVNqfYKR2
+    UKkaujfqlqF5tjErf09tzXNZcCr5hZtYYOiCLF/ThSGkOvTJDLH+TO64GkoIonEC
+    AwEAAaN7MHkwCQYDVR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5l
+    cmF0ZWQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFLqF8QmxcgwOPZNJNMAWg3I0js70
+    MB8GA1UdIwQYMBaAFMypQ4gGj9SdNUCW2St2htc5ix1DMA0GCSqGSIb3DQEBCwUA
+    A4GBAGunwN3AvSx3fRk7qLIoypaN/WD/AgJE5z6qA1h6fEjsrJQPBUqcjPWtpPOe
+    NKBE5Q45zPchRW2dMXdWQwW4dCB0nWoAVCjxFHnUMWMUjWWmHG8p7n9xb85H+6lP
+    BrPSLWAgQPAbrADnud79NpRK2f13QLFc3jP7JyewTQAWXTNYMYIB9zCCAfMCAQEw
+    ZjBhMQswCQYDVQQGEwJQVDEPMA0GA1UECAwGTGlzYm9hMQ8wDQYDVQQHDAZMaXNi
+    b2ExEjAQBgNVBAoMCUlTQ1RFLUlVTDENMAsGA1UECwwESVNUQTENMAsGA1UEAwwE
+    U1JTSQIBAjANBglghkgBZQMEAgEFAKCB5DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
+    AQcBMBwGCSqGSIb3DQEJBTEPFw0xNTExMDUxMDEzMzhaMC8GCSqGSIb3DQEJBDEi
+    BCCTTSIGPJF42yCzx4CWYZyjbuqxG61TBWA4hARuTLR/WTB5BgkqhkiG9w0BCQ8x
+    bDBqMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqG
+    SIb3DQMHMA4GCCqGSIb3DQMCAgIAgDANBggqhkiG9w0DAgIBQDAHBgUrDgMCBzAN
+    BggqhkiG9w0DAgIBKDANBgkqhkiG9w0BAQEFAASBgHfqoRy3pJi+BIIYNAhDou+B
+    Y9WmcXeP5z7t7UCIe3FH0HHrdveCNk7G2TYeYCPHEj+6uJORxGc4WCF/SsM9kbRF
+    U1CPxJuwzHfkIaWB05yCk5H6eRv85ZRG10wgMaXk2wVoDunshjvW1vMjS1sYxN6v
+    vAqIZU/Pj/A/LaN79Lsc
+
+    ------F46C4B7E272BA661D77AA4FF41655372--
+
+### VERIFY DIGITAL SIGNATURE OF MIME INFORMATION
+After receiving the message signed by **Alice** (`mensagemsecreta.sig`), **Bob** uses **Alice**'s digital certificate. In this case, and to prevent OpenSSL from doing additional validations on the digital certificate (such as checking whether it was actually issued by a CA it trusts) the "`-noverify`" option is used.
+
+    openssl smime -verify -in ./mensagemsecreta.sig -signer ./alice.crt -noverify
+
+Resulting in:
+
+    Este é o meu email secreto que eu pretendo assinar digitalmente!
+    Verification successful
+
+## SECURE SOCKETS LAYER
+Secure Sockets Layer (SSL) is a widely used protocol for secure and authenticated connections between Web browsers and Web servers.
+
+### CHECK AN SSL CONNECTION TO A SERVER
+OpenSSL can be used to check the parameters of an SSL connection to a particular server, for example:
+
+    openssl s_client -connect fenix.iscte-iul.pt:443
+
+Resulting in:
+
+    CONNECTED(00000003)
+    depth=1 /C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
+    verify error:num=20:unable to get local issuer certificate
+    verify return:0
+    ---
+    Certificate chain
+    0 s:/businessCategory=Government Entity/1.3.6.1.4.1.311.60.2.1.3=PT/serialNumber=Government Entity/street=ISCTE- Instituto Universit\xC3\xA1rio de Lisboa, Av. das For\xC3\xA7as Armadas/postalCode=1600-083/C=PT/ST=Lisboa/L=Lisboa/O=ISCTE-IUL (ISCTE- Instituto Universit\xC3\xA1rio de Lisboa)/OU=SIIC - Servicos de Infraestrutura Informatica e Comunicacoes/CN=fenix.iscte-iul.pt
+    i:/C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
+    1 s:/C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
+    i:/C=US/O=DigiCert Inc/OU=www.digicert.com/CN=DigiCert High Assurance EV Root CA
+    ---
+    Server certificate
+    -----BEGIN CERTIFICATE-----
+    MIIH6zCCBtOgAwIBAgIQCTMX+xhI0GCMLwKtMcF3lTANBgkqhkiG9w0BAQsFADBz
+    MQswCQYDVQQGEwJOTDEWMBQGA1UECBMNTm9vcmQtSG9sbGFuZDESMBAGA1UEBxMJ
+    QW1zdGVyZGFtMQ8wDQYDVQQKEwZURVJFTkExJzAlBgNVBAMTHlRFUkVOQSBTU0wg
+    SGlnaCBBc3N1cmFuY2UgQ0EgMzAeFw0xNTA5MDgwMDAwMDBaFw0xNzA5MTIxMjAw
+    MDBaMIIBgDEaMBgGA1UEDwwRR292ZXJubWVudCBFbnRpdHkxEzARBgsrBgEEAYI3
+    PAIBAxMCUFQxGjAYBgNVBAUTEUdvdmVybm1lbnQgRW50aXR5MUswSQYDVQQJDEJJ
+    U0NURS0gSW5zdGl0dXRvIFVuaXZlcnNpdMOhcmlvIGRlIExpc2JvYSwgQXYuIGRh
+    cyBGb3LDp2FzIEFybWFkYXMxETAPBgNVBBETCDE2MDAtMDgzMQswCQYDVQQGEwJQ
+    VDEPMA0GA1UECBMGTGlzYm9hMQ8wDQYDVQQHEwZMaXNib2ExPjA8BgNVBAoMNUlT
+    Q1RFLUlVTCAoSVNDVEUtIEluc3RpdHV0byBVbml2ZXJzaXTDoXJpbyBkZSBMaXNi
+    b2EpMUUwQwYDVQQLEzxTSUlDIC0gU2Vydmljb3MgZGUgSW5mcmFlc3RydXR1cmEg
+    SW5mb3JtYXRpY2EgZSBDb211bmljYWNvZXMxGzAZBgNVBAMTEmZlbml4LmlzY3Rl
+    LWl1bC5wdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALQ98GKlgSnN
+    xSNl+EVjkmEW8mkOis5A9W5zckMgAo6aBnmZ78k8rezd3wApZk0TCDdimsv12gAB
+    owTnLCdkGAVVqsBn3Dk5N4QlruuZBdzYzDrkhl5t3xjJBQtamN3uuDdyoSy1/r9t
+    0WvOuknXlo4ox/MJ4jqMzgL0JCMC2K4nasLlNCoV0NvMzLjqyuNJMPBt55zPEHpt
+    MU+8BzNOFN2KqJ4Gqoy6UISZrGHJ7vD8oZk8ggXtIMGw/obgmgttPWQ6ZFraIyhD
+    l+v3dUpny4mhF/634fh0F/ohfurqYcJA5DdQcO30xwKWiF+HuxLtlt7BdwZ2ge53
+    VBP58QAhfM8CAwEAAaOCA2owggNmMB8GA1UdIwQYMBaAFMK4hdfhuRO90Ui8/V7c
+    fZBCeoqpMB0GA1UdDgQWBBQqNjzSxqrWvsti1ZDBfIHmTGgDpjAdBgNVHREEFjAU
+    ghJmZW5peC5pc2N0ZS1pdWwucHQwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQG
+    CCsGAQUFBwMBBggrBgEFBQcDAjCBhQYDVR0fBH4wfDA8oDqgOIY2aHR0cDovL2Ny
+    bDMuZGlnaWNlcnQuY29tL1RFUkVOQVNTTEhpZ2hBc3N1cmFuY2VDQTMuY3JsMDyg
+    OqA4hjZodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVEVSRU5BU1NMSGlnaEFzc3Vy
+    YW5jZUNBMy5jcmwwQgYDVR0gBDswOTA3BglghkgBhv1sAgEwKjAoBggrBgEFBQcC
+    ARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQUzB7BggrBgEFBQcBAQRvMG0w
+    JAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBFBggrBgEFBQcw
+    AoY5aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1RFUkVOQVNTTEhpZ2hBc3N1
+    cmFuY2VDQTMuY3J0MAwGA1UdEwEB/wQCMAAwggF9BgorBgEEAdZ5AgQCBIIBbQSC
+    AWkBZwB2AKS5CZC0GFgUh7sTosxncAo8NZgE+RvfuON3zQ7IDdwQAAABT6vY42sA
+    AAQDAEcwRQIhAOnOY1E/t5nPA5lj2aSGvoXvOEj2vPy/coIUfbqtXHp1AiB9VleI
+    ZS4I3zzw2z141GOZiNoCYYPtdSqsIu0uQk8DswB2AGj2mPgfZIK+OozuuSgdTPxx
+    UV1nk9RE0QpnrLtPT/vEAAABT6vY49IAAAQDAEcwRQIhAOXEwWyM0dVhZv2GdJRo
+    DSXxadxpUR1/bJhU/+jCSVndAiA1FO0GDvYFervf0MFpwv/qwIdr55p+uONuB3T0
+    QQ45ZgB1AFYUBpov18Ls0/XhvUSyPsdGdrm8mRFcwO+UmFXWidDdAAABT6vY5HYA
+    AAQDAEYwRAIgQs6sB6Cb5sYKvlZhwcBwJcwSgJN+gZKkpbtvrYb46nICIDKQVi9Y
+    zsmCM2aeqqq7Wc8D4rARL18lILwDQlUsFiVXMA0GCSqGSIb3DQEBCwUAA4IBAQAR
+    MgAYM+8wybTo0zXwOdOMUja0q/d7PsAOVdEFh/VIc79b7yPHjDnwmBy4as4gixZ4
+    WIHTXff4p4igHu3IXUgvuvanrC0IzVhyj73vRiez0WfNWOXcIWYfEZJRZG+fihfV
+    1WoeQQ2CThsuJMO/sm8lhEKsfFG0YqbOzy7yhSFEMLELBfY8mkYUx/kwHmPF54l1
+    RIYuonfVJUQQL2ORzzQsSmSnbpStgt8hHlOm2wAKO1nFx42C8s7NLU2AJYe5TwDa
+    YgpThPj6vr9Nb/Bb3V425VAEKNyo0wWeVxWycn7SVZI4Ic5XjA/J1sdUnnvuUhK6
+    yS3Tg7MsYorS+bU1n6B4
+    -----END CERTIFICATE-----
+    subject=/businessCategory=Government Entity/1.3.6.1.4.1.311.60.2.1.3=PT/serialNumber=Government Entity/street=ISCTE- Instituto Universit\xC3\xA1rio de Lisboa, Av. das For\xC3\xA7as Armadas/postalCode=1600-083/C=PT/ST=Lisboa/L=Lisboa/O=ISCTE-IUL (ISCTE- Instituto Universit\xC3\xA1rio de Lisboa)/OU=SIIC - Servicos de Infraestrutura Informatica e Comunicacoes/CN=fenix.iscte-iul.pt
+    issuer=/C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
+    ---
+    No client certificate CA names sent
+    ---
+    SSL handshake has read 4241 bytes and written 456 bytes
+    ---
+    New, TLSv1/SSLv3, Cipher is DHE-RSA-AES128-SHA
+    Server public key is 2048 bit
+    Secure Renegotiation IS supported
+    Compression: NONE
+    Expansion: NONE
+    SSL-Session:
+        Protocol  : TLSv1
+        Cipher    : DHE-RSA-AES128-SHA
+        Session-ID: 773B4F6F13B615D3E575C36C30FF658028497C0123305E9FF6A614F47398CA2A
+        Session-ID-ctx: 
+        Master-Key: 69065E3A3B2A985FCB293F6FB45558F4B6199A56E83977F373EBA373734E5B9D067CBF9587486E05B4BD9A93511F28D9
+        Key-Arg   : None
+        Start Time: 1446572855
+        Timeout   : 300 (sec)
+        Verify return code: 0 (ok)
+    ---
+    closed
+
+### GET A SERVER'S DIGITAL CERTIFICATE
+We can obtain a server's digital certificate by doing the following:
+
+    echo | openssl s_client -connect www.google.com:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > google.crt
+
+After we have the certificate saved in a file (`google.crt`) we can view it.
+
+    openssl x509 -noout -text -in ./google.crt 
+
+Resulting:
+
+    Certificate:
+        Data:
+            Version: 3 (0x2)
+            Serial Number:
+                31:68:f6:7c:25:93:0f:e5
+            Signature Algorithm: sha256WithRSAEncryption
+            Issuer: C=US, O=Google Inc, CN=Google Internet Authority G2
+            Validity
+                Not Before: Oct 28 17:50:22 2015 GMT
+                Not After : Jan 26 00:00:00 2016 GMT
+            Subject: C=US, ST=California, L=Mountain View, O=Google Inc, CN=www.google.com
+            Subject Public Key Info:
+                Public Key Algorithm: rsaEncryption
+                RSA Public Key: (2048 bit)
+                    Modulus (2048 bit):
+                        00:b4:4a:88:99:2c:74:01:6a:d4:4a:17:8a:b6:22:
+                        34:e1:b7:91:c2:63:22:68:13:3f:f4:31:57:cd:91:
+                        d8:c9:b6:b5:f4:77:19:7a:21:67:88:f4:b3:3e:cd:
+                        64:2f:0d:ca:bf:f7:20:0c:1b:03:db:27:3e:46:da:
+                        82:0f:fe:81:41:85:40:ae:bc:fe:8d:a8:a5:a6:92:
+                        54:90:e2:d1:74:c6:1e:a5:ce:3e:32:4f:04:b9:67:
+                        d1:e2:59:a3:1b:7d:d9:68:15:b2:f0:90:a4:a5:30:
+                        16:3e:5f:6a:d9:07:14:d1:86:05:9c:38:e0:73:65:
+                        e4:d4:4a:94:b3:93:e5:b2:06:23:14:d4:f3:e7:cf:
+                        35:b7:45:ec:e9:07:dd:e0:bc:cb:5b:23:88:3a:1e:
+                        8e:7e:02:fa:b7:83:2e:8f:9a:5c:f5:50:10:f2:f0:
+                        3d:9b:d5:af:29:19:b3:39:7f:31:69:cb:bc:a7:36:
+                        54:87:a0:c0:2a:55:d3:91:57:3e:97:83:98:e3:47:
+                        65:8b:e8:32:98:43:cd:c1:b1:8b:a7:55:1e:73:0e:
+                        81:2f:b4:5d:9c:e1:c1:cf:a7:2e:6f:b0:30:60:5d:
+                        61:a7:02:b7:bc:6b:e9:0d:b8:00:78:ca:9f:fa:70:
+                        8d:1f:f1:2b:a4:f0:a6:02:72:f4:23:35:e0:78:1c:
+                        19:3d
+                    Exponent: 65537 (0x10001)
+            X509v3 extensions:
+                X509v3 Extended Key Usage: 
+                    TLS Web Server Authentication, TLS Web Client Authentication
+                X509v3 Subject Alternative Name: 
+                    DNS:www.google.com
+                Authority Information Access: 
+                    CA Issuers - URI:http://pki.google.com/GIAG2.crt
+                    OCSP - URI:http://clients1.google.com/ocsp
+
+                X509v3 Subject Key Identifier: 
+                    95:CA:1C:F5:FB:39:28:C9:1C:7D:D2:3C:0E:85:68:01:7E:98:7B:4C
+                X509v3 Basic Constraints: critical
+                    CA:FALSE
+                X509v3 Authority Key Identifier: 
+                    keyid:4A:DD:06:16:1B:BC:F6:68:B5:76:F5:81:B6:BB:62:1A:BA:5A:81:2F
+
+                X509v3 Certificate Policies: 
+                    Policy: 1.3.6.1.4.1.11129.2.5.1
+                    Policy: 2.23.140.1.2.2
+
+                X509v3 CRL Distribution Points: 
+                    URI:http://pki.google.com/GIAG2.crl
+
+        Signature Algorithm: sha256WithRSAEncryption
+            36:57:20:af:df:78:82:4b:bf:83:98:01:06:db:c6:f1:c0:b8:
+            6d:b3:8c:ba:38:f3:46:d6:0b:2e:7a:5e:01:42:ca:29:90:37:
+            51:05:3c:e8:b3:f8:e8:42:91:0b:25:11:94:5d:f5:bc:eb:d3:
+            f0:37:79:a3:c0:03:f9:f3:1e:d9:61:a7:2a:a1:81:12:db:29:
+            2f:31:ee:8c:80:b2:e3:a0:5c:e4:03:97:93:31:94:44:23:fb:
+            4a:48:e2:39:e1:0d:1b:b6:49:66:6d:7b:2d:fb:69:9d:00:2c:
+            62:7c:dd:5c:cd:f1:4c:a0:35:cd:57:36:12:49:10:33:3e:7f:
+            e7:55:ac:f5:a5:f8:0e:e9:cd:51:fc:1a:25:fe:41:8c:6f:1a:
+            c1:f8:70:f9:f0:e2:b4:28:b1:ea:d9:49:f9:5e:1e:e3:51:4d:
+            51:59:6e:0f:26:91:2c:a6:69:37:df:98:a8:95:dd:3e:bc:fd:
+            9a:ee:4f:d4:bc:31:40:11:2c:e7:d1:2f:36:e6:26:7b:af:e6:
+            6f:41:9e:f4:27:3d:0b:b8:11:f4:67:09:08:ef:40:de:0c:ad:
+            fe:81:65:b6:4a:2d:de:02:78:73:43:c7:2c:06:18:b3:75:fd:
+            54:dd:f7:c9:1d:ad:6c:b2:aa:70:56:7b:e3:9f:8e:e3:86:63:
+            e6:b8:10:fc
+
+## REFERENCES/ADDITIONAL INFORMATION
+1.	https://openssl.org/docs/manmaster/apps/openssl.html 
+2.	http://www.g-loaded.eu/2005/11/10/be-your-own-ca/ 
+3.	https://jamielinux.com/docs/openssl-certificate-authority/index.html 
+4.	http://www.tldp.org/HOWTO/SSL-Certificates-HOWTO/index.html 
+5.	https://www.openssl.org/docs/manmaster/apps/config.html 
+6.	https://www.mkssoftware.com/docs/man1/openssl_smime.1.asp 
+7.	https://www.madboa.com/geek/openssl/
+8.	https://www.misterpki.com/openssl-verify/
+9.	https://www.misterpki.com/openssl-s-client/ 
 
