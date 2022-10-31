@@ -802,7 +802,10 @@ And we will create the application for the certificate itself based on a set of 
 - We specify where the key pair and certificate will be stored
 - We specify that the certificate will be generated for a period of 5 years (1825 days)
 
-    openssl req -config ./openssl.cnf -new -x509 -extensions v3_ca -keyout private/ca.key -out certs/ca.crt -days 1825 
+Use this command (parts of the command, depend on the configuration present in `openssl.cnf`, namely the `-extensions`):
+
+    openssl req -config ./openssl.cnf -new -x509 -extensions v3_ca -keyout private/ca.key -out certs/ca.crt -days 1825
+
 
 And then request the necessary information:
 
