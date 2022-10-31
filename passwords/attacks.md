@@ -1,0 +1,35 @@
+# Attacks on Password-based Systems  <!-- omit in toc -->
+
+## Table of Contents  <!-- omit in toc -->
+
+- [Introduction](#introduction)
+- [Understanding Passwords](#understanding-passwords)
+  - [Check your passwords](#check-your-passwords)
+
+## Introduction
+
+This is lab where you can test some content related with the usage of passwords. You'll find some examples where you can test if your password is compromised, or how robust are your passwords.
+
+In order to use this lab, it is recommended to use:
+
+- a web browser
+- [Kali Linux](https://www.kali.org/), with some tools installed
+- [Metasploitable 2](https://sourceforge.net/projects/metasploitable/) VM (used as a target).
+
+## Understanding Passwords
+
+This part is useful for checking the security of passwords and to understand its robustness.
+
+### Check your passwords
+
+There have been some data leakages on the Internet that contain a massive amount of accounts, with the passwords of millions and millions of users. [Troy Hunt](https://www.troyhunt.com/), a security researcher, as created a web site called "[have I been pwned](https://haveibeenpwned.com/)" that allows any user to look for an email address or telephone number, that might be part of an existing data leak.
+
+![](assets/picture01.png)
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
