@@ -26,10 +26,8 @@ There have been some data leakages on the Internet that contain a massive amount
 
 ![](assets/picture01.png)
 
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
+Using this web site try to look for the following:
+
+- Look to see if some of your accounts have been compromised (also look at the details of those accounts);
+- Look at the amazing [list of Pwned web sites](https://haveibeenpwned.com/PwnedWebsites). Found anything [interesting](https://haveibeenpwned.com/PwnedWebsites#TAPAirPortugal)?
+- Look for information online about the most recent Facebook data breach (2021).
