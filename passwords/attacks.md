@@ -24,7 +24,7 @@ This part is useful for checking the security of passwords and to understand its
 
 There have been some data leakages on the Internet that contain a massive amount of accounts, with the passwords of millions and millions of users. [Troy Hunt](https://www.troyhunt.com/), a security researcher, as created a web site called "[have I been pwned](https://haveibeenpwned.com/)" that allows any user to look for an email address or telephone number, that might be part of an existing data leak.
 
-![](assets/picture01.png)
+![haveibeenpwned](assets/picture01.png)
 
 Using this web site try to look for the following:
 
