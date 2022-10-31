@@ -782,7 +782,7 @@ To check the previously generated subscription, you need to perform the followin
         Files ./verified and ./hash2 are identical
 
 ## DIGITAL CERTIFICATES 
-OpenSSL is also an excellent tool for creating Certificate Authorities and generating digital certificates. In this part we will see how we can create a Certificate Authority, generate requests for digital certificates and issue those digital certificates.
+OpenSSL is also an excellent tool for creating Certificate Authorities and generating digital certificates. In this part we will see how we can create a Certificate Authority, generate requests for digital certificates and issue those digital certificates. On most of this commands, we are going to use the [openssl.cnf](openssl.cnf) file. This `openssl.cnf`file is usually distributed with the Openssl distribution.
 
 ### CREATE A CERTIFICATION AUTHORITY
 To create our own Certificate Authority (CA) we will create a folder structure that contains a series of CA information.
