@@ -5,6 +5,7 @@
 - [Introduction](#introduction)
 - [Understanding Passwords](#understanding-passwords)
   - [Check your passwords](#check-your-passwords)
+  - [Massive list of passwords](#massive-list-of-passwords)
 
 ## Introduction
 
@@ -31,3 +32,10 @@ Using this web site try to look for the following:
 - Look to see if some of your accounts have been compromised (also look at the details of those accounts);
 - Look at the amazing [list of Pwned web sites](https://haveibeenpwned.com/PwnedWebsites). Found anything [interesting](https://haveibeenpwned.com/PwnedWebsites#TAPAirPortugal)?
 - Look for information online about the most recent Facebook data breach (2021).
+
+### Massive list of passwords
+
+There are multiple sites that aggregate lots of passwords. These passwords can be used to conduct diccionary attacks, that test all the existing passwords to check if some of them works.
+
+- [Common Password List ( rockyou.txt )](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt)
+- [Seclists](https://github.com/danielmiessler/SecLists)

@@ -1,60 +1,66 @@
 # Cryptography with OpenSSL/LibreSSL <!-- omit in toc -->
 
 ## Index <!-- omit in toc -->
-- [INTRODUCTION](#introduction)
-- [SETUP](#setup)
-- [BASIC COMMANDS](#basic-commands)
-  - [CHECK OPENSSL VERSION](#check-openssl-version)
-- [OPENSSL INTERACTIVE CONSOLE ACCESS](#openssl-interactive-console-access)
-- [CHECK OPTIONS FOR A PARTICULAR COMMAND](#check-options-for-a-particular-command)
-- [SYMMETRIC CRYPTOGRAPHY](#symmetric-cryptography)
-  - [LIST OPTIONS OF AN ALGORITHM](#list-options-of-an-algorithm)
-  - [ENCRYPT A FILE](#encrypt-a-file)
-  - [DECRYPT A FILE](#decrypt-a-file)
-  - [CIPHERING AND DECIPHERING AN IMAGE](#ciphering-and-deciphering-an-image)
-- [HASH GENERATION](#hash-generation)
-  - [GENERATE HASH OF A FILE](#generate-hash-of-a-file)
-  - [GENERATE A MESSAGE AUTHENTICATION CODE](#generate-a-message-authentication-code)
-- [ASYMMETRIC CRYPTOGRAPHY](#asymmetric-cryptography)
-  - [KEY PAIR GENERATION](#key-pair-generation)
+
+- [Introduction](#introduction)
+- [Setup](#setup)
+- [Basic commands](#basic-commands)
+  - [Check the OpenSSL version](#check-the-openssl-version)
+- [OpenSSL interactive console access](#openssl-interactive-console-access)
+- [Check the options for a particular command](#check-the-options-for-a-particular-command)
+- [Symmetric Cryptography](#symmetric-cryptography)
+  - [List of options for an algorithm](#list-of-options-for-an-algorithm)
+  - [Encrypt a file](#encrypt-a-file)
+  - [Decrypt a file](#decrypt-a-file)
+  - [Ciphering and deciphering an image](#ciphering-and-deciphering-an-image)
+- [Hash generation](#hash-generation)
+  - [Generate hash of a file](#generate-hash-of-a-file)
+  - [Generate a Message Authentication Code](#generate-a-message-authentication-code)
+- [Asymmetric cryptography](#asymmetric-cryptography)
+  - [Key pair generation](#key-pair-generation)
   - [Generate a key pair](#generate-a-key-pair)
   - [Generate a key pair and protect the private key](#generate-a-key-pair-and-protect-the-private-key)
   - [Print the various components of the key pair](#print-the-various-components-of-the-key-pair)
-  - [EXTRACT THE PUBLIC KEY FROM THE KEY PAIR](#extract-the-public-key-from-the-key-pair)
-  - [ENCRYPT USING THE PUBLIC KEY](#encrypt-using-the-public-key)
-  - [DECRYPT USING THE PRIVATE KEY](#decrypt-using-the-private-key)
-- [USING ELLIPTIC CURVE CRYPTOGRAPHY](#using-elliptic-curve-cryptography)
-  - [LISTING THE AVAILABLE CURVES](#listing-the-available-curves)
-  - [GENERATE A PRIVATE KEY USING ECC](#generate-a-private-key-using-ecc)
-  - [GENERATE A PUBLIC KEY USING ECC](#generate-a-public-key-using-ecc)
-  - [ENCRYPT WITH ECC](#encrypt-with-ecc)
-- [USING DIFFIE-HELLMAN (DH) FOR KEY EXCHANGE](#using-diffie-hellman-dh-for-key-exchange)
-  - [GENERATE DH PUBLIC KEY PARAMETERS](#generate-dh-public-key-parameters)
-  - [GENERATE THE DH PRIVATE AND PUBLIC KEYS](#generate-the-dh-private-and-public-keys)
-  - [ENCRYPT AND DECRYPT DATA WITH DH](#encrypt-and-decrypt-data-with-dh)
-- [DIGITAL SIGNATURES](#digital-signatures)
-  - [GENERATE A DIGITAL SIGNATURE FOR A FILE](#generate-a-digital-signature-for-a-file)
-  - [VERIFY THE DIGITAL SIGNATURE OF A FILE](#verify-the-digital-signature-of-a-file)
-- [DIGITAL CERTIFICATES](#digital-certificates)
-  - [CREATE A CERTIFICATION AUTHORITY](#create-a-certification-authority)
-  - [VERIFY THE GENERATED DIGITAL CERTIFICATE](#verify-the-generated-digital-certificate)
-  - [GENERATE A DIGITAL CERTIFICATE REQUEST](#generate-a-digital-certificate-request)
-  - [ISSUANCE OF THE DIGITAL CERTIFICATE](#issuance-of-the-digital-certificate)
-  - [REVOCATION OF DIGITAL CERTIFICATES](#revocation-of-digital-certificates)
+  - [Extract the public key from the key pair](#extract-the-public-key-from-the-key-pair)
+  - [Encrypt using the public key](#encrypt-using-the-public-key)
+  - [Decrypt using the private key](#decrypt-using-the-private-key)
+- [Using the Elliptic Curve Cryptography](#using-the-elliptic-curve-cryptography)
+  - [Listing the available curves](#listing-the-available-curves)
+  - [Generate a private key using ECC](#generate-a-private-key-using-ecc)
+  - [Generate a public key using ECC](#generate-a-public-key-using-ecc)
+  - [Encrypt with ECC](#encrypt-with-ecc)
+- [Using Diffie-Hellman (DH) for key exchange](#using-diffie-hellman-dh-for-key-exchange)
+  - [Generate DH public key parameters](#generate-dh-public-key-parameters)
+  - [Generate the DH private and public keys](#generate-the-dh-private-and-public-keys)
+  - [Encrypt and decrypt with DH](#encrypt-and-decrypt-with-dh)
+- [Digital signatures](#digital-signatures)
+  - [Generate a digital signature for a file](#generate-a-digital-signature-for-a-file)
+  - [Verify the digital signature of a file](#verify-the-digital-signature-of-a-file)
+- [Digital certificates](#digital-certificates)
+  - [Create a certification authority](#create-a-certification-authority)
+  - [Verify the generated digital certificate](#verify-the-generated-digital-certificate)
+  - [Generate a digital certificate request](#generate-a-digital-certificate-request)
+  - [Issuance of the digital certificate](#issuance-of-the-digital-certificate)
+  - [Revocation of digital certificates](#revocation-of-digital-certificates)
+- [OCSP - Online Certificate Status Protocol](#ocsp---online-certificate-status-protocol)
+  - [Getting the server certificate](#getting-the-server-certificate)
+  - [Getting the intermediate certificates](#getting-the-intermediate-certificates)
+  - [Get the OCSP responder for a certificate](#get-the-ocsp-responder-for-a-certificate)
+  - [Make the OCSP request](#make-the-ocsp-request)
 - [S/MIME](#smime)
-  - [CREATE KEYS AND CERTIFICATES](#create-keys-and-certificates)
+  - [Create keys and certificates](#create-keys-and-certificates)
     - [Create key pairs and CSR for certificate request](#create-key-pairs-and-csr-for-certificate-request)
-    - [Request and Issue the Certificates](#request-and-issue-the-certificates)
-  - [ENCRYPT MIME INFORMATION](#encrypt-mime-information)
-  - [DECRYPT MIME INFORMATION](#decrypt-mime-information)
-  - [SIGN MIME INFORMATION](#sign-mime-information)
-  - [VERIFY DIGITAL SIGNATURE OF MIME INFORMATION](#verify-digital-signature-of-mime-information)
-- [SECURE SOCKETS LAYER](#secure-sockets-layer)
-  - [CHECK AN SSL CONNECTION TO A SERVER](#check-an-ssl-connection-to-a-server)
-  - [GET A SERVER'S DIGITAL CERTIFICATE](#get-a-servers-digital-certificate)
-- [REFERENCES/ADDITIONAL INFORMATION](#referencesadditional-information)
+    - [Request and issue the certificates](#request-and-issue-the-certificates)
+  - [Encrypt MIME information](#encrypt-mime-information)
+  - [Decrypt MIME information](#decrypt-mime-information)
+  - [Sign MIME information](#sign-mime-information)
+  - [Verify digital signature of MIME information](#verify-digital-signature-of-mime-information)
+- [Transport Layer Security/ Secure Sockets Layer (SSL/TLS)](#transport-layer-security-secure-sockets-layer-ssltls)
+  - [Check a SSL/TLS connection to a server](#check-a-ssltls-connection-to-a-server)
+  - [Get a server digital certificate](#get-a-server-digital-certificate)
+- [References/Additional information](#referencesadditional-information)
 
-## INTRODUCTION
+## Introduction
 This document aims to demonstrate the use of cryptographic mechanisms based on the OpenSSL/LibreSSL library. This library has the ability to work with cryptographic mechanisms such as symmetric cryptography, asymmetric cryptography, generation of message authentication codes as well as work with digital certificates and more.
 
 To run these labs the following requirements are needed:
@@ -64,7 +70,8 @@ The goal of these labs is to demonstrate the use of the OpenSSL library to provi
 
 The examples presented here only demonstrate just a small sample of the full capabilities of OpenSSL.
 
-## SETUP
+## Setup
+
 There is nothing very relevant to do in terms of setup. You just need to install the OpenSSL library - if you use the Kali Linux distribution (or any other Linux distribution, such as Ubuntu, Debian or Parrot OS), it may already be installed by default.
 
 ![](assets/picture01.png)
@@ -90,9 +97,12 @@ Regarding option 3, it consists of:
 - Download and install either VMware Workstation Player (https://www.vmware.com/products/workstation-player.html) or VirtualBox  (https://www.virtualbox.org/) on Windows 10/11. This site even has already prepared Ubuntu images to be installed in both virtualization environments;
 - Install the Linux distribution in the selected virtualization environment.
 
-## BASIC COMMANDS
+## Basic commands
+
 Here we will just list some of the basic commands for working with OpenSSL.
-### CHECK OPENSSL VERSION
+
+### Check the OpenSSL version
+
     openssl version
 
     OpenSSL 1.1.1n  15 Mar 2022
@@ -144,12 +154,14 @@ Here we will just list some of the basic commands for working with OpenSSL.
     seed-cfb          seed-ecb          seed-ofb          sm4-cbc
     sm4-cfb           sm4-ctr           sm4-ecb           sm4-ofb
 
-## OPENSSL INTERACTIVE CONSOLE ACCESS
+## OpenSSL interactive console access
+
     openssl
 
     OpenSSL> 
 
-## CHECK OPTIONS FOR A PARTICULAR COMMAND
+## Check the options for a particular command
+
     openssl ca -help
 
     Usage: ca [options]
@@ -194,9 +206,12 @@ Here we will just list some of the basic commands for working with OpenSSL.
 
 Most of the times, it is also better to read the documentation on the [OpenSSL website](https://www.openssl.org), since it is must more verbose than the information provided by the CLI.
 
-## SYMMETRIC CRYPTOGRAPHY
+## Symmetric Cryptography
+
 Here we will demonstrate some of the features of the OpenSSL library for performing symmetric key cryptography.
-### LIST OPTIONS OF AN ALGORITHM
+
+### List of options for an algorithm
+
     openssl aes-128-ecb -help
 
     usage: enc -ciphername [-AadePp] [-base64] [-bufsize number] [-debug]
@@ -225,17 +240,20 @@ Here we will demonstrate some of the features of the OpenSSL library for perform
     -salt              Use a salt in the key derivation routines (default)
     -v                 Verbose
 
-### ENCRYPT A FILE
+### Encrypt a file
+
 We are going to encrypt a file (image.jpg), with a key, generated from a passphrase (a password selected by the user, which will be converted to a 128-bit secret key, using an algorithm called [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2)):
 
     openssl aes-128-ecb -in ./imagem.jpg -out ./imagem.aes.jpg -e -a -k secretpass -pbkdf2
 
-### DECRYPT A FILE
+### Decrypt a file
+
 Let's now decrypt a file (image.aes.jpg) and recover the original format (image.orig.jpg).
 
     openssl aes-128-ecb -in ./imagem.aes.jpg -out ./imagem.orig.jpg -d -a -k secretpass -pbkdf2
 
-### CIPHERING AND DECIPHERING AN IMAGE
+### Ciphering and deciphering an image
+
 It is intended that in this activity you can use symmetric key cryptography to encrypt an image using different modes of operation (ECB and CBC). In order to perform this activity you will have to get an uncompressed image (using for example Windows Bitmap (.bmp) format), in which you will have to separate the header from the image data (body).
 You can choose any image on the Web or you can create your own. Don't forget that it has to be of the BMP type. It is preferable to use an image with high color contrast, for a better visual effect.
 
@@ -268,9 +286,12 @@ After you have encrypted the image data (body), you can re-attach the header to 
 
     cat header body_cbc > imagem_CBC.bmp
 
-## HASH GENERATION
+## Hash generation
+
 OpenSSL also has features for generating hashes of various types.
-### GENERATE HASH OF A FILE
+
+### Generate hash of a file
+
 Using SHA1
 
     openssl sha1 ./imagem.jpg 
@@ -287,16 +308,20 @@ Using RIPEMD160
 
     RIPEMD160(./imagem.jpg)= f9bb6ff349a5f03531af89774f9a6578a785aec8
 
-### GENERATE A MESSAGE AUTHENTICATION CODE
+### Generate a Message Authentication Code
+
 In order to generate a hash-based message authentication code, we need to provide the hash algorithm to be used and the secret key to encrypt the hash.
 
     openssl sha1 -hmac 24899ec1e452d219121f0d07cd6975b7 ./imagem.jpg
 
     HMAC-SHA1(./imagem.jpg)= 384773867cb7bce6ffd97a95c26e65666c045ea7
 
-## ASYMMETRIC CRYPTOGRAPHY
+## Asymmetric cryptography
+
 OpenSSL also allows you to implement a series of asymmetric cryptographic features-key pair generation, encryption of decryption of information with OpenSSL.
-### KEY PAIR GENERATION
+
+### Key pair generation
+
 You can see which parameters the key generation uses:
 
     openssl genrsa -help
@@ -321,6 +346,7 @@ You can see which parameters the key generation uses:
                     the random number generator
 
 ### Generate a key pair
+
 Let's generate a key pair with 4096 bits of dimension.
 
     openssl genrsa -out ./keypair.pem 4096
@@ -350,6 +376,7 @@ To view it, we can do:
     openssl rsa -in keypair.pem -text
 
 ### Generate a key pair and protect the private key
+
 We are going to create a keypair and protect the private key with a password (PKCS#5).
 
     openssl genrsa -out ./keypair.pem -aes128 4096
@@ -362,6 +389,7 @@ We are going to create a keypair and protect the private key with a password (PK
     Verifying - Enter pass phrase for ./keypair.pem:
 
 ### Print the various components of the key pair
+
 Prints the key components, in [PKCS#1](https://en.wikipedia.org/wiki/PKCS) format (see above).
     openssl rsa -in ./keypair.pem -text
 
@@ -394,24 +422,30 @@ Prints the key components, in [PKCS#1](https://en.wikipedia.org/wiki/PKCS) forma
         df:a1:7f:3d:a9:b8:35:6a:69:32:14:b0:e0:f9:4f:
     (…)
 
-### EXTRACT THE PUBLIC KEY FROM THE KEY PAIR
+### Extract the public key from the key pair
+
 When generating the key pair, both keys are stored in the same file, so if you want to extract the public key, you have to do it explicitly.
 
     openssl rsa -in keypair.pem -pubout -out ./publickey.pem
 
-### ENCRYPT USING THE PUBLIC KEY
+### Encrypt using the public key
+
 It is only suitable for encrypting small blocks of information. In this case a "`secretkey`" file was created, with a small random value using the command "`openssl rand -out ./secretkey 32`". Then this file was encrypted using the public key.
 
     openssl pkeyutl -encrypt -inkey -pubin ./publickey.pem -in ./secretkey -out ./secretkey.enc
 
-### DECRYPT USING THE PRIVATE KEY
+### Decrypt using the private key
+
 With the following command it is possible to get the original text back by decrypting it with the corresponding private key.
 
     openssl pkeyutl -decrypt -inkey ./keypair.pem -in ./secretkey.enc -out ./secretkey.dec 
 
-## USING ELLIPTIC CURVE CRYPTOGRAPHY
+## Using the Elliptic Curve Cryptography
+
 The following section of this document is related to the usage of ECC – Elliptic Curve Cryptography. ECC is an approach to public-key cryptography based on the algebraic structure of elliptic curves over finite fields. ECC allows smaller keys compared to non-EC cryptography (based on plain Galois fields) to provide equivalent security. Elliptic curves are applicable for key agreement, digital signatures, pseudo-random generators and other tasks. Indirectly, they can be used for encryption by combining the key agreement with a symmetric encryption scheme. Elliptic curves are also used in several integer factorization algorithms based on elliptic curves that have applications in cryptography, such as Lenstra elliptic-curve factorization.
-### LISTING THE AVAILABLE CURVES
+
+### Listing the available curves
+
 The first think that is necessary to do is to select the appropriate curve to work with. In order to do that, the following command can be used:
 
     openssl ecparam -list_curves
@@ -439,7 +473,8 @@ As a result, we obtain a list of possible curves (this is just a sample):
     prime239v3: X9.62 curve over a 239 bit prime field
     prime256v1: X9.62/SECG curve over a 256 bit prime field
 
-### GENERATE A PRIVATE KEY USING ECC
+### Generate a private key using ECC
+
 Let us generate a private key using ECC and an appropriate curve (in this case, we are going to use prime256v1 [[1]](https://neuromancer.sk/std/x962/prime256v1) [[2]](https://blog.qrator.net/en/ecc-tls-13_59/ )).
 
 ![](assets/picture02.png)
@@ -479,9 +514,10 @@ The contents of the private key:
     ASN1 OID: prime256v1
     NIST CURVE: P-256
 
-### GENERATE A PUBLIC KEY USING ECC
+### Generate a public key using ECC
+
 Next what we need to do is to create a public key from an ECC private key:
-    
+
     openssl ec -in private-key.pem -pubout -out public-key.pem
 
 This is the content of the public key:
@@ -508,7 +544,8 @@ This is the content of the public key:
     ASN1 OID: prime256v1
     NIST CURVE: P-256
 
-### ENCRYPT WITH ECC
+### Encrypt with ECC
+
 As mentioned before, ECC can be used to do some key agreement between two parties, to derive a common key that might be used for encryption and decryption, using an appropriate symmetric cryptography algorithm.
 
 Let’s imagine that you have **Alice** and **Bob** that want to use ECC to create a common shared key. The following should be done.
@@ -557,10 +594,12 @@ So, this common 256-bit shared key (`102c0553628d9448f0bd34100653c22de3d0cf31c14
 
     openssl aes-256-ecb -base64 -K 102c0553628d9448f0bd34100653c22de3d0cf31c14a2deba7f13c5ed23c3117 -d -in cipher.txt -out original.txt
 
-## USING DIFFIE-HELLMAN (DH) FOR KEY EXCHANGE
+## Using Diffie-Hellman (DH) for key exchange
+
 Diffie-Hellman is one of the oldest public-key cryptosystems. It is often called a key-agreement protocol, because it allows the establishment of a common secret key, that can be used to encrypt and decrypt messages.
 
-### GENERATE DH PUBLIC KEY PARAMETERS
+### Generate DH public key parameters
+
 Generate the DH public key parameters and save them to a file (this may take a while to complete, be patient).
 
     openssl dhparam -out dhparams.pem 2048
@@ -612,7 +651,7 @@ And you'll have access to the parameters created.
             81:ab
         generator: 2 (0x2)
 
-### GENERATE THE DH PRIVATE AND PUBLIC KEYS
+### Generate the DH private and public keys
 
 Using the DH public parameters that were created in the previous step, it is now necessary to create the public and private keys of both entities that need to communicate (again **Alice** and **Bob**).
 
@@ -736,7 +775,8 @@ Here are the contents of the key:
     000000f0  cb 2a 46 5e 6a 78 36 2f  51 ff ba b5 7a 17 45 33  |�*F^jx6/Q���z.E3|
     00000100
 
-### ENCRYPT AND DECRYPT DATA WITH DH
+### Encrypt and decrypt with DH
+
 Now that we have a common key between **Alice** and **Bob**, this key can be used to do symmetric cryptography between the two parties communicating.
 To encrypt data, we can use:
 
@@ -746,10 +786,12 @@ To decrypt data, we can do:
 
     openssl aes-256-ecb -base64 -kfile dh_common_key.bin -d -in cipher.txt -out clear.txt -pbkdf2
 
-## DIGITAL SIGNATURES
+## Digital signatures
+
 In this example we will see how you can use OpenSSL to generate and verify digital signatures.
 
-### GENERATE A DIGITAL SIGNATURE FOR A FILE
+### Generate a digital signature for a file
+
 To generate the digital signature of a file, we will perform the following operations:
 1.	Create a key pair and save it to a file:
     
@@ -767,7 +809,8 @@ To generate the digital signature of a file, we will perform the following opera
     
         openssl rsautl -sign -inkey ./keypair.pem -keyform PEM -in ./hash1 > signature
 
-### VERIFY THE DIGITAL SIGNATURE OF A FILE
+### Verify the digital signature of a file
+
 To check the previously generated subscription, you need to perform the following operations:
 
 1.	Create a hash of the file whose signature we want to verify:
@@ -781,10 +824,12 @@ To check the previously generated subscription, you need to perform the followin
         diff -s ./verified ./hash2 
         Files ./verified and ./hash2 are identical
 
-## DIGITAL CERTIFICATES 
+## Digital certificates
+ 
 OpenSSL is also an excellent tool for creating Certificate Authorities and generating digital certificates. In this part we will see how we can create a Certificate Authority, generate requests for digital certificates and issue those digital certificates. On most of this commands, we are going to use the [openssl.cnf](openssl.cnf) file. This `openssl.cnf` file is usually distributed with the Openssl distribution.
 
-### CREATE A CERTIFICATION AUTHORITY
+### Create a certification authority
+
 To create our own Certificate Authority (CA) we will create a folder structure that contains a series of CA information.
 
     mkdir private certs newcerts crl
@@ -833,7 +878,8 @@ And then request the necessary information:
 
 After this, the certificate will be produced.
 
-### VERIFY THE GENERATED DIGITAL CERTIFICATE
+### Verify the generated digital certificate
+
 We can check the generated (self-signed) digital certificate by viewing the X.509 structure.
 
     openssl x509 -noout -text -in certs/ca.crt
@@ -882,7 +928,8 @@ This is the structure of the certificate:
             a4:9e:c7:35:c4:68:e1:5c:cd:1d:7d:79:fc:3f:e1:6d:6e:2d:
             bf:8f
 
-### GENERATE A DIGITAL CERTIFICATE REQUEST
+### Generate a digital certificate request
+
 Let's now start operating the CA as if it were a real CA. One of the important steps is that when someone tries to request a certificate from a CA they need to create a Certificate Signing Request (CSR). So we are going to create that.
 
 In this specific case we chose not to protect the private key with a password (`-nodes`), which is not recommended in a production environment. On the other hand, the request will be made for one year (365 days).
@@ -954,7 +1001,8 @@ Check the request that is about to be made:
 
 Before issuing the certificate (signing it with its own private key), a CA must check the contents of the CSR.
 
-### ISSUANCE OF THE DIGITAL CERTIFICATE
+### Issuance of the digital certificate
+
 This step is important because it is performed by a CA to issue a digital certificate to an entity that requests it. To generate this digital certificate, the previously generated CSR must be used.
 
     openssl ca -config ./openssl.cnf -policy policy_anything -out certs/server.crt -infiles server.csr
@@ -1045,7 +1093,8 @@ And look at the certificate data:
             1e:49:93:5c:b2:82:01:c6:91:9f:bd:16:2e:0c:ff:a9:b8:6a:
             92:91
 
-### REVOCATION OF DIGITAL CERTIFICATES
+### Revocation of digital certificates
+
 One of the functions of a CA is also to maintain information about the digital certificates it issues. Whenever a certificate, for whatever reason, is no longer valid, it must be revoked. One of the ways to revoke and communicate this revocation to "third parties" is through a Certificate Revocation List (CRL).
 
 To revoke a certificate, using OpenSSl, we can do the following:
@@ -1088,12 +1137,96 @@ Look at the revocationlist of the CA:
             b7:69:9c:00:b8:4f:b7:3b:ba:35:c2:26:26:e6:fc:61:83:56:
             d8:1e
 
+## OCSP - Online Certificate Status Protocol
+
+[OCSP](https://www.ietf.org/rfc/rfc2560.txt) is an interactive way to enable applications to check for the revokation of an identified certificate. In order to test for OCSP validity, we require the certificate that we are going to test, the certificate chain of such certificate, and the OCSP responder address.
+
+### Getting the server certificate
+
+Get the server certificate that we want to check for OCSP validity:
+
+    openssl s_client -connect www.akamai.com:443 < /dev/null 2>&1 |  sed -n '/-----BEGIN/,/-----END/p' > certificate.pem
+
+Certificate will be store on the `certificate.pem` file.
+
+### Getting the intermediate certificates
+
+Getting the multiple intermediary certificates for an entity.
+
+    openssl s_client -showcerts -connect www.akamai.com:443 < /dev/null 2>&1 |  sed -n '/-----BEGIN/,/-----END/p' > chain.pem
+
+These certificates will be store in `chain.pem` file.
+
+### Get the OCSP responder for a certificate
+
+Now we need to obatin the address of the OCSP responder, to know where to connect for querying. This might be done through manual inspection, or by using the command:
+
+    openssl x509 -noout -ocsp_uri -in certificate.pem
+
+### Make the OCSP request
+
+Finnaly we may do the request to the OCSP responder, using the following command:
+
+    openssl ocsp -issuer chain.pem -cert certificate.pem -text -url http://ocsp.digicert.com
+
+And we obtain the following result.
+
+    OCSP Request Data:
+        Version: 1 (0x0)
+        Requestor List:
+            Certificate ID:
+            Hash Algorithm: sha1
+            Issuer Name Hash: E4E395A229D3D4C1C31FF0980C0B4EC0098AABD8
+            Issuer Key Hash: FCEA9148BBCE3C6AA8902FBDD1DE95038C40809C
+            Serial Number: 0A1E4B89556FDE711D7BB2E2DFFF804F
+        Request Extensions:
+            OCSP Nonce:
+                041007AEEFEBA331089CA9113F7E4646D525
+    OCSP Response Data:
+        OCSP Response Status: successful (0x0)
+        Response Type: Basic OCSP Response
+        Version: 1 (0x0)
+        Responder Id: B76BA2EAA8AA848C79EAB4DA0F98B2C59576B9F4
+        Produced At: Nov  2 20:31:11 2022 GMT
+        Responses:
+        Certificate ID:
+        Hash Algorithm: sha1
+        Issuer Name Hash: E4E395A229D3D4C1C31FF0980C0B4EC0098AABD8
+        Issuer Key Hash: B76BA2EAA8AA848C79EAB4DA0F98B2C59576B9F4
+        Serial Number: 0A1E4B89556FDE711D7BB2E2DFFF804F
+        Cert Status: good
+        This Update: Nov  2 20:15:01 2022 GMT
+        Next Update: Nov  9 19:30:01 2022 GMT
+
+        Signature Algorithm: sha256WithRSAEncryption
+            9f:e5:42:ae:ea:a5:89:98:97:4d:7c:9b:77:e2:94:2d:63:46:
+            3a:66:79:cb:3a:cd:f6:24:c9:56:39:97:e3:8d:a8:1d:42:c0:
+            60:3b:12:ab:3c:b5:7a:3e:7c:ef:1e:0b:c9:97:aa:c2:42:79:
+            59:fe:b4:b5:80:58:e7:d9:f5:3c:39:bd:1d:78:77:8a:b2:26:
+            be:93:fc:bf:cb:92:9d:97:93:31:ca:dc:2b:a1:33:c3:e1:12:
+            45:5f:82:2f:24:00:8f:99:a3:8b:5c:61:84:be:eb:4f:90:8a:
+            48:31:43:f0:7d:93:8d:6d:16:6f:a6:42:c5:00:65:b9:26:e7:
+            3d:8e:65:3d:0b:3e:2a:67:a4:fa:d7:6c:4b:f4:1c:6d:da:e0:
+            17:8e:78:74:f9:4a:fe:4e:a1:6e:c5:c7:20:1e:cb:72:69:64:
+            bf:f5:3b:6f:35:34:a7:5f:f3:54:af:3a:c2:42:f2:e8:a0:a5:
+            cc:ad:84:9e:5a:cd:c6:2d:1b:47:7c:40:01:08:56:f9:80:5e:
+            29:80:ac:0f:71:3b:a8:c8:5a:f6:e7:a0:dd:76:1e:e3:8a:93:
+            d4:3d:57:7e:f3:30:97:e3:9d:d3:8a:fe:0b:6b:23:af:4b:8b:
+            3e:4c:bf:e8:dc:b8:d2:61:3c:de:68:fa:ce:5c:d9:46:a2:f7:
+            81:f5:51:e1
+    WARNING: no nonce in response
+    Response Verify Failure
+    140704274896064:error:27FFF076:OCSP routines:CRYPTO_internal:signer certificate not found:/AppleInternal/Library/BuildRoots/810eba08-405a-11ed-86e9-6af958a02716/Library/Caches/com.apple.xbs/Sources/libressl/libressl-3.3/crypto/ocsp/ocsp_vfy.c:89:
+    certificate.pem: ERROR: No Status found.
+
 ## S/MIME
+
 S/MIME is a standard for encrypting and signing MIME (Multipurpose Internet Mail Extensions) data. It is widely used for electronic mail. OpenSSL provides support for this type of functionality.
 
 For the next operations let's assume that there are two entities, **Alice** and **Bob** who want to exchange and sign information using public key cryptography - to do this we will create key pairs and certificates (containing the public key) for each of them.
 
-### CREATE KEYS AND CERTIFICATES
+### Create keys and certificates
+
 Let's create a set of key pairs and certificates for **Alice** and **Bob**.
 
 #### Create key pairs and CSR for certificate request
@@ -1106,7 +1239,8 @@ Create a CSR for Bob:
     
     openssl req -config ./openssl.cnf -new -nodes -keyout ./bob.key -out ./bob.csr -days 365
 
-#### Request and Issue the Certificates
+#### Request and issue the certificates
+
 The following command is going to be used to issue the certificate for **Alice**:
 
     openssl ca -config ./openssl.cnf -policy policy_anything -out alice.crt -infiles alice.csr
@@ -1185,7 +1319,8 @@ Results in the following:
     Write out database with 1 new entries
     Data Base Updated
 
-### ENCRYPT MIME INFORMATION
+### Encrypt MIME information
+
 **Alice** will now encrypt a file (`SecretMessage.txt`) that she wants to send securely to **Bob**, using the public key contained in **Bob**'s certificate (`bob.crt`) (which will have *been obtained at some earlier ti*me).
 
     openssl smime -encrypt -aes128 -in ./mensagemSecreta.txt -out ./mensagemSecreta.txt.enc -outform PEM ./bob.crt
@@ -1204,12 +1339,14 @@ The result of the cipher is as follows:
     D+NizD2C2tg+VGXUowtXlyHvmEy7KjmXmq1dCQ==
     -----END PKCS7-----
 
-### DECRYPT MIME INFORMATION
+### Decrypt MIME information
+
 **Bob**, after receiving the encrypted file (messageSecreta.txt.enc), will use his private key (`bob.key`), to decrypt the original content.
 
     openssl smime -decrypt -aes128 -in ./mensagemSecreta.txt.enc -out ./mensagemSecreta.txt.orig -inform PEM -inkey ./bob.key 
 
-### SIGN MIME INFORMATION
+### Sign MIME information
+
 **Alice**, wants to sign the message and then send it **to** Bob. To do this, she does the following:
 
     openssl smime -sign -in ./mensagemSecreta.txt -out ./mensagemsecreta.sig -signer ./alice.crt -inkey alice.key
@@ -1259,7 +1396,8 @@ The result of signing the message is as follows:
 
     ------F46C4B7E272BA661D77AA4FF41655372--
 
-### VERIFY DIGITAL SIGNATURE OF MIME INFORMATION
+### Verify digital signature of MIME information
+
 After receiving the message signed by **Alice** (`mensagemsecreta.sig`), **Bob** uses **Alice**'s digital certificate. In this case, and to prevent OpenSSL from doing additional validations on the digital certificate (such as checking whether it was actually issued by a CA it trusts) the "`-noverify`" option is used.
 
     openssl smime -verify -in ./mensagemsecreta.sig -signer ./alice.crt -noverify
@@ -1269,99 +1407,179 @@ Resulting in:
     Este é o meu email secreto que eu pretendo assinar digitalmente!
     Verification successful
 
-## SECURE SOCKETS LAYER
+## Transport Layer Security/ Secure Sockets Layer (SSL/TLS)
+
 Secure Sockets Layer (SSL) is a widely used protocol for secure and authenticated connections between Web browsers and Web servers.
 
-### CHECK AN SSL CONNECTION TO A SERVER
+### Check a SSL/TLS connection to a server
+
 OpenSSL can be used to check the parameters of an SSL connection to a particular server, for example:
 
-    openssl s_client -connect fenix.iscte-iul.pt:443
+    openssl s_client -connect www.microsoft.com:443
 
 Resulting in:
 
-    CONNECTED(00000003)
-    depth=1 /C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
-    verify error:num=20:unable to get local issuer certificate
-    verify return:0
+    CONNECTED(00000005)
+    depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root G2
+    verify return:1
+    depth=1 C = US, O = Microsoft Corporation, CN = Microsoft Azure TLS Issuing CA 06
+    verify return:1
+    depth=0 C = US, ST = WA, L = Redmond, O = Microsoft Corporation, CN = www.microsoft.com
+    verify return:1
     ---
     Certificate chain
-    0 s:/businessCategory=Government Entity/1.3.6.1.4.1.311.60.2.1.3=PT/serialNumber=Government Entity/street=ISCTE- Instituto Universit\xC3\xA1rio de Lisboa, Av. das For\xC3\xA7as Armadas/postalCode=1600-083/C=PT/ST=Lisboa/L=Lisboa/O=ISCTE-IUL (ISCTE- Instituto Universit\xC3\xA1rio de Lisboa)/OU=SIIC - Servicos de Infraestrutura Informatica e Comunicacoes/CN=fenix.iscte-iul.pt
-    i:/C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
-    1 s:/C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
-    i:/C=US/O=DigiCert Inc/OU=www.digicert.com/CN=DigiCert High Assurance EV Root CA
+    0 s:C = US, ST = WA, L = Redmond, O = Microsoft Corporation, CN = www.microsoft.com
+    i:C = US, O = Microsoft Corporation, CN = Microsoft Azure TLS Issuing CA 06
+    1 s:C = US, O = Microsoft Corporation, CN = Microsoft Azure TLS Issuing CA 06
+    i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root G2
     ---
     Server certificate
     -----BEGIN CERTIFICATE-----
-    MIIH6zCCBtOgAwIBAgIQCTMX+xhI0GCMLwKtMcF3lTANBgkqhkiG9w0BAQsFADBz
-    MQswCQYDVQQGEwJOTDEWMBQGA1UECBMNTm9vcmQtSG9sbGFuZDESMBAGA1UEBxMJ
-    QW1zdGVyZGFtMQ8wDQYDVQQKEwZURVJFTkExJzAlBgNVBAMTHlRFUkVOQSBTU0wg
-    SGlnaCBBc3N1cmFuY2UgQ0EgMzAeFw0xNTA5MDgwMDAwMDBaFw0xNzA5MTIxMjAw
-    MDBaMIIBgDEaMBgGA1UEDwwRR292ZXJubWVudCBFbnRpdHkxEzARBgsrBgEEAYI3
-    PAIBAxMCUFQxGjAYBgNVBAUTEUdvdmVybm1lbnQgRW50aXR5MUswSQYDVQQJDEJJ
-    U0NURS0gSW5zdGl0dXRvIFVuaXZlcnNpdMOhcmlvIGRlIExpc2JvYSwgQXYuIGRh
-    cyBGb3LDp2FzIEFybWFkYXMxETAPBgNVBBETCDE2MDAtMDgzMQswCQYDVQQGEwJQ
-    VDEPMA0GA1UECBMGTGlzYm9hMQ8wDQYDVQQHEwZMaXNib2ExPjA8BgNVBAoMNUlT
-    Q1RFLUlVTCAoSVNDVEUtIEluc3RpdHV0byBVbml2ZXJzaXTDoXJpbyBkZSBMaXNi
-    b2EpMUUwQwYDVQQLEzxTSUlDIC0gU2Vydmljb3MgZGUgSW5mcmFlc3RydXR1cmEg
-    SW5mb3JtYXRpY2EgZSBDb211bmljYWNvZXMxGzAZBgNVBAMTEmZlbml4LmlzY3Rl
-    LWl1bC5wdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALQ98GKlgSnN
-    xSNl+EVjkmEW8mkOis5A9W5zckMgAo6aBnmZ78k8rezd3wApZk0TCDdimsv12gAB
-    owTnLCdkGAVVqsBn3Dk5N4QlruuZBdzYzDrkhl5t3xjJBQtamN3uuDdyoSy1/r9t
-    0WvOuknXlo4ox/MJ4jqMzgL0JCMC2K4nasLlNCoV0NvMzLjqyuNJMPBt55zPEHpt
-    MU+8BzNOFN2KqJ4Gqoy6UISZrGHJ7vD8oZk8ggXtIMGw/obgmgttPWQ6ZFraIyhD
-    l+v3dUpny4mhF/634fh0F/ohfurqYcJA5DdQcO30xwKWiF+HuxLtlt7BdwZ2ge53
-    VBP58QAhfM8CAwEAAaOCA2owggNmMB8GA1UdIwQYMBaAFMK4hdfhuRO90Ui8/V7c
-    fZBCeoqpMB0GA1UdDgQWBBQqNjzSxqrWvsti1ZDBfIHmTGgDpjAdBgNVHREEFjAU
-    ghJmZW5peC5pc2N0ZS1pdWwucHQwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQG
-    CCsGAQUFBwMBBggrBgEFBQcDAjCBhQYDVR0fBH4wfDA8oDqgOIY2aHR0cDovL2Ny
-    bDMuZGlnaWNlcnQuY29tL1RFUkVOQVNTTEhpZ2hBc3N1cmFuY2VDQTMuY3JsMDyg
-    OqA4hjZodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVEVSRU5BU1NMSGlnaEFzc3Vy
-    YW5jZUNBMy5jcmwwQgYDVR0gBDswOTA3BglghkgBhv1sAgEwKjAoBggrBgEFBQcC
-    ARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQUzB7BggrBgEFBQcBAQRvMG0w
-    JAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBFBggrBgEFBQcw
-    AoY5aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1RFUkVOQVNTTEhpZ2hBc3N1
-    cmFuY2VDQTMuY3J0MAwGA1UdEwEB/wQCMAAwggF9BgorBgEEAdZ5AgQCBIIBbQSC
-    AWkBZwB2AKS5CZC0GFgUh7sTosxncAo8NZgE+RvfuON3zQ7IDdwQAAABT6vY42sA
-    AAQDAEcwRQIhAOnOY1E/t5nPA5lj2aSGvoXvOEj2vPy/coIUfbqtXHp1AiB9VleI
-    ZS4I3zzw2z141GOZiNoCYYPtdSqsIu0uQk8DswB2AGj2mPgfZIK+OozuuSgdTPxx
-    UV1nk9RE0QpnrLtPT/vEAAABT6vY49IAAAQDAEcwRQIhAOXEwWyM0dVhZv2GdJRo
-    DSXxadxpUR1/bJhU/+jCSVndAiA1FO0GDvYFervf0MFpwv/qwIdr55p+uONuB3T0
-    QQ45ZgB1AFYUBpov18Ls0/XhvUSyPsdGdrm8mRFcwO+UmFXWidDdAAABT6vY5HYA
-    AAQDAEYwRAIgQs6sB6Cb5sYKvlZhwcBwJcwSgJN+gZKkpbtvrYb46nICIDKQVi9Y
-    zsmCM2aeqqq7Wc8D4rARL18lILwDQlUsFiVXMA0GCSqGSIb3DQEBCwUAA4IBAQAR
-    MgAYM+8wybTo0zXwOdOMUja0q/d7PsAOVdEFh/VIc79b7yPHjDnwmBy4as4gixZ4
-    WIHTXff4p4igHu3IXUgvuvanrC0IzVhyj73vRiez0WfNWOXcIWYfEZJRZG+fihfV
-    1WoeQQ2CThsuJMO/sm8lhEKsfFG0YqbOzy7yhSFEMLELBfY8mkYUx/kwHmPF54l1
-    RIYuonfVJUQQL2ORzzQsSmSnbpStgt8hHlOm2wAKO1nFx42C8s7NLU2AJYe5TwDa
-    YgpThPj6vr9Nb/Bb3V425VAEKNyo0wWeVxWycn7SVZI4Ic5XjA/J1sdUnnvuUhK6
-    yS3Tg7MsYorS+bU1n6B4
+    MIII1jCCBr6gAwIBAgITMwBZ+Lbaholwb/ob2QAAAFn4tjANBgkqhkiG9w0BAQwF
+    ADBZMQswCQYDVQQGEwJVUzEeMBwGA1UEChMVTWljcm9zb2Z0IENvcnBvcmF0aW9u
+    MSowKAYDVQQDEyFNaWNyb3NvZnQgQXp1cmUgVExTIElzc3VpbmcgQ0EgMDYwHhcN
+    MjIxMDA0MjMyMzExWhcNMjMwOTI5MjMyMzExWjBoMQswCQYDVQQGEwJVUzELMAkG
+    A1UECBMCV0ExEDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jvc29mdCBD
+    b3Jwb3JhdGlvbjEaMBgGA1UEAxMRd3d3Lm1pY3Jvc29mdC5jb20wggEiMA0GCSqG
+    SIb3DQEBAQUAA4IBDwAwggEKAoIBAQC3XyMTbW+b+oTRRkirpEjsH/JiF2Dsy8Sj
+    KGuCT5SSCO6qfDatzbUFzvMn7TFFAyOEWQhjp5vpAu3zZTu9jeezuXXJx1+2Ey15
+    VnZJV3Q78zwJJ/3yTbiXfzhqYWr31Nm3boFzKZWZGZDHgY7epAdYwlOdLQk4QRHm
+    3aJNOJWCgc1prSd/XgP+q9sYOnAYVRv9tGtkznTX6QaS82jWjDH8zHi299K8YQpk
+    1aophTBJAitrpmBFSHvDgwMpurpx0rjAvq1Q27mTAWG07LMd7J7nyZiFzUxmFDDq
+    2ix220yPEmL+wlz1dSqwNaIZi7f67Q9aQ5GnE0A5IPtK0eYp1AbvAgMBAAGjggSG
+    MIIEgjCCAX8GCisGAQQB1nkCBAIEggFvBIIBawFpAHcA6D7Q2j71BjUy51covIlr
+    yQPTy9ERa+zraeF3fW0GvW4AAAGDpVinhgAABAMASDBGAiEAnc/ZJKQ47TEBYPPo
+    qSeM5wRPGELQmAw0i9hYMHUxdukCIQCoQvNpRxMnNH9beub6RbBYSHAIUSbgq6wK
+    OTdFbfFNdwB1ALNzdwfhhFD4Y4bWBancEQlKeS2xZwwLh9zwAw55NqWaAAABg6VY
+    p8YAAAQDAEYwRAIgPYOx2FZTNMcINed7dn+d75khk9ZstsbyvwPW8V2xtisCICGg
+    1wuFd+KukXW8HeDa3mkloREsifgzeTBMGpwVwToMAHcArfe++nz/EMiLnT2cHj4Y
+    arRnKV3PsQwkyoWGNOvcgooAAAGDpVinVwAABAMASDBGAiEAttaYStY88Acj2OSc
+    nvx1RdlmZRFau8/aMIK/IQEYBisCIQDN/1i/tTTawY67Q4qAFnj1Eh+0kIvwUkrO
+    TEV58sFRVjAnBgkrBgEEAYI3FQoEGjAYMAoGCCsGAQUFBwMCMAoGCCsGAQUFBwMB
+    MDwGCSsGAQQBgjcVBwQvMC0GJSsGAQQBgjcVCIe91xuB5+tGgoGdLo7QDIfw2h1d
+    goTlaYLzpz4CAWQCASUwga4GCCsGAQUFBwEBBIGhMIGeMG0GCCsGAQUFBzAChmFo
+    dHRwOi8vd3d3Lm1pY3Jvc29mdC5jb20vcGtpb3BzL2NlcnRzL01pY3Jvc29mdCUy
+    MEF6dXJlJTIwVExTJTIwSXNzdWluZyUyMENBJTIwMDYlMjAtJTIweHNpZ24uY3J0
+    MC0GCCsGAQUFBzABhiFodHRwOi8vb25lb2NzcC5taWNyb3NvZnQuY29tL29jc3Aw
+    HQYDVR0OBBYEFGcNlofXWtjH6XjUmPrgobtxutaHMA4GA1UdDwEB/wQEAwIEsDCB
+    mQYDVR0RBIGRMIGOghN3d3dxYS5taWNyb3NvZnQuY29tghF3d3cubWljcm9zb2Z0
+    LmNvbYIYc3RhdGljdmlldy5taWNyb3NvZnQuY29tghFpLnMtbWljcm9zb2Z0LmNv
+    bYINbWljcm9zb2Z0LmNvbYIRYy5zLW1pY3Jvc29mdC5jb22CFXByaXZhY3kubWlj
+    cm9zb2Z0LmNvbTAMBgNVHRMBAf8EAjAAMGQGA1UdHwRdMFswWaBXoFWGU2h0dHA6
+    Ly93d3cubWljcm9zb2Z0LmNvbS9wa2lvcHMvY3JsL01pY3Jvc29mdCUyMEF6dXJl
+    JTIwVExTJTIwSXNzdWluZyUyMENBJTIwMDYuY3JsMGYGA1UdIARfMF0wUQYMKwYB
+    BAGCN0yDfQEBMEEwPwYIKwYBBQUHAgEWM2h0dHA6Ly93d3cubWljcm9zb2Z0LmNv
+    bS9wa2lvcHMvRG9jcy9SZXBvc2l0b3J5Lmh0bTAIBgZngQwBAgIwHwYDVR0jBBgw
+    FoAU1cFnOsKjnfR3UltZEjgp5lVou6UwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsG
+    AQUFBwMBMA0GCSqGSIb3DQEBDAUAA4ICAQBxYv4ot1H2312MXlIvccktJlx1/zdq
+    HvYlonJRgNH9Upyf69Mpd4bOvuPbV3GFf2kOYk2TrfMIsdgXVAsHhVJlGY/ybYkx
+    GnYq3p16cTIDOO1sck352gM3y1n5BK21JMJL/pt1PYIgPnl3ED4DjaD1fucVT93B
+    uvkW6N9er5YHQrXG6+gEPD4RZeXhtbIC7zMeBlpcbFG8pxp7vy2NmftNzIOaTkHw
+    xT66cGEUgoPEt7ugcJr4nuq6OQ+m+wBZnv14GP+Rjcx6WXGeFIk4POG8XyEDKy22
+    +EVODNuvHwWIBCKfxI8rZWf00CcLtVYupyUiAmoovM1TET/41sM2+sOxvTlNdxOL
+    pnbVaeiDptMZKuQ0XkFshCJUZ/RhocrjsYNLANYbHoiaJT1lAqU7sTQgQocB34oY
+    /Ojy975dBu3DnCebKaXEzjHtujLJ+1fMZ9uUbIP6/FwxL/UqvIpbpTnCoznvnpNE
+    ii5x/Jh6Dg+ShpD2QyUE+1LvWhui9GNwm427cnRMHdxNGYHXAuFpGK8/ky3a849p
+    xKqx4LNue0y/Rxd+s/EeJRmhF/mYcxzar7G/6T6TjHcjhIR7NTC3y7Q49L3LQdOx
+    OtahCotJbc95k+AXudsfPlVLKsYJ6AF9NxN4K2miTmNqz+tmGiKoqbebOTHsd62i
+    AstzF05URX9Y4w==
     -----END CERTIFICATE-----
-    subject=/businessCategory=Government Entity/1.3.6.1.4.1.311.60.2.1.3=PT/serialNumber=Government Entity/street=ISCTE- Instituto Universit\xC3\xA1rio de Lisboa, Av. das For\xC3\xA7as Armadas/postalCode=1600-083/C=PT/ST=Lisboa/L=Lisboa/O=ISCTE-IUL (ISCTE- Instituto Universit\xC3\xA1rio de Lisboa)/OU=SIIC - Servicos de Infraestrutura Informatica e Comunicacoes/CN=fenix.iscte-iul.pt
-    issuer=/C=NL/ST=Noord-Holland/L=Amsterdam/O=TERENA/CN=TERENA SSL High Assurance CA 3
+    subject=C = US, ST = WA, L = Redmond, O = Microsoft Corporation, CN = www.microsoft.com
+
+    issuer=C = US, O = Microsoft Corporation, CN = Microsoft Azure TLS Issuing CA 06
+
     ---
     No client certificate CA names sent
+    Peer signing digest: SHA256
+    Peer signature type: RSA-PSS
+    Server Temp Key: X25519, 253 bits
     ---
-    SSL handshake has read 4241 bytes and written 456 bytes
+    SSL handshake has read 4368 bytes and written 399 bytes
+    Verification: OK
     ---
-    New, TLSv1/SSLv3, Cipher is DHE-RSA-AES128-SHA
+    New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
     Server public key is 2048 bit
-    Secure Renegotiation IS supported
+    Secure Renegotiation IS NOT supported
     Compression: NONE
     Expansion: NONE
-    SSL-Session:
-        Protocol  : TLSv1
-        Cipher    : DHE-RSA-AES128-SHA
-        Session-ID: 773B4F6F13B615D3E575C36C30FF658028497C0123305E9FF6A614F47398CA2A
-        Session-ID-ctx: 
-        Master-Key: 69065E3A3B2A985FCB293F6FB45558F4B6199A56E83977F373EBA373734E5B9D067CBF9587486E05B4BD9A93511F28D9
-        Key-Arg   : None
-        Start Time: 1446572855
-        Timeout   : 300 (sec)
-        Verify return code: 0 (ok)
+    No ALPN negotiated
+    Early data was not sent
+    Verify return code: 0 (ok)
     ---
+    ---
+    Post-Handshake New Session Ticket arrived:
+    SSL-Session:
+        Protocol  : TLSv1.3
+        Cipher    : TLS_AES_256_GCM_SHA384
+        Session-ID: 79E4C98601A3400F12807C54D26202A9145A2205ECE8A9ECCF35B82D5391C3C8
+        Session-ID-ctx:
+        Resumption PSK: BB1D8D7E0BD3B11DB702120DDB89809AA71CDC723FF9912D86142E38BA243E64C5E8FD2EA71A00FB954E5E3475703B1D
+        PSK identity: None
+        PSK identity hint: None
+        SRP username: None
+        TLS session ticket lifetime hint: 83100 (seconds)
+        TLS session ticket:
+        0000 - 00 00 35 6e 11 51 4f da-c0 0e 4e bb 71 b8 9b 41   ..5n.QO...N.q..A
+        0010 - 5a be dc a8 31 fa b3 21-d9 a1 77 0f a9 5e 66 c5   Z...1..!..w..^f.
+        0020 - 92 9f 82 00 e8 c8 48 cf-ff 16 8a 62 6d 94 af 59   ......H....bm..Y
+        0030 - 5d 61 03 77 31 96 aa d2-5b 91 e4 92 29 8c 3d c2   ]a.w1...[...).=.
+        0040 - d9 c6 79 eb 0b ce 2a 0d-fe 47 46 2a a9 7f eb a8   ..y...*..GF*....
+        0050 - 7e be b6 a2 10 db 75 5c-12 77 3b 96 f5 cd 45 81   ~.....u\.w;...E.
+        0060 - 5f ad e0 ff 43 a8 58 77-db 39 36 81 ab b2 6b 36   _...C.Xw.96...k6
+        0070 - c4 c1 a9 0b 99 e1 5e a8-34 a1 b4 72 97 78 86 a7   ......^.4..r.x..
+        0080 - 33 c7 ab ba 93 cf d7 a9-0c e4 54 4b 83 74 a0 5e   3.........TK.t.^
+        0090 - ba e1 a2 99 f7 14 86 79-e4 bd 41 4a cf 8f 93 de   .......y..AJ....
+        00a0 - c4 87 80 4e 18 ee 65 68-15 53 8f 2d 56 5c 53 72   ...N..eh.S.-V\Sr
+        00b0 - 0b d3 40 05 9a ec 26 ff-2f e7 e0 24 e4 27 02 9c   ..@...&./..$.'..
+        00c0 - 22 0b 84 36 39 ac 3a 15-7b 0b 3c 56 83 e2 82 43   "..69.:.{.<V...C
+        00d0 - c9 77 41 28 1b cf 45 c7-bc ef 3d f2 9b c1 3b 1b   .wA(..E...=...;.
+
+        Start Time: 1667493148
+        Timeout   : 7200 (sec)
+        Verify return code: 0 (ok)
+        Extended master secret: no
+        Max Early Data: 0
+    ---
+    read R BLOCK
+    ---
+    Post-Handshake New Session Ticket arrived:
+    SSL-Session:
+        Protocol  : TLSv1.3
+        Cipher    : TLS_AES_256_GCM_SHA384
+        Session-ID: FDF5369ABC630434B2E11B78E29A2FC43FC0732A147D6D7EE1D370FF0D50595E
+        Session-ID-ctx:
+        Resumption PSK: D63C7DE07685AB98AF1C6CEEBAE63DE012A22290964DB41AC1D3B2817851C8F38677ECD4EE67E9405CE6A44F0F12688B
+        PSK identity: None
+        PSK identity hint: None
+        SRP username: None
+        TLS session ticket lifetime hint: 83100 (seconds)
+        TLS session ticket:
+        0000 - 00 00 35 6e 11 51 4f da-c0 0e 4e bb 71 b8 9b 41   ..5n.QO...N.q..A
+        0010 - ad 56 82 f3 74 6d 6d 53-d5 a8 b5 a9 e6 c5 55 e7   .V..tmmS......U.
+        0020 - c2 52 2e f2 d6 b5 cb 18-bd 23 82 63 df a6 8e 29   .R.......#.c...)
+        0030 - f3 32 c4 51 e5 c6 e2 29-d9 2f 78 43 45 51 5d c0   .2.Q...)./xCEQ].
+        0040 - be d8 8e 3b f5 b5 5b 2f-b8 ee ad ae fb bf 2b a7   ...;..[/......+.
+        0050 - 42 42 b7 af 4a 23 09 13-f4 2e 1f 58 9a d6 46 90   BB..J#.....X..F.
+        0060 - c4 76 f9 41 05 99 af 2e-77 85 d7 12 32 f0 21 97   .v.A....w...2.!.
+        0070 - 79 92 8e 39 31 97 f3 56-9b 06 fd 43 be 97 16 aa   y..91..V...C....
+        0080 - 66 49 d8 2e 44 54 8f fe-e5 56 e9 5c 70 ed 79 b7   fI..DT...V.\p.y.
+        0090 - 93 4c 74 7b db d2 7f 97-76 84 a6 34 d0 67 0f e4   .Lt{....v..4.g..
+        00a0 - 3f a3 86 66 14 86 ae 19-0b e8 3d bf 43 ad df 83   ?..f......=.C...
+        00b0 - 29 95 b3 8c 52 9d 2d b4-95 7f e8 50 8f ea 05 04   )...R.-....P....
+        00c0 - d5 42 b9 07 b9 10 d5 ae-03 ca 16 18 b7 c4 dc f1   .B..............
+        00d0 - cc 8a 49 d7 4a 09 8d b2-e5 d8 3a 9a 98 ea b2 0c   ..I.J.....:.....
+
+        Start Time: 1667493148
+        Timeout   : 7200 (sec)
+        Verify return code: 0 (ok)
+        Extended master secret: no
+        Max Early Data: 0
+    ---
+    read R BLOCK
     closed
 
-### GET A SERVER'S DIGITAL CERTIFICATE
+### Get a server digital certificate
+
 We can obtain a server's digital certificate by doing the following:
 
     echo | openssl s_client -connect www.google.com:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > google.crt
@@ -1446,14 +1664,15 @@ Resulting:
             54:dd:f7:c9:1d:ad:6c:b2:aa:70:56:7b:e3:9f:8e:e3:86:63:
             e6:b8:10:fc
 
-## REFERENCES/ADDITIONAL INFORMATION
-1.	https://openssl.org/docs/manmaster/apps/openssl.html 
-2.	http://www.g-loaded.eu/2005/11/10/be-your-own-ca/ 
-3.	https://jamielinux.com/docs/openssl-certificate-authority/index.html 
-4.	http://www.tldp.org/HOWTO/SSL-Certificates-HOWTO/index.html 
-5.	https://www.openssl.org/docs/manmaster/apps/config.html 
-6.	https://www.mkssoftware.com/docs/man1/openssl_smime.1.asp 
-7.	https://www.madboa.com/geek/openssl/
-8.	https://www.misterpki.com/openssl-verify/
-9.	https://www.misterpki.com/openssl-s-client/ 
+## References/Additional information
+
+1. [https://openssl.org/docs/manmaster/apps/openssl.html](https://openssl.org/docs/manmaster/apps/openssl.html)
+2. [http://www.g-loaded.eu/2005/11/10/be-your-own-ca/](http://www.g-loaded.eu/2005/11/10/be-your-own-ca/)
+3. [https://jamielinux.com/docs/openssl-certificate-authority/index.html](https://jamielinux.com/docs/openssl-certificate-authority/index.html)
+4. [http://www.tldp.org/HOWTO/SSL-Certificates-HOWTO/index.html](http://www.tldp.org/HOWTO/SSL-Certificates-HOWTO/index.html)
+5. [https://www.openssl.org/docs/manmaster/apps/config.html](https://www.openssl.org/docs/manmaster/apps/config.html)
+6. [https://www.mkssoftware.com/docs/man1/openssl_smime.1.asp](https://www.mkssoftware.com/docs/man1/openssl_smime.1.asp)
+7. [https://www.madboa.com/geek/openssl/](https://www.madboa.com/geek/openssl/)
+8. [https://www.misterpki.com/openssl-verify/](https://www.misterpki.com/openssl-verify/)
+9. [https://www.misterpki.com/openssl-s-client/](https://www.misterpki.com/openssl-s-client/)
 
