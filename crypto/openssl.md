@@ -58,6 +58,10 @@
 - [Transport Layer Security/ Secure Sockets Layer (SSL/TLS)](#transport-layer-security-secure-sockets-layer-ssltls)
   - [Check a SSL/TLS connection to a server](#check-a-ssltls-connection-to-a-server)
   - [Get a server digital certificate](#get-a-server-digital-certificate)
+  - [SSLscan](#sslscan)
+  - [SSLyze](#sslyze)
+  - [testssl.sh](#testsslsh)
+  - [SSL/TLS online tools](#ssltls-online-tools)
 - [References/Additional information](#referencesadditional-information)
 
 ## Introduction
@@ -1663,6 +1667,337 @@ Resulting:
             fe:81:65:b6:4a:2d:de:02:78:73:43:c7:2c:06:18:b3:75:fd:
             54:dd:f7:c9:1d:ad:6c:b2:aa:70:56:7b:e3:9f:8e:e3:86:63:
             e6:b8:10:fc
+
+### SSLscan
+
+[SSLscan](https://github.com/rbsec/sslscan) is a tool that can be used to test the SSL/TLS protocol on a specific server and potencialy find some problems or even vulnerabilities.
+
+Using it is quite simple:
+
+    sslscan www.google.com
+
+Which results in the fllowing output.
+
+    Version: 2.0.15
+    OpenSSL 3.0.7 1 Nov 2022
+
+    Connected to 172.217.17.4
+
+    Testing SSL server www.google.com on port 443 using SNI name www.google.com
+
+    SSL/TLS Protocols:
+    SSLv2     disabled
+    SSLv3     disabled
+    TLSv1.0   enabled
+    TLSv1.1   enabled
+    TLSv1.2   enabled
+    TLSv1.3   enabled
+
+    TLS Fallback SCSV:
+    Server supports TLS Fallback SCSV
+
+    TLS renegotiation:
+    Secure session renegotiation supported
+
+    TLS Compression:
+    OpenSSL version does not support compression
+    Rebuild with zlib1g-dev package for zlib support
+
+    Heartbleed:
+    TLSv1.3 not vulnerable to heartbleed
+    TLSv1.2 not vulnerable to heartbleed
+    TLSv1.1 not vulnerable to heartbleed
+    TLSv1.0 not vulnerable to heartbleed
+
+    Supported Server Cipher(s):
+    Preferred TLSv1.3  128 bits  TLS_AES_128_GCM_SHA256        Curve 25519 DHE 253
+    Accepted  TLSv1.3  256 bits  TLS_AES_256_GCM_SHA384        Curve 25519 DHE 253
+    Accepted  TLSv1.3  256 bits  TLS_CHACHA20_POLY1305_SHA256  Curve 25519 DHE 253
+    Preferred TLSv1.2  256 bits  ECDHE-ECDSA-CHACHA20-POLY1305 Curve 25519 DHE 253
+    Accepted  TLSv1.2  128 bits  ECDHE-ECDSA-AES128-GCM-SHA256 Curve 25519 DHE 253
+    Accepted  TLSv1.2  256 bits  ECDHE-ECDSA-AES256-GCM-SHA384 Curve 25519 DHE 253
+    Accepted  TLSv1.2  128 bits  ECDHE-ECDSA-AES128-SHA        Curve 25519 DHE 253
+    Accepted  TLSv1.2  256 bits  ECDHE-ECDSA-AES256-SHA        Curve 25519 DHE 253
+    Accepted  TLSv1.2  256 bits  ECDHE-RSA-CHACHA20-POLY1305   Curve 25519 DHE 253
+    Accepted  TLSv1.2  128 bits  ECDHE-RSA-AES128-GCM-SHA256   Curve 25519 DHE 253
+    Accepted  TLSv1.2  256 bits  ECDHE-RSA-AES256-GCM-SHA384   Curve 25519 DHE 253
+    Accepted  TLSv1.2  128 bits  ECDHE-RSA-AES128-SHA          Curve 25519 DHE 253
+    Accepted  TLSv1.2  256 bits  ECDHE-RSA-AES256-SHA          Curve 25519 DHE 253
+    Accepted  TLSv1.2  128 bits  AES128-GCM-SHA256
+    Accepted  TLSv1.2  256 bits  AES256-GCM-SHA384
+    Accepted  TLSv1.2  128 bits  AES128-SHA
+    Accepted  TLSv1.2  256 bits  AES256-SHA
+    Accepted  TLSv1.2  112 bits  TLS_RSA_WITH_3DES_EDE_CBC_SHA
+    Preferred TLSv1.1  128 bits  ECDHE-ECDSA-AES128-SHA        Curve 25519 DHE 253
+    Accepted  TLSv1.1  256 bits  ECDHE-ECDSA-AES256-SHA        Curve 25519 DHE 253
+    Accepted  TLSv1.1  128 bits  ECDHE-RSA-AES128-SHA          Curve 25519 DHE 253
+    Accepted  TLSv1.1  256 bits  ECDHE-RSA-AES256-SHA          Curve 25519 DHE 253
+    Accepted  TLSv1.1  128 bits  AES128-SHA
+    Accepted  TLSv1.1  256 bits  AES256-SHA
+    Accepted  TLSv1.1  112 bits  TLS_RSA_WITH_3DES_EDE_CBC_SHA
+    Preferred TLSv1.0  128 bits  ECDHE-ECDSA-AES128-SHA        Curve 25519 DHE 253
+    Accepted  TLSv1.0  256 bits  ECDHE-ECDSA-AES256-SHA        Curve 25519 DHE 253
+    Accepted  TLSv1.0  128 bits  ECDHE-RSA-AES128-SHA          Curve 25519 DHE 253
+    Accepted  TLSv1.0  256 bits  ECDHE-RSA-AES256-SHA          Curve 25519 DHE 253
+    Accepted  TLSv1.0  128 bits  AES128-SHA
+    Accepted  TLSv1.0  256 bits  AES256-SHA
+    Accepted  TLSv1.0  112 bits  TLS_RSA_WITH_3DES_EDE_CBC_SHA
+
+    Server Key Exchange Group(s):
+    TLSv1.3  128 bits  secp256r1 (NIST P-256)
+    TLSv1.3  128 bits  x25519
+    TLSv1.2  128 bits  secp256r1 (NIST P-256)
+    TLSv1.2  128 bits  x25519
+
+    SSL Certificate:
+    Signature Algorithm: sha256WithRSAEncryption
+    ECC Curve Name:      prime256v1
+    ECC Key Strength:    128
+
+    Subject:  www.google.com
+    Altnames: DNS:www.google.com
+    Issuer:   GTS CA 1C3
+
+    Not valid before: Sep 26 08:23:57 2022 GMT
+    Not valid after:  Dec 19 08:23:56 2022 GMT
+
+### SSLyze
+
+[SSLyze](https://github.com/nabla-c0d3/sslyze) is also a tool that might be use to scan for SSL/TLS on a server. Using it is also very simple.
+
+    sslyze www.google.com
+
+Which results in the following.
+
+    CHECKING CONNECTIVITY TO SERVER(S)
+    ----------------------------------
+
+    www.google.com:443        => 142.250.200.132
+
+
+    SCAN RESULTS FOR WWW.GOOGLE.COM:443 - 142.250.200.132
+    -----------------------------------------------------
+
+    * Certificates Information:
+        Hostname sent for SNI:             www.google.com
+        Number of certificates detected:   2
+
+
+        Certificate #0 ( _EllipticCurvePublicKey )
+        SHA1 Fingerprint:                  8d451b91f4f3d1beaf7dfd745739a0a1ff9bb7b2
+        Common Name:                       www.google.com
+        Issuer:                            GTS CA 1C3
+        Serial Number:                     172338986348961426169022814442718324929
+        Not Before:                        2022-10-17
+        Not After:                         2023-01-09
+        Public Key Algorithm:              _EllipticCurvePublicKey
+        Signature Algorithm:               sha256
+        Key Size:                          256
+        Curve:                             secp256r1
+        DNS Subject Alternative Names:     ['www.google.com']
+
+        Certificate #0 - Trust
+        Hostname Validation:               OK - Certificate matches server hostname
+        Android CA Store (13.0.0_r8):      OK - Certificate is trusted
+        Apple CA Store (iOS 15.1, iPadOS 15.1, macOS 12.1, tvOS 15.1, and watchOS 8.1):OK - Certificate is trusted
+        Java CA Store (jdk-13.0.2):        OK - Certificate is trusted
+        Mozilla CA Store (2022-09-18):     OK - Certificate is trusted
+        Windows CA Store (2022-08-15):     OK - Certificate is trusted
+        Symantec 2018 Deprecation:         OK - Not a Symantec-issued certificate
+        Received Chain:                    www.google.com --> GTS CA 1C3 --> GTS Root R1
+        Verified Chain:                    www.google.com --> GTS CA 1C3 --> GTS Root R1
+        Received Chain Contains Anchor:    OK - Anchor certificate not sent
+        Received Chain Order:              OK - Order is valid
+        Verified Chain contains SHA1:      OK - No SHA1-signed certificate in the verified certificate chain
+
+        Certificate #0 - Extensions
+        OCSP Must-Staple:                  NOT SUPPORTED - Extension not found
+        Certificate Transparency:          WARNING - Only 2 SCTs included but Google recommends 3 or more
+
+        Certificate #0 - OCSP Stapling
+                                            NOT SUPPORTED - Server did not send back an OCSP response
+
+
+        Certificate #1 ( _RSAPublicKey )
+        SHA1 Fingerprint:                  bb181548dc5db04f8194e588b4f19f1cc4d12a0d
+        Common Name:                       www.google.com
+        Issuer:                            GTS CA 1C3
+        Serial Number:                     265906118735752094790635674560926019293
+        Not Before:                        2022-10-17
+        Not After:                         2023-01-09
+        Public Key Algorithm:              _RSAPublicKey
+        Signature Algorithm:               sha256
+        Key Size:                          2048
+        Exponent:                          65537
+        DNS Subject Alternative Names:     ['www.google.com']
+
+        Certificate #1 - Trust
+        Hostname Validation:               OK - Certificate matches server hostname
+        Android CA Store (13.0.0_r8):      OK - Certificate is trusted
+        Apple CA Store (iOS 15.1, iPadOS 15.1, macOS 12.1, tvOS 15.1, and watchOS 8.1):OK - Certificate is trusted
+        Java CA Store (jdk-13.0.2):        OK - Certificate is trusted
+        Mozilla CA Store (2022-09-18):     OK - Certificate is trusted
+        Windows CA Store (2022-08-15):     OK - Certificate is trusted
+        Symantec 2018 Deprecation:         OK - Not a Symantec-issued certificate
+        Received Chain:                    www.google.com --> GTS CA 1C3 --> GTS Root R1
+        Verified Chain:                    www.google.com --> GTS CA 1C3 --> GTS Root R1
+        Received Chain Contains Anchor:    OK - Anchor certificate not sent
+        Received Chain Order:              OK - Order is valid
+        Verified Chain contains SHA1:      OK - No SHA1-signed certificate in the verified certificate chain
+
+        Certificate #1 - Extensions
+        OCSP Must-Staple:                  NOT SUPPORTED - Extension not found
+        Certificate Transparency:          WARNING - Only 2 SCTs included but Google recommends 3 or more
+
+        Certificate #1 - OCSP Stapling
+                                            NOT SUPPORTED - Server did not send back an OCSP response
+
+    * SSL 2.0 Cipher Suites:
+        Attempted to connect using 7 cipher suites; the server rejected all cipher suites.
+
+    * SSL 3.0 Cipher Suites:
+        Attempted to connect using 80 cipher suites; the server rejected all cipher suites.
+
+    * TLS 1.0 Cipher Suites:
+        Attempted to connect using 80 cipher suites.
+
+        The server accepted the following 5 cipher suites:
+            TLS_RSA_WITH_AES_256_CBC_SHA                      256
+            TLS_RSA_WITH_AES_128_CBC_SHA                      128
+            TLS_RSA_WITH_3DES_EDE_CBC_SHA                     168
+            TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA                256       ECDH: prime256v1 (256 bits)
+            TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA                128       ECDH: prime256v1 (256 bits)
+
+        The group of cipher suites supported by the server has the following properties:
+        Forward Secrecy                    OK - Supported
+        Legacy RC4 Algorithm               OK - Not Supported
+
+
+    * TLS 1.1 Cipher Suites:
+        Attempted to connect using 80 cipher suites.
+
+        The server accepted the following 5 cipher suites:
+            TLS_RSA_WITH_AES_256_CBC_SHA                      256
+            TLS_RSA_WITH_AES_128_CBC_SHA                      128
+            TLS_RSA_WITH_3DES_EDE_CBC_SHA                     168
+            TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA                256       ECDH: prime256v1 (256 bits)
+            TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA                128       ECDH: prime256v1 (256 bits)
+
+        The group of cipher suites supported by the server has the following properties:
+        Forward Secrecy                    OK - Supported
+        Legacy RC4 Algorithm               OK - Not Supported
+
+
+    * TLS 1.2 Cipher Suites:
+        Attempted to connect using 156 cipher suites.
+
+        The server accepted the following 11 cipher suites:
+            TLS_RSA_WITH_AES_256_GCM_SHA384                   256
+            TLS_RSA_WITH_AES_256_CBC_SHA                      256
+            TLS_RSA_WITH_AES_128_GCM_SHA256                   128
+            TLS_RSA_WITH_AES_128_CBC_SHA                      128
+            TLS_RSA_WITH_3DES_EDE_CBC_SHA                     168
+            TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256       256       ECDH: X25519 (253 bits)
+            TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384             256       ECDH: prime256v1 (256 bits)
+            TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA                256       ECDH: prime256v1 (256 bits)
+            TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256             128       ECDH: prime256v1 (256 bits)
+            TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA                128       ECDH: prime256v1 (256 bits)
+            TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256     256       ECDH: X25519 (253 bits)
+
+        The group of cipher suites supported by the server has the following properties:
+        Forward Secrecy                    OK - Supported
+        Legacy RC4 Algorithm               OK - Not Supported
+
+
+    * TLS 1.3 Cipher Suites:
+        Attempted to connect using 5 cipher suites.
+
+        The server accepted the following 3 cipher suites:
+            TLS_CHACHA20_POLY1305_SHA256                      256       ECDH: X25519 (253 bits)
+            TLS_AES_256_GCM_SHA384                            256       ECDH: X25519 (253 bits)
+            TLS_AES_128_GCM_SHA256                            128       ECDH: X25519 (253 bits)
+
+
+    * Deflate Compression:
+                                            OK - Compression disabled
+
+    * OpenSSL CCS Injection:
+                                            OK - Not vulnerable to OpenSSL CCS injection
+
+    * OpenSSL Heartbleed:
+                                            OK - Not vulnerable to Heartbleed
+
+    * ROBOT Attack:
+                                            OK - Not vulnerable.
+
+    * Session Renegotiation:
+        Client Renegotiation DoS Attack:   OK - Not vulnerable
+        Secure Renegotiation:              OK - Supported
+
+    * Elliptic Curve Key Exchange:
+        Supported curves:                  X25519, prime256v1
+        Rejected curves:                   X448, prime192v1, secp160k1, secp160r1, secp160r2, secp192k1, secp224k1, secp224r1, secp256k1, secp384r1, secp521r1, sect163k1, sect163r1, sect163r2, sect193r1, sect193r2, sect233k1, sect233r1, sect239k1, sect283k1, sect283r1, sect409k1, sect409r1, sect571k1, sect571r1
+
+    SCANS COMPLETED IN 4.242441 S
+    -----------------------------
+
+    COMPLIANCE AGAINST MOZILLA TLS CONFIGURATION
+    --------------------------------------------
+
+        Checking results against Mozilla's "intermediate" configuration. See https://ssl-config.mozilla.org/ for more details.
+
+        www.google.com:443: FAILED - Not compliant.
+            * tls_versions: TLS versions {'TLSv1', 'TLSv1.1'} are supported, but should be rejected.
+            * ciphers: Cipher suites {'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_AES_256_CBC_SHA', 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA', 'TLS_RSA_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA', 'TLS_RSA_WITH_AES_256_GCM_SHA384', 'TLS_RSA_WITH_AES_128_GCM_SHA256'} are supported, but should be rejected.
+
+### testssl.sh
+
+Another interesting tool to test SSL/TLS is to use the [testssl.sh](https://github.com/drwetter/testssl.sh) tool. It is also adequate to find problems on SSL/TLS servers.
+
+To use it simply execute:
+
+testssl.sh carlos.serrao.me
+
+The obtained output is something like this (just a small portion):
+
+    Testing vulnerabilities
+
+    Heartbleed (CVE-2014-0160)                not vulnerable (OK), no heartbeat extension
+    CCS (CVE-2014-0224)                       not vulnerable (OK)
+    Ticketbleed (CVE-2016-9244), experiment.  not vulnerable (OK), no session ticket extension
+    ROBOT                                     Server does not support any cipher suites that use RSA key transport
+    Secure Renegotiation (RFC 5746)           supported (OK)
+    Secure Client-Initiated Renegotiation     not vulnerable (OK)
+    CRIME, TLS (CVE-2012-4929)                not vulnerable (OK)
+    BREACH (CVE-2013-3587)                    potentially NOT ok, "gzip" HTTP compression detected. - only supplied "/" tested
+                                            Can be ignored for static pages or if no secrets in the page
+    POODLE, SSL (CVE-2014-3566)               not vulnerable (OK), no SSLv3 support
+    TLS_FALLBACK_SCSV (RFC 7507)              No fallback possible (OK), no protocol below TLS 1.2 offered
+    SWEET32 (CVE-2016-2183, CVE-2016-6329)    not vulnerable (OK)
+    FREAK (CVE-2015-0204)                     not vulnerable (OK)
+    DROWN (CVE-2016-0800, CVE-2016-0703)      not vulnerable on this host and port (OK)
+                                            make sure you don't use this certificate elsewhere with SSLv2 enabled services
+                                            https://search.censys.io/search?resource=hosts&virtual_hosts=INCLUDE&q=C5D0C2C5E14B71CF7342F4BEAB81322EF9AD9B9BEEBB3D72ACB5E6360EA08C15
+    LOGJAM (CVE-2015-4000), experimental      common prime with 2048 bits detected: RFC3526/Oakley Group 14 (2048 bits),
+                                            but no DH EXPORT ciphers
+    BEAST (CVE-2011-3389)                     not vulnerable (OK), no SSL3 or TLS1
+    LUCKY13 (CVE-2013-0169), experimental     not vulnerable (OK)
+    RC4 (CVE-2013-2566, CVE-2015-2808)        no RC4 ciphers detected (OK)
+
+### SSL/TLS online tools
+
+The following list presents some online tools for testing also SSL/TLS.
+
+1. [SSL Server Test by Qualys](https://www.ssllabs.com/ssltest/)
+2. [SSL Checker by SSL Shopper](https://www.sslshopper.com/ssl-checker.html)
+3. [SSL Scanner by SSL Tools](http://www.ssltools.com/)
+4. [SSL Certificate Checker by Digicert](https://www.digicert.com/help/)
+5. [SSL Check by JitBit](https://www.jitbit.com/sslcheck/)
+6. [SSL Checker by SSL Store](https://www.thesslstore.com/ssltools/ssl-checker.php)
+7. [SSL Tester by Wormly](https://www.wormly.com/test_ssl)
+8. [SSL Security Test by ImmuniWeb](https://www.immuniweb.com/ssl/)
+9. [SSL Certificate Checker](https://www.sslchecker.com/sslchecker)
+10. [SSLv3 Poodle Vulnerability Scanner](https://pentest-tools.com/network-vulnerability-scanning/ssl-poodle-scanner)
 
 ## References/Additional information
 
