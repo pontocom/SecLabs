@@ -61,3 +61,4 @@ Just for checking the entropy of the passwords lets do the following:
 
 ## Attacks on Passwords
 
+Let us simulate a situation in 

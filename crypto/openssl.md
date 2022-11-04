@@ -436,7 +436,7 @@ When generating the key pair, both keys are stored in the same file, so if you w
 
 It is only suitable for encrypting small blocks of information. In this case a "`secretkey`" file was created, with a small random value using the command "`openssl rand -out ./secretkey 32`". Then this file was encrypted using the public key.
 
-    openssl pkeyutl -encrypt -inkey -pubin ./publickey.pem -in ./secretkey -out ./secretkey.enc
+    openssl pkeyutl -encrypt -pubin -inkey ./publickey.pem -in ./secretkey -out ./secretkey.enc
 
 ### Decrypt using the private key
 
