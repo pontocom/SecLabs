@@ -8,6 +8,8 @@
   - [Massive list of passwords](#massive-list-of-passwords)
   - [Checking for password robustness](#checking-for-password-robustness)
 - [Attacks on Passwords](#attacks-on-passwords)
+  - [Loking for password-based services](#loking-for-password-based-services)
+  - [Using THC-Hydra](#using-thc-hydra)
 
 ## Introduction
 
@@ -61,4 +63,124 @@ Just for checking the entropy of the passwords lets do the following:
 
 ## Attacks on Passwords
 
-Let us simulate a situation in 
+Let us simulate a situation in which we have an attacker that is going to try to exploit a victim. For the attacker, [Kali Linux](https://www.kali.org/) will be used. For the victim, we will use the [Metasploitable 2](https://sourceforge.net/projects/metasploitable/).
+
+Lets assume that the victim has the following email address: **192.168.8.148**.
+
+### Loking for password-based services 
+
+Next we are going to analise the system either using "`nmap`" or "`massscan`". Let's use `nmap` first:
+
+    nmap 192.168.8.142
+
+And obtain the following results:
+
+    Starting Nmap 7.93 ( https://nmap.org ) at 2022-11-04 23:56 WET
+    Nmap scan report for 192.168.8.142
+    Host is up (0.0046s latency).
+    Not shown: 977 closed tcp ports (conn-refused)
+    PORT     STATE SERVICE
+    21/tcp   open  ftp
+    22/tcp   open  ssh
+    23/tcp   open  telnet
+    25/tcp   open  smtp
+    53/tcp   open  domain
+    80/tcp   open  http
+    111/tcp  open  rpcbind
+    139/tcp  open  netbios-ssn
+    445/tcp  open  microsoft-ds
+    512/tcp  open  exec
+    513/tcp  open  login
+    514/tcp  open  shell
+    1099/tcp open  rmiregistry
+    1524/tcp open  ingreslock
+    2049/tcp open  nfs
+    2121/tcp open  ccproxy-ftp
+    3306/tcp open  mysql
+    5432/tcp open  postgresql
+    5900/tcp open  vnc
+    6000/tcp open  X11
+    6667/tcp open  irc
+    8009/tcp open  ajp13
+    8180/tcp open  unknown
+
+    Nmap done: 1 IP address (1 host up) scanned in 0.36 seconds
+
+And now let's use the `massscan` tool (it requires it to run as `sudo`):
+
+    sudo masscan 192.168.8.142 --top-ports
+
+Resulting in:
+
+    Starting masscan 1.3.2 (http://bit.ly/14GZzcT) at 2022-11-05 00:00:46 GMT
+    Initiating SYN Stealth Scan
+    Scanning 1 hosts [1000 ports/host]
+    Discovered open port 21/tcp on 192.168.8.142                                   
+    Discovered open port 1524/tcp on 192.168.8.142                                 
+    Discovered open port 80/tcp on 192.168.8.142                                   
+    Discovered open port 1099/tcp on 192.168.8.142                                 
+    Discovered open port 8180/tcp on 192.168.8.142                                 
+    Discovered open port 111/tcp on 192.168.8.142                                  
+    Discovered open port 22/tcp on 192.168.8.142                                   
+    Discovered open port 8009/tcp on 192.168.8.142                                 
+    Discovered open port 5900/tcp on 192.168.8.142                                 
+    Discovered open port 2049/tcp on 192.168.8.142                                 
+    Discovered open port 53/tcp on 192.168.8.142                                   
+    Discovered open port 139/tcp on 192.168.8.142                                  
+    Discovered open port 514/tcp on 192.168.8.142                                  
+    Discovered open port 6667/tcp on 192.168.8.142                                 
+    Discovered open port 6000/tcp on 192.168.8.142                                 
+    Discovered open port 512/tcp on 192.168.8.142                                  
+    Discovered open port 25/tcp on 192.168.8.142                                   
+    Discovered open port 5432/tcp on 192.168.8.142                                 
+    Discovered open port 2121/tcp on 192.168.8.142                                 
+    Discovered open port 513/tcp on 192.168.8.142                                  
+    Discovered open port 445/tcp on 192.168.8.142                                  
+    Discovered open port 3306/tcp on 192.168.8.142                                 
+    Discovered open port 23/tcp on 192.168.8.142 
+
+So it was possible to conclude that there are plenty of services open on the machine. To this point we can understand the exposition degree of the victim. It is possible to understand there are services such as **ftp**, **ssh**, and **http** which are running on the machine.
+
+### Using THC-Hydra
+
+[THC-Hydra](https://github.com/vanhauser-thc/thc-hydra) is a tool that was developed for security researchers to help testing the robustness of password-based systems. Hydra is a tool to guess/crack valid login/password pairs.
+
+This tool has multiple options. You should look at the help of the function to learn about its functionalities. 
+
+    hydra -h
+
+Which produces the following result. This is simply a part of the output that this command presents.
+
+    Hydra v9.3 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+    Syntax: hydra [[[-l LOGIN|-L FILE] [-p PASS|-P FILE]] | [-C FILE]] [-e nsr] [-o FILE] [-t TASKS] [-M FILE [-T TASKS]] [-w TIME] [-W TIME] [-f] [-s PORT] [-x MIN:MAX:CHARSET] [-c TIME] [-ISOuvVd46] [-m MODULE_OPT] [service://server[:PORT][/OPT]]
+
+Hydra supports a large set of protocols and services, such as:
+
+- POP3
+- FTP
+- HTTP-GET, HTTP-POST-FORM, HTTP-GET-FORM
+- Firebird
+- Subversion
+- Telnet
+- Postgres
+- SSH
+- Teamspeak
+- MySQL
+- rexec
+- SOCKS5
+- SNMP
+- NNTP
+- ... more.
+
+THC-Hydra can handle the following types os attacks:
+- Brute force attacks
+- Dictionary attacks
+- Parallel attacks (16 threads by default, -t option)
+- Check for null, login as password, reversed characters (-e option)
+- Attack several different servers
+
+There are also some graphical tools for THC-Hydra, such as `xhydra`. You may install and launch this tool by doing:
+
+    xhydra
+
