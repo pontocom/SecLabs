@@ -187,6 +187,8 @@ There are also some graphical tools for THC-Hydra, such as `xhydra`. You may ins
 
     xhydra
 
+![xhydra image](assets/picture02.png)
+
 ### Attacking FTP service with THC-Hydra
 
 In the example, we are going to launch a **dictionary attack** against the FCP service of the victim. In order to do this we need to use a word list file (the dictionary) that contain the words to be used as passwords.
