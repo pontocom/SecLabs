@@ -78,7 +78,7 @@ List of usernames to Use
     admin
     superadmin
 
-List of passwords to Use (top passwords od 2022)
+List of passwords to Use (top passwords of 2022)
 
     123456
     123456789

