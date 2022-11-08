@@ -25,7 +25,6 @@
   - [Cracking password protected files](#cracking-password-protected-files)
 - [Hashcat](#hashcat)
   - [Using Hashcat to do a brute-force attack](#using-hashcat-to-do-a-brute-force-attack)
-  - [Using Hashcat to do a dictionary attack](#using-hashcat-to-do-a-dictionary-attack)
 - [References/Additional information](#referencesadditional-information)
 
 ## Introduction
@@ -783,11 +782,6 @@ The option `-m 0` means that we are using MD5 hashes.
 
 
 And expect this to take a loooooooot of time to complete.
-
-### Using Hashcat to do a dictionary attack
-
-Hashcat can also be used for dictionary attacks.
-
 
 ## References/Additional information
 
