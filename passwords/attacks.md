@@ -16,7 +16,8 @@
     - [DVWA - Damn Vulnerable Web Application](#dvwa---damn-vulnerable-web-application)
     - [OWASP Mutillidae](#owasp-mutillidae)
     - [Wordpress](#wordpress)
-- [Using THC-Hydra for brute-force attacks](#using-thc-hydra-for-brute-force-attacks)
+  - [Using THC-Hydra for brute-force attacks](#using-thc-hydra-for-brute-force-attacks)
+- [John the Ripper (JtR)](#john-the-ripper-jtr)
 
 ## Introduction
 
@@ -454,7 +455,7 @@ If everything goes well, we will obtain a result:
     1 of 1 target successfully completed, 1 valid password found
     Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2022-11-07 19:22:30
 
-## Using THC-Hydra for brute-force attacks
+### Using THC-Hydra for brute-force attacks
 
 All the attacks we have been performing are dictionary attacks. This requires the existence of a good word list that allows someone to find the password, if a word in the list was used as a password. This might not be always the case. So we might need to use a **brute-force attack** to test every possible combination as a password.
 
@@ -499,3 +500,16 @@ Or we can use multiple combinations, such as using lower and upper case letters,
     hydra -v -V -l msfadmin -x 5:5:aA1 192.168.8.142 ftp
 
 This results in **916132832** possible combinations. :-)
+
+## John the Ripper (JtR)
+
+John the Ripper (JtR) is another tool that can be used to attack password-based systems.
+For more information about this tool:
+https://www.kali.org/tools/john/
+https://github.com/openwall/john 
+It is a tool best suited to crack a large number of passwords (based on different algorithms), using dictionary attacks and brute-force (offline attacks).
+For help on the tool, do:
+john -h
+JtR is essentially used for attacks on files that contain some kind of passwords.
+Imagine a scenario where you get a file of passwords (which are protected in some way) and you want to find out the original passwords - this is a task for JtR.
+This tool can take advantage of extra hardware in the machine, such as GPUs, to speed up the password discovery process.
