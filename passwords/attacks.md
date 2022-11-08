@@ -783,6 +783,7 @@ The option `-m 0` means that we are using MD5 hashes.
 
 And expect this to take a loooooooot of time to complete.
 
+
 ## References/Additional information
 
 1. [https://www.golinuxcloud.com/john-the-ripper-password-cracker/](https://www.golinuxcloud.com/john-the-ripper-password-cracker/)
