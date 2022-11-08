@@ -22,7 +22,8 @@
     - [Using a brute-force approach](#using-a-brute-force-approach)
     - [Using a dictionary approach](#using-a-dictionary-approach)
   - [Cracking MD5 password files](#cracking-md5-password-files)
-  - [Cracking MD5 password files](#cracking-md5-password-files-1)
+  - [Cracking password protected files](#cracking-password-protected-files)
+- [References/Additional information](#referencesadditional-information)
 
 ## Introduction
 
@@ -529,7 +530,7 @@ In this case, let us try to find out the passwords of users on a Linux system. T
 
     sudo unshadow /etc/passwd /etc/shadow > allpasswords
 
-This will save the passwords in a file (`allpasswords`). Lets open the file and check its content.
+This will save the passwords in a file (`allpasswords`). Lets open the file and check its content (if you can't get the file, [download it from here](files/allpasswords)).
 
     cat allpasswords
 
@@ -657,7 +658,17 @@ All the dicovered passwords are recorded to the `found.pot` file - as specified 
     $dynamic_0$1825036c05462007255c6081088d30d0:fountains
     $dynamic_0$b928a50c7e877267d29c7f20d01668fb:Vernon
 
-### Cracking MD5 password files
+
+Another important issue to consider when using a dictionary attack is to look at **word mangling rules** that JtR can use to do combinations with the words in the dictionary. For more information about this, please check [this](https://www.openwall.com/john/doc/MODES.shtml) and [this](https://www.openwall.com/john/doc/RULES.shtml), and then try to use.
+
+We can also use a brute force approach for this. In order to do that we can do the following:
+
+    john --incremental cmiyc_2012_password_hash_files/hashes-9.raw-md5.txt
+
+But this will take a very long time!!!
+
+
+### Cracking password protected files
 
 Another useful feature that JtR offers is the possibility to crack a password of a file, namely zip files. So lets try to do that.
 
@@ -665,7 +676,11 @@ First we need a password-protected zip file. Either you can create your own file
 
 The first thing we need to do is to extract the hash part of the file that contains the password. To to that we'll use the following command:
 
-zip2john logo.zip > file.hash
+    zip2john logo.zip > file.hash
+
+The `file.hash` has the following content.
+
+    logo.zip:$pkzip$2*1*1*0*8*24*e732*c4f0fa14e585eb76e2bf36d47c19e8cb2d98f9de3094a69bcbdf869e51d8a9c3b1ec2707*2*0*f4*157*d112e403*27*3c*8*f4*d112*6ac3e43dcdf72a7d2617ef745d527759ef6936e34aec0ec33da650ab3516d379a1d0514d7a0c3c56a9a7ede23c3fe491409ff3b70e7f05a6a8ded2e15a514427f300b0ada06c050aad425ca92035e9cd088897a252dc2bee1651fc51417990ae2d1829e7ec7fda7e1fb9a516f95e15c8b277ac264c2d6498f6db0f3b498eec5cb94fea036ecf296ff2724d719b8931f7fe65290d955eed09d79396eef47091b8f6a4ffa31926f3c8f9b9a1e8ca0da5ae0f634f01bc174d329c544b5dee16e763fe9060daea76e43a5754de356240ebe884ecec2f4a55ee6dd78762d8711cf9b00c538ac0335519138be7a0164fb6688819d778aa*$/pkzip$::logo.zip:__MACOSX/._aim-health-logo.png, aim-health-logo.png:logo.zip
 
 Next, we'll use a dictionary attack to try to find the password. The dictionary that we'll use is the `rockyou.txt` file. The command is as follows:
 
@@ -673,3 +688,21 @@ Next, we'll use a dictionary attack to try to find the password. The dictionary 
 
 And lets look at what we've found.
 
+    Using default input encoding: UTF-8
+    Loaded 1 password hash (PKZIP [32/64])
+    Press 'q' or Ctrl-C to abort, almost any other key for status
+    password         (logo.zip)     
+    1g 0:00:00:00 DONE (2022-11-08 19:27) 100.0g/s 6400p/s 6400c/s 6400C/s 123456..charlie
+    Use the "--show" option to display all of the cracked passwords reliably
+    Session completed.
+
+
+## References/Additional information
+
+1. [https://www.golinuxcloud.com/john-the-ripper-password-cracker/](https://www.golinuxcloud.com/john-the-ripper-password-cracker/)
+2. [https://techofide.com/blogs/how-to-use-john-the-ripper-john-the-ripper-password-cracker-techofide/](https://techofide.com/blogs/how-to-use-john-the-ripper-john-the-ripper-password-cracker-techofide/)
+3. [https://www.hackingarticles.in/beginner-guide-john-the-ripper-part-1/](https://www.hackingarticles.in/beginner-guide-john-the-ripper-part-1/)
+4. [https://www.tunnelsup.com/getting-started-cracking-password-hashes/](https://www.tunnelsup.com/getting-started-cracking-password-hashes/)
+5. [https://resources.infosecinstitute.com/topic/hashcat-tutorial-beginners/](https://resources.infosecinstitute.com/topic/hashcat-tutorial-beginners/)
+6. [https://linuxhint.com/hashcat-tutorial/](https://linuxhint.com/hashcat-tutorial/)
+7. [https://www.cyberpratibha.com/hashcat-tutorial-for-password-cracking/](https://www.cyberpratibha.com/hashcat-tutorial-for-password-cracking/)
