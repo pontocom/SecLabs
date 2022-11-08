@@ -21,6 +21,7 @@
   - [Using JtR to crack passwords on a Linux system](#using-jtr-to-crack-passwords-on-a-linux-system)
     - [Using a brute-force approach](#using-a-brute-force-approach)
     - [Using a dictionary approach](#using-a-dictionary-approach)
+  - [Cracking MD5 password files](#cracking-md5-password-files)
 
 ## Introduction
 
@@ -561,4 +562,97 @@ As you may notice, this will take a **looooong time**! Look at the CPU consumpti
 
 
 #### Using a dictionary approach
+
+In order to save time, we may try to use a dictionary attack instead. In order to do that we need to do the following, using a dictionary (`passwords.txt`):
+
+    john --format=crypt --wordlist=passwords.txt allpasswords
+
+If the word list contains a password we obtain a result really fast.
+
+    Using default input encoding: UTF-8
+    Loaded 1 password hash (crypt, generic crypt(3) [?/64])
+    Cost 1 (algorithm [1:descrypt 2:md5crypt 3:sunmd5 4:bcrypt 5:sha256crypt 6:sha512crypt]) is 0 for all loaded hashes
+    Cost 2 (algorithm specific iterations) is 1 for all loaded hashes
+    Press 'q' or Ctrl-C to abort, almost any other key for status
+    Warning: Only 8 candidates left, minimum 96 needed for performance.
+    password         (user)     
+    1g 0:00:00:00 DONE (2022-11-08 11:22) 7.692g/s 61.53p/s 61.53c/s 61.53C/s 123456
+    Use the "--show" option to display all of the cracked passwords reliably
+    Session completed.
+
+Note: if nothing is refered, the discovered passwords are stored in the `~/.john/john.pot` file. If we like to specify any other pot location, we need to use the `--pot` option.
+
+
+### Cracking MD5 password files
+
+Now we are going to use larger dimension files, to explore JtR funcionalities. First we are going to download the Rockyou password file (`rockyou.txt`). We can [download](https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt) this file from [here](https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt).
+
+After this, we are going to download some files from the "[Crack Me If You Can (DEFCON 2012)](https://contest-2012.korelogic.com/)" page.
+
+We this page we can [download this file](http://contest-2012.korelogic.com/cmiyc_2012_password_hash_files.tar.bz2).
+
+Uncompress the file:
+
+    tar -xf cmiyc_2012_password_hash_files.tar.bz2
+
+From all the files that are extracted, we are going to use this one:
+
+    hashes-9.raw-md5.txt
+
+This file contains raw MD5 passwords and has the following format:
+
+    bigibson:ef31bd90925824302dde7d0b16f772a3:1676:0:::
+
+So lets try to find some passwords using JtR to do a dictionary attack:
+
+    john --format=raw-md5 --wordlist=rockyou.txt hashes-9.raw-md5.txt -pot=found.pot
+
+And lets cross our fingers. Here are the results:
+
+    Using default input encoding: UTF-8
+    Loaded 3413 password hashes with no different salts (Raw-MD5 [MD5 256/256 AVX2 8x3])
+    Press 'q' or Ctrl-C to abort, almost any other key for status
+    confused         (reddych)     
+    firetruck        (aascott)     
+    outcast          (chrism)     
+    everyone         (tadams)     
+    bigballer        (jthomas)     
+    blacksmith       (lauraw)     
+    fellowship       (bobj)     
+    baking           (seanj)     
+    Miller           (kim.harris)     
+    firsttime        (bhill)     
+    pig              (maxa)     
+    afterwards       (whiteco)     
+    winwinwin        (bradl)     
+    one              (gajohnston)     
+    fountains        (hlopez)     
+    Vernon           (raybe)     
+    Unfaithful       (wirahman)     
+    semicolon        (hughesli)     
+    phantom01        (thomasm)     
+    here             (jamieg)     
+    sorcery          (smithd)     
+    interbank        (lewisa)     
+    defensive        (court.miller)     
+    Tomas            (brjackson)     
+
+All the dicovered passwords are recorded to the `found.pot` file - as specified in the command. Look at its content:
+
+    $dynamic_0$1a7f2a5ad77128b2f81feddac78df213:confused
+    $dynamic_0$320824ed82a8da4f1250345c09c28aac:firetruck
+    $dynamic_0$8667db851472b942fb1e49c3a62c5b8e:outcast
+    $dynamic_0$ed881bac6397ede33c0a285c9f50bb83:everyone
+    $dynamic_0$ca21ff79eeab1645fafe86164f4e9528:bigballer
+    $dynamic_0$c2428781706d00727581426181d0b7e6:blacksmith
+    $dynamic_0$c08c1825c664280120a3587051819f0b:fellowship
+    $dynamic_0$d567fa2fc32e8ef7b736c121e4975689:baking
+    $dynamic_0$8f22e8ff6e2be10b6bc7e6cf7b47d782:Miller
+    $dynamic_0$0691ffc309dda62cb45a9dcdfe21c64b:firsttime
+    $dynamic_0$f74c6af46a78becb2f1bd3f95bbd5858:pig
+    $dynamic_0$622f90ceba19c667b7d2620169144476:afterwards
+    $dynamic_0$b6be03b4e958a964a552ae354d82a4ea:winwinwin
+    $dynamic_0$f97c5d29941bfb1b2fdab0874906ab82:one
+    $dynamic_0$1825036c05462007255c6081088d30d0:fountains
+    $dynamic_0$b928a50c7e877267d29c7f20d01668fb:Vernon
 
