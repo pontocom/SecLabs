@@ -18,6 +18,9 @@
     - [Wordpress](#wordpress)
   - [Using THC-Hydra for brute-force attacks](#using-thc-hydra-for-brute-force-attacks)
 - [John the Ripper (JtR)](#john-the-ripper-jtr)
+  - [Using JtR to crack passwords on a Linux system](#using-jtr-to-crack-passwords-on-a-linux-system)
+    - [Using a brute-force approach](#using-a-brute-force-approach)
+    - [Using a dictionary approach](#using-a-dictionary-approach)
 
 ## Introduction
 
@@ -152,6 +155,8 @@ So it was possible to conclude that there are plenty of services open on the mac
 ### Using THC-Hydra
 
 [THC-Hydra](https://github.com/vanhauser-thc/thc-hydra) is a tool that was developed for security researchers to help testing the robustness of password-based systems. Hydra is a tool to guess/crack valid login/password pairs.
+
+![thc-hydra logo](assets/picture03.png)
 
 This tool has multiple options. You should look at the help of the function to learn about its functionalities. 
 
@@ -503,13 +508,57 @@ This results in **916132832** possible combinations. :-)
 
 ## John the Ripper (JtR)
 
-John the Ripper (JtR) is another tool that can be used to attack password-based systems.
-For more information about this tool:
-https://www.kali.org/tools/john/
-https://github.com/openwall/john 
-It is a tool best suited to crack a large number of passwords (based on different algorithms), using dictionary attacks and brute-force (offline attacks).
-For help on the tool, do:
-john -h
-JtR is essentially used for attacks on files that contain some kind of passwords.
-Imagine a scenario where you get a file of passwords (which are protected in some way) and you want to find out the original passwords - this is a task for JtR.
+[John the Ripper](https://github.com/openwall/john) (JtR) is [another tool](https://www.kali.org/tools/john/) that can be used to attack password-based systems.
+
+![JtR logo](assets/picture04.png)
+
+It is a tool best suited to crack a large number of passwords (based on different algorithms), using dictionary attacks and brute-force (offline attacks). In order to understand the options that this tool offers you should use following command and analyze them in detail:
+
+    john --help
+
+JtR is essentially used for attacks on **offline** files that contain some type of passwords. Imagine a scenario where you obtain a file with a set of passwords (which are protected in some way) and you want to find out (crack) the original passwords - this is a task for JtR.
+
 This tool can take advantage of extra hardware in the machine, such as GPUs, to speed up the password discovery process.
+
+
+### Using JtR to crack passwords on a Linux system
+
+In this case, let us try to find out the passwords of users on a Linux system. The first we need to do (for demo purposes) is to get the passwords and save them to a file (we can do this on the Kali Linux system):
+
+    sudo unshadow /etc/passwd /etc/shadow > allpasswords
+
+This will save the passwords in a file (`allpasswords`). Lets open the file and check its content.
+
+    cat allpasswords
+
+Format:
+
+    user:$y$j9T$S1FDA0LVtwxjLBDnNm0NZ0$s5oO9av92JIXitmfoLWKh.mBj4gMkqUwCygc94OvgU/:1000:1000:User One,,,:/home/user:/usr/bin/zsh
+
+The passwords on a Linux system are usually encrypted using an algorithm called [crypt](https://linux.die.net/man/3/crypt). Therefore this information is **important** for the JtR tool.
+
+#### Using a brute-force approach
+
+To do a brute-force attack we can simply do:
+
+    john --format=crypt allpasswords
+
+`--format` indicates the format of the passwords on the file (`allpasswords`)
+
+As you may notice, this will take a **looooong time**! Look at the CPU consumption and check the ETA...
+
+    Using default input encoding: UTF-8
+    Loaded 1 password hash (crypt, generic crypt(3) [?/64])
+    Cost 1 (algorithm [1:descrypt 2:md5crypt 3:sunmd5 4:bcrypt 5:sha256crypt 6:sha512crypt]) is 0 for all loaded hashes
+    Cost 2 (algorithm specific iterations) is 1 for all loaded hashes
+    Proceeding with single, rules:Single
+    Press 'q' or Ctrl-C to abort, almost any other key for status
+    0g 0:00:00:09 19.19% 1/3 (ETA: 11:16:13) 0g/s 100.8p/s 100.8c/s 100.8C/s Useronel..Uusery
+    0g 0:00:00:23 38.12% 1/3 (ETA: 11:16:26) 0g/s 98.67p/s 98.67c/s 98.67C/s Muser..SUser
+    0g 0:00:01:07 85.71% 1/3 (ETA: 11:16:45) 0g/s 92.22p/s 92.22c/s 92.22C/s Ouser11111..oneuser111111
+    0g 0:00:01:14 94.22% 1/3 (ETA: 11:16:44) 0g/s 92.82p/s 92.82c/s 92.82C/s ouser2023..oneuser1964
+    Session aborted
+
+
+#### Using a dictionary approach
+
