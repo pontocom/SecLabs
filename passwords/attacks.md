@@ -22,6 +22,7 @@
     - [Using a brute-force approach](#using-a-brute-force-approach)
     - [Using a dictionary approach](#using-a-dictionary-approach)
   - [Cracking MD5 password files](#cracking-md5-password-files)
+  - [Cracking MD5 password files](#cracking-md5-password-files-1)
 
 ## Introduction
 
@@ -655,4 +656,20 @@ All the dicovered passwords are recorded to the `found.pot` file - as specified 
     $dynamic_0$f97c5d29941bfb1b2fdab0874906ab82:one
     $dynamic_0$1825036c05462007255c6081088d30d0:fountains
     $dynamic_0$b928a50c7e877267d29c7f20d01668fb:Vernon
+
+### Cracking MD5 password files
+
+Another useful feature that JtR offers is the possibility to crack a password of a file, namely zip files. So lets try to do that.
+
+First we need a password-protected zip file. Either you can create your own file, or [you can use this file](files/logo.zip), that I've prepared previously (`logo.zip`).
+
+The first thing we need to do is to extract the hash part of the file that contains the password. To to that we'll use the following command:
+
+zip2john logo.zip > file.hash
+
+Next, we'll use a dictionary attack to try to find the password. The dictionary that we'll use is the `rockyou.txt` file. The command is as follows:
+
+    john --wordlist=rockyou.txt file.hash -pot=found.pot 
+
+And lets look at what we've found.
 
