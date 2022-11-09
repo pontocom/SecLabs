@@ -19,3 +19,5 @@
   * [THC-Hydra](passwords/thc-hydra.md)
   * [John the Ripper](passwords/john.md)
   * [Hashcat](passwords/hashcat.md)
+* [Vulnerability Testing](vulntesting/README.md)
+* [Vulnerability Exploitation](vulnexploit/README.md)
