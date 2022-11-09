@@ -6,6 +6,6 @@ The overall content of this repository is used for education purposes (i use thi
 
 [Cryptography using OpenSSL/LibreSSL](crypto/openssl.md)
 
-[Attacks on Password-based Systems](passwords/attacks.md)
+[Attacks on Password-based Systems](passwords/passwords.md)
 
 [Web Application Security with DVWA](appsecurity/dvwa.md)
