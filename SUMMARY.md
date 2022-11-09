@@ -6,4 +6,7 @@
 * [Cryptography](crypto/README.md)
   * [Cryptography with OpenSSL/LibreSSL](crypto/openssl.md)
 * [Passwords](passwords/README.md)
-  * [Attacks on Password-based Systems](passwords/attacks.md)
+  * [Understanding and attacking password-based systems](passwords/passwords.md)
+  * [THC-Hydra](passwords/thc-hydra.md)
+  * [John the Ripper](passwords/john.md)
+  * [Hashcat](passwords/hashcat.md)
