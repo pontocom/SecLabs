@@ -10,6 +10,7 @@
     - [OWASP Mutillidae](#owasp-mutillidae)
     - [Wordpress](#wordpress)
   - [Using THC-Hydra for brute-force attacks](#using-thc-hydra-for-brute-force-attacks)
+- [References/Additional information](#referencesadditional-information)
 
 
 ## Using THC-Hydra
@@ -365,3 +366,11 @@ Or we can use multiple combinations, such as using lower and upper case letters,
     hydra -v -V -l msfadmin -x 5:5:aA1 192.168.8.142 ftp
 
 This results in **916132832** possible combinations. :-)
+
+## References/Additional information
+
+1. [https://github.com/vanhauser-thc/thc-hydra](https://github.com/vanhauser-thc/thc-hydra)
+2. [https://linuxhint.com/how-to-install-and-use-thc-hydra/](https://linuxhint.com/how-to-install-and-use-thc-hydra/)
+3. [https://techyrick.com/hydra-full-tutorial/](https://techyrick.com/hydra-full-tutorial/)
+4. [https://securitytutorials.co.uk/brute-forcing-passwords-with-thc-hydra/](https://securitytutorials.co.uk/brute-forcing-passwords-with-thc-hydra/)
+5. [https://www.automatetheplanet.com/thc-hydra-password-cracking-by-examples/](https://www.automatetheplanet.com/thc-hydra-password-cracking-by-examples/)
