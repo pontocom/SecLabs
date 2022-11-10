@@ -21,10 +21,30 @@ An attacker conducts several activities from selecting target/objective until th
 
 The seven steps of the framework enhance visibility into an attack and enrich an analyst’s understanding of an adversary’s tactics, techniques and procedures. The **seven** steps are:
 
-1. **Reconnaissance**:
-2. **Weaponization**:
-3. **Delivery**:
-4. **Exploitation**:
-5. **Installation**:
-6. **Command & Control**:
-7. **Actions on Objective**:
+1. **Reconnaissance**: research, identification and selection of possible targets;
+2. **Weaponization**: pairing remote access malware with exploit into a deliverable payload. Creating some malicious file that can be used to exploit a vulnerability and compromise a victim;
+3. **Delivery**: the transmission of the weapon created on the previous step to the target. How the weapon is delivered to the target;
+4. **Exploitation**: once delivered the weapon code is triggered and the vulnerable systems or applications are exploited;
+5. **Installation**: the weapon may install a backdoor on the target system, allowing persistent access to an attacker;
+6. **Command & Control**: outside server communication with the weapons previously delivered allowing an attacker to remotely control and command the compromised targets;
+7. **Actions on Objective**: the attacker will work to achieve the objective of the intrusion, and possibly escalate the intrusion to other systems.
+
+Another important referential is the [MITRE ATT&CK](https://attack.mitre.org/) framework. According to [MITRE](https://www.mitre.org/), this framework is globally-accessible knowledge base of adversary tactics and techniques based on real-world observations. The ATT&CK knowledge base is used as a foundation for the development of specific threat models and methodologies in the private sector, in government, and in the cybersecurity product and service community.
+
+The framework identifies a set of adversary tactics that we should be aware and a group of techniques to implement those tactics:
+
+* Reconnaissance
+* Resource Development
+* Initial Access
+* Execution
+* Persistence
+* Privilege Escalation
+* Defense Evasion
+* Credential Access
+* Discovery
+* Lateral Movement
+* Collection
+* Command and Control
+* Exfiltration
+* Impact.
+

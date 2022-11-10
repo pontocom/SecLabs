@@ -18,6 +18,7 @@
   * [John the Ripper](passwords/john.md)
   * [Hashcat](passwords/hashcat.md)
 * [Vulnerability Testing](vulntesting/README.md)
+  * [Introduction to vulnerability testing](vulntesting/intro.md)
 * [Vulnerability Exploitation](vulnexploit/README.md)
 * [Application Security](appsecurity/README.md)
   * [DVWA - Damn Vulnerable Web Application](appsecurity/dvwa.md)
