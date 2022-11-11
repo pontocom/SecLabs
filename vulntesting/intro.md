@@ -77,10 +77,10 @@ There are some important references to consider that are important in this field
 
 * [SCAP - Security Content Automation Protocol](https://scap.nist.gov), NIST leaded initiative to standardize vulnerability management between the different vulnerability identification and management software;
 * Languages:
-  * [OVAL - Open Vulnerability and Assessment Language](https://oval.cisecurity.org) 
+  * [OVAL - Open Vulnerability and Assessment Language](https://oval.cisecurity.org):  is an international, information security, community standard to promote open and publicly available security content, and to standardize the transfer of this information across the entire spectrum of security tools and services.
 * Identification schemes:
-  * [CPE - Common Platform Enumeration](https://cpe.mitre.org)
-  * CWE - Common Weakness Enumeration
-  * [CVE - Common Vulnerabilities and Exposures](https://cve.mitre.org)
+  * [CPE - Common Platform Enumeration](https://cpe.mitre.org): a structured naming scheme for information technology systems, software, and packages.
+  * [CWE - Common Weakness Enumeration](https://cwe.mitre.org/): community-developed list of software and hardware weakness types. It serves as a common language, a measuring stick for security tools, and as a baseline for weakness identification, mitigation, and prevention efforts.
+  * [CVE - Common Vulnerabilities and Exposures](https://cve.mitre.org): provides a reference-method for publicly known information-security vulnerabilities and exposures. Another place to visit is the [CVE Details site](https://www.cvedetails.com/).
 * Metrics
-  * [CVSS - Common Vulnerability Scoring System](https://nvd.nist.gov/vuln-metrics/cvss)
+  * [CVSS - Common Vulnerability Scoring System](https://nvd.nist.gov/vuln-metrics/cvss):  is a free and open industry standard for assessing the severity of computer system security vulnerabilities. You may also use [this calculator](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator) to understand how this metric calculation works.
