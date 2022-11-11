@@ -4,6 +4,8 @@
 
 - [Setup](#setup)
 - [How an attacker acts](#how-an-attacker-acts)
+- [Methodologies for vulnerabilities identification](#methodologies-for-vulnerabilities-identification)
+- [Important references to consider](#important-references-to-consider)
 
 ## Setup
 
@@ -48,3 +50,37 @@ The framework identifies a set of adversary tactics that we should be aware and 
 * Exfiltration
 * Impact.
 
+
+## Methodologies for vulnerabilities identification
+
+Most of the times it is important to use the proper methodology to conduct the analysis and identification of vulnerabilities. There are plenty of choices to consider, and one of the most relevant one is the [Penetration Execution Standard (PTES)](http://www.pentest-standard.org/index.php/Main_Page) that defines a set of stages for conducting vulnerabilities assessment.
+
+**PTES** identifies the following stages:
+
+- Pre-engagement interactions 
+- Intelligence gathering
+- Threat modelling
+- Vulnerability analysis
+- Exploitation
+- Post Exploitation
+- Reporting
+
+This can be represented generically in the following image:
+
+![](assets/picture02.png)
+
+In this lab we are only going to address the **Reconnaissance** (Pre-engagement interactions) and **Vulnerability Analysis** phases. **Exploitation and Post-Exploitation** will be addressed [in the following lab](../vulnexploit/README.md).
+
+## Important references to consider
+
+There are some important references to consider that are important in this field. Consider looking of information about the following:
+
+* [SCAP - Security Content Automation Protocol](https://scap.nist.gov), NIST leaded initiative to standardize vulnerability management between the different vulnerability identification and management software;
+* Languages:
+  * [OVAL - Open Vulnerability and Assessment Language](https://oval.cisecurity.org) 
+* Identification schemes:
+  * [CPE - Common Platform Enumeration](https://cpe.mitre.org)
+  * CWE - Common Weakness Enumeration
+  * [CVE - Common Vulnerabilities and Exposures](https://cve.mitre.org)
+* Metrics
+  * [CVSS - Common Vulnerability Scoring System](https://nvd.nist.gov/vuln-metrics/cvss)
