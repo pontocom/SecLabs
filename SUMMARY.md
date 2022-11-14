@@ -23,4 +23,4 @@
   * Maltego
 * [Vulnerability Exploitation](vulnexploit/README.md)
 * [Application Security](appsecurity/README.md)
-  * [DVWA - Damn Vulnerable Web Application](appsecurity/dvwa.md)
+  * [DVWA - Damn Vulnerable Web Application](appsecurity/intro.md)
