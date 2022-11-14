@@ -24,3 +24,7 @@
 * [Vulnerability Exploitation](vulnexploit/README.md)
 * [Application Security](appsecurity/README.md)
   * [DVWA - Damn Vulnerable Web Application](appsecurity/dvwa/intro.md)
+    * [Introduction](appsecurity/dvwa/intro.md)
+    * [Setup](appsecurity/dvwa/setup.md)
+    * [Web Apps Vulnerability Testing](appsecurity/dvwa/vulnerabilities.md) 
+      * [Brute-Force](appsecurity/dvwa/bruteforce.md)
