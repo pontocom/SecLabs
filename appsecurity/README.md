@@ -6,4 +6,5 @@ This part covers several aspects of application security - mainly web applicatio
 * [Setup](dvwa/setup.md)
 * [Web Applications Vulnerabilities Testing](dvwa/vulnerabilities.md) 
   * [Brute-force attacks](dvwa/bruteforce.md)
+  * [Command Injection](dvwa/commandinjection.md)
   

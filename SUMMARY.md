@@ -28,3 +28,4 @@
     * [Setup](appsecurity/dvwa/setup.md)
     * [Web Apps Vulnerability Testing](appsecurity/dvwa/vulnerabilities.md) 
       * [Brute-Force](appsecurity/dvwa/bruteforce.md)
+      * [Command Injection](appsecurity/dvwa/commandinjection.md)
