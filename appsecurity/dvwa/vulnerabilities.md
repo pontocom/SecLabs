@@ -1,4 +1,11 @@
-# Automatic Vulnerability Analysis
+# Automatic Vulnerability Analysis <!-- omit in toc -->
+## Index <!-- omit in toc -->
+- [Introduction](#introduction)
+- [nikto](#nikto)
+- [W3AF](#w3af)
+- [Skipfish](#skipfish)
+
+## Introduction
 
 Let's take advantage of the fact that we have a purposely vulnerable Web application to test some automatic vulnerability analysis tools and see what they can effectively detect.
 
