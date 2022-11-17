@@ -73,4 +73,4 @@ Then, going back to the web application and looking at the files we have on the 
 
 When it is executed, you have access to a shell that allows you to navigate through the system!
 
-![](../assets/fu08.png)
+![](../assets/fu08.png) 
