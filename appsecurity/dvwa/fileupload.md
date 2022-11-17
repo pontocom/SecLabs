@@ -2,7 +2,7 @@
 
 In this example, we'll show the possibility of sending a malicious file to the Web application, and thereby compromise the server where it is hosted. For that we will use Metasploit to create a malicious payload.
 
-![]
+![](../assets/fu01.png)
 
 After a successful upload to the server, the web application shows a success message revealing the directory where the file was stored. It is also possible to verify that the application accepts as upload any type of file and not only an image.
 
@@ -19,6 +19,8 @@ With the following command it is possible to create a "**reverse shell**", in PH
 
 Then you need to edit the payload (malicious_payload.php), and remove the initial comment, and save the file again.
 
+![](../assets/fu02.png)
+
 Next we'll use Metasploit to create a service that listens for the connection from the attacker's malicious script.
 
     msfconsole
@@ -33,9 +35,15 @@ Next we'll use Metasploit to create a service that listens for the connection fr
 
 It is then possible to upload the malicious script to the application and the server.
 
+![](../assets/fu03.png)
+
 Once the application reveals where it is stored, it is possible to go to that same directory, select the malicious script and run it.
 
+![](../assets/fu04.png)
+
 After running the script, we can see in the Metasploit console (on the attacker's side) that it has received a connection from the victim (the web server, where the vulnerable application resides), and that it is now possible to use the `meterpreter` to perform actions on the victim.
+
+![](../assets/fu05.png)
 
 In this "meterpreter" we can launch a shell on the remote machine and execute several commands there.
 
