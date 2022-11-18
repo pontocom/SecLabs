@@ -1,0 +1,3 @@
+# Reconnaissance
+
+[Reconnaissance](https://en.wikipedia.org/wiki/Reconnaissance) anf [Footprinting](https://en.wikipedia.org/wiki/Footprinting) is the technique used for gathering information about computer systems and the entities they belong to. To get this information, a hacker might use various tools and technologies. This information is very useful to a hacker who is trying to crack a whole system.

@@ -1,16 +1,8 @@
-# Reconnaissance <!-- omit in toc -->
-
-## Table of Contents  <!-- omit in toc -->
-
-- [Open-source intelligence (OSINT)](#open-source-intelligence-osint)
-  - [Google Hacking Database (GHDB)](#google-hacking-database-ghdb)
-  - [Shodan](#shodan)
-
-## Open-source intelligence (OSINT)
+# Open-source intelligence (OSINT)
 
 One of the important ways of gathering information about targets is through the usage of open sources of information. This is often designated as open-source intelligence. It consists on using available open sources of information that can be used to gather information that is publicly available about a target.
 
-### Google Hacking Database (GHDB)
+## Google Hacking Database (GHDB)
 
 [Google Hacking Database (GHDB)](https://www.exploit-db.com/google-hacking-database) is actually a database with a set of pre-formatted queries that might be used in the Google search engine to search for interesting information.
 
@@ -28,7 +20,7 @@ Here are some "interesting" that you might try, as a way to obtain information f
 
 You may look and try other queries.
 
-### Shodan
+## Shodan
 
 Another important source of open-source intelligence is [Shodan](https://www.shodan.io/). Shodan is a search engine for Internet-connected devices. Shodan gathers information about all devices directly connected to the Internet. If a device is directly hooked up to the Internet then Shodan queries it for various publicly-available information. The types of devices that are indexed can vary tremendously: ranging from small desktops up to nuclear power plants and everything in between.
 
