@@ -19,8 +19,9 @@
   * [Hashcat](passwords/hashcat.md)
 * [Vulnerability Testing](vulntesting/README.md)
   * [Introduction to vulnerability testing](vulntesting/intro.md)
-  * [Reconnaissance](vulntesting/reconnaissance.md)
-  * Maltego
+    * [Reconnaissance and Footprinting](vulntesting/footprinting/intro.md)
+    * [OSINT](vulntesting/footprinting/osint.md)
+    * [Maltego](vulntesting/footprinting/maltego.md)
 * [Vulnerability Exploitation](vulnexploit/README.md)
 * [Application Security](appsecurity/README.md)
   * [DVWA - Damn Vulnerable Web Application](appsecurity/dvwa/intro.md)
