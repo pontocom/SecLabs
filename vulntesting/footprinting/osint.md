@@ -6,7 +6,7 @@ One of the important ways of gathering information about targets is through the 
 
 [Google Hacking Database (GHDB)](https://www.exploit-db.com/google-hacking-database) is actually a database with a set of pre-formatted queries that might be used in the Google search engine to search for interesting information.
 
-![](assets/picture03.png)
+![](../assets/picture03.png)
 
 Here are some "interesting" that you might try, as a way to obtain information from the [Google](https://www.google.com/) search engine:
 
@@ -24,7 +24,7 @@ You may look and try other queries.
 
 Another important source of open-source intelligence is [Shodan](https://www.shodan.io/). Shodan is a search engine for Internet-connected devices. Shodan gathers information about all devices directly connected to the Internet. If a device is directly hooked up to the Internet then Shodan queries it for various publicly-available information. The types of devices that are indexed can vary tremendously: ranging from small desktops up to nuclear power plants and everything in between.
 
-![](assets/picture04.png)
+![](../assets/picture04.png)
 
 This search engine is quite interesting and allows you to query for products and services all around the world. As per the description presented above, everything that is connected to the Internet is indexed by Shodan. 
 
