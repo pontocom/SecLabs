@@ -5,3 +5,6 @@ This part will provide information on how to conduct identification of vulnerabi
 * [Reconnaissance and Footprinting](footprinting/intro.md)
   * [OSINT](vfootprinting/osint.md)
   * [Maltego](footprinting/maltego.md)
+  * [Recon-ng](footprinting/recon-ng.md)
+  * [theHarvester](footprinting/theharvester.md)
+  * [dmitry](footprinting/dmitry.md)
