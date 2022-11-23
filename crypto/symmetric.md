@@ -61,10 +61,12 @@ You can choose any image on the Web or you can create your own. Don't forget tha
 
 I have a sample image that might be used to do this -> [tux bitmap image](assets/tux_original.bmp).
 
+![](assets/tux_original.png)
+
 As a note to help you with this task, in order to separate the header from the image data (body), you can use the following commands:
 
-    head -c 54 IMAGEM.bmp > header
-    tail -c +55 IMAGEM.bmp > body
+    head -c 54 IMAGEM.bmp > header.file
+    tail -c +55 IMAGEM.bmp > body.file
 
 If by any change you are not able to do a `head` and a `tail` on a file, you can find the tux file header [here](assets/header) and the body [here](assets/body).
 
@@ -74,11 +76,13 @@ We will generate a random key to be able to encrypt the image:
 
 We will encrypt the image using ECB mode (we use the random key obtained in the previous step):
 
-    openssl aes-256-ecb -e -in ./body -out ./body_ecb -K 2ffd27e0675b9bd6c34e37109c4ebef378f356f0fa7eeeaf11eb2433e21e980e
+    openssl aes-256-ecb -e -in ./body.file -out ./body_ecb -K 2ffd27e0675b9bd6c34e37109c4ebef378f356f0fa7eeeaf11eb2433e21e980e
 
 After you have encrypted the image data (body), you can re-attach the header to get the image in the full format:
 
-    cat header body_ecb > imagem_ECB.bmp
+    cat header.file body_ecb > imagem_ECB.bmp
+
+![](assets/tux_ecb.png)
 
 We are going to cipher the image now with CBC mode. For this mode we need to use an IV. To create this IV we can generate it randomly:
 
@@ -91,3 +95,5 @@ We will encrypt the image using CBC mode (we use the random key obtained in the 
 After you have encrypted the image data (body), you can re-attach the header to get the image in the full format:
 
     cat header body_cbc > imagem_CBC.bmp
+
+![](assets/tux_cbc.png)
