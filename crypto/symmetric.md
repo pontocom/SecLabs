@@ -68,7 +68,7 @@ As a note to help you with this task, in order to separate the header from the i
     head -c 54 IMAGEM.bmp > header.file
     tail -c +55 IMAGEM.bmp > body.file
 
-If by any change you are not able to do a `head` and a `tail` on a file, you can find the tux file header [here](assets/header) and the body [here](assets/body).
+If by any change you are not able to do a `head` and a `tail` on a file, you can find the tux file header [here](assets/header.file) and the body [here](assets/body.file).
 
 We will generate a random key to be able to encrypt the image:
 

@@ -14,7 +14,7 @@ Default username and password in DVWA are as follows:
 
 ## DVWA Security
 
-Put the security mode (DVWA Security) of the Web application - DVWA - in "low" mode. This is done only for the sake of simplicity of the very attacks that can be carried out against the application. The higher the security level, the more complex the attacks to be carried out will become.
+Put the security mode (DVWA Security) of the Web application - DVWA - in "**low**" mode. This is done only for the sake of simplicity of the very attacks that can be carried out against the application. The higher the security level, the more complex the attacks to be carried out will become.
 
 ![](../assets/picture01.png)
 
