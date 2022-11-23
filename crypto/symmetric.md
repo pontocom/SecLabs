@@ -59,10 +59,14 @@ Let's now decrypt a file (image.aes.jpg) and recover the original format (image.
 It is intended that in this activity you can use symmetric key cryptography to encrypt an image using different modes of operation (ECB and CBC). In order to perform this activity you will have to get an uncompressed image (using for example Windows Bitmap (.bmp) format), in which you will have to separate the header from the image data (body).
 You can choose any image on the Web or you can create your own. Don't forget that it has to be of the BMP type. It is preferable to use an image with high color contrast, for a better visual effect.
 
+I have a sample image that might be used to do this -> [tux bitmap image](assets/tux_original.bmp).
+
 As a note to help you with this task, in order to separate the header from the image data (body), you can use the following commands:
 
     head -c 54 IMAGEM.bmp > header
     tail -c +55 IMAGEM.bmp > body
+
+If by any change you are not able to do a `head` and a `tail` on a file, you can find the tux file header [here](assets/header) and the body [here](assets/body).
 
 We will generate a random key to be able to encrypt the image:
 
