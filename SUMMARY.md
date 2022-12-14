@@ -6,7 +6,7 @@
   * [Symmetric cryptography](crypto/symmetric.md)
   * [Asymmetric cryptography](crypto/asymmetric.md)
   * [Hashes and Message Authentication Codes](crypto/hashes.md)
-  * [Elliptic Curve Cryptographys](crypto/ecc.md)
+  * [Elliptic Curve Cryptography](crypto/ecc.md)
   * [Diffie-Hellman (DH)](crypto/dh.md)
   * [Digital Signatures](crypto/signatures.md)
   * [Digital Certificates](crypto/certificates.md)
