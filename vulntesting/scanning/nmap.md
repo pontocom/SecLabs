@@ -45,7 +45,7 @@ Imagine that you want to know which are the machines that are active on your net
 
 `nmap -sn 192.168.8.1-254` (scans all IP addresses from `192.168.8.1` until `192.168.8.254`)
 
-This will produce the list of hosts which are up on the network analysed.
+This will produce the list of hosts which are up on the network analysed. This is a simple `ping scan`, without identification of the open ports.
 
     Starting Nmap 7.93 ( https://nmap.org ) at 2022-12-14 18:13 WET
     Nmap scan report for RT-AX86U-80F8 (192.168.50.1)
@@ -99,7 +99,13 @@ This will result in the following:
     
     Nmap done: 1 IP address (1 host up) scanned in 0.14 seconds
 
-`nmap` reports the open ports and the services that are running listening for connections on such ports.
+`nmap` reports the open ports and the services that are running listening for connections on such ports. `nmap` can indicate the following [6 different possible port states](https://geek-university.com/port-states/):
+* **open** – indicates that an application is listening for connections on the port. The primary goal of port scanning is to find these.
+* **closed** – indicates that the probes were received but but there is no application listening on the port.
+* **filtered** – indicates that the probes were not received and the state could not be established.
+* **unfiltered** – indicates that the probes were received but a state could not be established. In other words, a port is accessible, but Nmap is unable to determine whether it is open or closed.
+* **open/filtered**– indicates that the port was filtered or open but `nmap` couldn’t establish the state.
+* **closed/filtered** – indicates that Nmap is unable to determine whether a port is closed or filtered.
 
 ### Specify ports
 
@@ -129,6 +135,73 @@ Results in the following:
 
 As you can see, some are reported as **open** while others are **closed**.
 
-### Scanning different protocols
+### Different scanning techniques
 
-`nmap` can also scan for different listening protocols on the hosts (TCP or UDP)
+`nmap` can also perform different scanning techniques. Here are some examples:
+
+`nmap -sU 192.168.8.142` (scans host for UDP services)
+
+This will produce the something similar to this:
+
+    PORT     STATE         SERVICE
+    53/udp   open          domain
+    68/udp   open|filtered dhcpc
+    69/udp   open|filtered tftp
+    111/udp  open          rpcbind
+    137/udp  open          netbios-ns
+    138/udp  open|filtered netbios-dgm
+    2049/udp open          nfs
+
+`nmap -sS 192.168.8.142` (makes a TCP SYN scan - this as to do with the [TCP 3-way handshake protocol](https://www.geeksforgeeks.org/tcp-3-way-handshake-process/), only sends the SYN packet and never establishes the connection)
+
+`nmap -sT 192.168.8.142` (does the TCP connection, executing the complete [TCP 3-way handshake](https://www.geeksforgeeks.org/tcp-3-way-handshake-process/))
+
+Using different scanning techniques may produce different results and increase the chances of information collection. In [this page you may find more information](https://www.digitalocean.com/community/tutorials/nmap-switches-scan-types) about these different scanning techniques.
+
+### Service identification
+
+`nmap` can also be used to identify the different services that are running and listening on a given host. In order to do that we may use the following:
+
+`nmap -sV 192.168.8.142`
+
+This will result in something like this:
+
+    Nmap scan report for 192.168.8.142
+    Host is up (0.0019s latency).
+    Not shown: 977 closed tcp ports (conn-refused)
+    PORT     STATE SERVICE     VERSION
+    21/tcp   open  ftp         vsftpd 2.3.4
+    22/tcp   open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
+    23/tcp   open  telnet      Linux telnetd
+    25/tcp   open  smtp        Postfix smtpd
+    53/tcp   open  domain      ISC BIND 9.4.2
+    80/tcp   open  http        Apache httpd 2.2.8 ((Ubuntu) DAV/2)
+    111/tcp  open  rpcbind     2 (RPC #100000)
+    139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+    445/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+    512/tcp  open  exec        netkit-rsh rexecd
+    513/tcp  open  login
+    514/tcp  open  tcpwrapped
+    1099/tcp open  java-rmi    GNU Classpath grmiregistry
+    1524/tcp open  bindshell   Metasploitable root shell
+    2049/tcp open  nfs         2-4 (RPC #100003)
+    2121/tcp open  ftp         ProFTPD 1.3.1
+    3306/tcp open  mysql       MySQL 5.0.51a-3ubuntu5
+    5432/tcp open  postgresql  PostgreSQL DB 8.3.0 - 8.3.7
+    5900/tcp open  vnc         VNC (protocol 3.3)
+    6000/tcp open  X11         (access denied)
+    6667/tcp open  irc         UnrealIRCd
+    8009/tcp open  ajp13       Apache Jserv (Protocol v1.3)
+    8180/tcp open  http        Apache Tomcat/Coyote JSP engine 1.1
+    Service Info: Hosts:  metasploitable.localdomain, irc.Metasploitable.LAN; OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+    
+    Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+    Nmap done: 1 IP address (1 host up) scanned in 11.58 seconds
+
+From this it is possible to identify:
+* port: the port number
+* state: the current state of the port
+* service: the service name
+* version: the service details, including the version number.
+
+## Running scripts with nmap
