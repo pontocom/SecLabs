@@ -359,3 +359,12 @@ That results in the identification of multiple vulnerabilities on the target pla
     |_sslv2-drown: ERROR: Script execution failed (use -d to debug)
     | smtp-vuln-cve2010-4344:
     |_  The SMTP server is not Exim: NOT VULNERABLE
+
+## Additional Information
+
+[Nmap Cheat Sheet](https://hackertarget.com/nmap-cheatsheet-a-quick-reference-guide/)
+
+[Nmap Cheat Sheet 2022: All the Commands, Flags & Switches](https://www.stationx.net/nmap-cheat-sheet/)
+
+[Bypassing Firewall Rules](https://nmap.org/book/firewall-subversion.html)
+
