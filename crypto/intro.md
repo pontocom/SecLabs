@@ -11,7 +11,7 @@
 
 ## Introduction
 
-This document aims to demonstrate the use of cryptographic mechanisms based on the OpenSSL/LibreSSL library. This library has the ability to work with cryptographic mechanisms such as symmetric cryptography, asymmetric cryptography, generation of message authentication codes as well as work with digital certificates and more.
+This document aims to demonstrate the use of cryptographic mechanisms based on the **OpenSSL/LibreSSL** library. This library has the ability to work with cryptographic mechanisms such as symmetric cryptography, asymmetric cryptography, generation of message authentication codes as well as work with digital certificates and more.
 
 To run these labs the following requirements are needed:
 
@@ -30,22 +30,22 @@ There is nothing very relevant to do in terms of setup. You just need to install
 On Windows, OpenSSL can be installed using for example the Cygwin software package. On MacOS, OpenSSL is installed by default, but if you need to use a newer version of it, you can use the Brew  tool (https://brew.sh).
 
 For Windows there are also other options that you can use. So, the main alternatives for installing OpenSSL on Windows 10/11, are as follows (from the simplest to the most complicated):
-1. Use Chocolatey (https://chocolatey.org/) to install OpenSSL on Windows 10 with Powershell, or directly install the OpenSSL binary from the web site;
-2. Use Windows Subsystem for Linux (WSL), which allows you to run Linux applications on Windows 10/11 - in practice it is like installing Linux on top of Windows 10/11;
-3. Use a Linux distribution, inside a virtualization tool like VMware (https://www.vmware.com/) or VirtualBox (https://www.virtualbox.org/), on top of Windows 10/11;
-4. Any other, which may involve the use of containers such as Docker (https://www.docker.com/).
+1. Use **[Chocolatey](https://chocolatey.org)** to install OpenSSL on Windows 10 with Powershell, or directly install the OpenSSL binary from the web site;
+2. Use **Windows Subsystem for Linux** (WSL), which allows you to run Linux applications on Windows 10/11 - in practice it is like installing Linux on top of Windows 10/11;
+3. Use a Linux distribution, inside a virtualization tool like **[VMware](https://www.vmware.com/)** or **[VirtualBox](https://www.virtualbox.org/)**, on top of **Windows 10/11**;
+4. Any other, which may involve the use of containers such as **[Docker](https://www.docker.com/)**.
 
 Regarding option 1, it is described in the following links:
-- https://adamtheautomator.com/openssl-windows-10/ 
-- https://slproweb.com/products/Win32OpenSSL.html ; https://medium.com/swlh/installing-openssl-on-windows-10-and-updating-path-80992e26f6a1 
+- [https://adamtheautomator.com/openssl-windows-10/](https://adamtheautomator.com/openssl-windows-10/) 
+- [https://slproweb.com/products/Win32OpenSSL.html](https://slproweb.com/products/Win32OpenSSL.html) ; [https://medium.com/swlh/installing-openssl-on-windows-10-and-updating-path-80992e26f6a1](https://medium.com/swlh/installing-openssl-on-windows-10-and-updating-path-80992e26f6a1)
 
 Regarding option 2, it is explained in the following links: 
-- https://www.windowscentral.com/install-windows-subsystem-linux-windows-10 
-- https://docs.microsoft.com/en-us/windows/wsl/install 
+- [https://www.windowscentral.com/install-windows-subsystem-linux-windows-10](https://www.windowscentral.com/install-windows-subsystem-linux-windows-10) 
+- [https://docs.microsoft.com/en-us/windows/wsl/install](https://docs.microsoft.com/en-us/windows/wsl/install) 
 
 Regarding option 3, it consists of:
-- Download a Linux distribution, such as Ubuntu (https://ubuntu.com/download/desktop/thank-you?version=20.04.3&architecture=amd64) 
-- Download and install either VMware Workstation Player (https://www.vmware.com/products/workstation-player.html) or VirtualBox  (https://www.virtualbox.org/) on Windows 10/11. This site even has already prepared Ubuntu images to be installed in both virtualization environments;
+- Download a Linux distribution, such as **[Ubuntu](https://ubuntu.com/download/desktop/thank-you?version=20.04.3&architecture=amd64)** 
+- Download and install either **[VMware Workstation Player](https://www.vmware.com/products/workstation-player.html)** or **[VirtualBox](https://www.virtualbox.org/)** on Windows 10/11. This site even has already prepared Ubuntu images to be installed in both virtualization environments;
 - Install the Linux distribution in the selected virtualization environment.
 
 ## Basic commands
