@@ -29,6 +29,8 @@
     * [Nmap](vulntesting/scanning/nmap.md)
     * [Hping3](vulntesting/scanning/hping3.md)
   * [Vulnerability Identification and Analysis](vulntesting/identification/README.md)
+    * [OpenVAS](vulntesting/identification/openvas/README.md)
+    * [Nessus]()
   * [Vulnerability Exploitation](vulnexploit/README.md)
 * [Application Security](appsecurity/README.md)
   * [DVWA - Damn Vulnerable Web Application](appsecurity/dvwa/intro.md)
