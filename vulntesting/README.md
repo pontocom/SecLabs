@@ -13,5 +13,7 @@ This part will provide information on how to conduct identification of vulnerabi
   * [Nmap](scanning/nmap.md)
   * [Hping3](scanning/hping3.md)
 * [Vulnerability Identification and Analysis](identification/README.md)
+  * [OpenVAS](identification/openvas/README.md)
+  * [Nessus]()
 
 **Important Note**: some of these guides offer information on how to discover and explore vulnerabilities. You should only use this knowledge and tools on systems that you own and/or are authorised to conduct such activities in an ethical manner. Be aware that if you use this knowledge or tools on systems for which you are not authorised, you may be committing cybercrime and could face prosecution.
