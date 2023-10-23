@@ -86,3 +86,7 @@ Which will produce the required results:
     23.91.196.101   21      router.asus.com;23-91-196-23-91-196-101.cpe.sparklight.net      220 Welcome to ASUS RT-AX86U FTP service.\r\n530 Login incorrect.\r\n530 Please login with USER and PASS.\r\n211-Features:\n AUTH TLS\n EPRT\n EPSV\n MDTM\n PASV\n ICNV\n PBSZ\n PROT\n REST STREAM\n SIZE\n TVFS\n UTF8\n211 End\r\n  
 
 Please beware that since we are using free Shodan accounts functionalities and results will be quite limited.
+
+**Also, since Shodan is a commercial service, the terms and conditions of the free tier of the service may change without notice, and some of the functionalities reported here might not work.**
+
+The terms and conditions of the usage of Shodan are listed [in this page](https://account.shodan.io/billing/tour).

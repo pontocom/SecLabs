@@ -86,7 +86,7 @@ The option `-m 0` means that we are using MD5 hashes.
     Candidates.#1....: [Copying]
     Hardware.Mon.#1..: Util:  3%
 
-And expect this to take a loooooooot of time to complete. 
+And expect this to take a **loooooooot** of time to complete. 
 
 ## References/Additional information
 
