@@ -6,8 +6,8 @@ OpenVAS (Open Vulnerability Assessment System, originally known as GNessUs) is t
 
 ![](../assets/../../assets/openvas-logo.png)
 
-* [OpenVAS Architecture]()
-* [Installing OpenVAS on Kali Linux]()
-* [Starting and Stopping OpenVAS]()
-* [Navigating through OpenVAS]()
-* [Scanning a target]()
+* [OpenVAS Architecture](./architecture.md)
+* [Installing OpenVAS on Kali Linux](./install.md)
+* [Starting and Stopping OpenVAS](./startstop.md)
+* [Navigating through OpenVAS](./navigation.md)
+* [Scanning a target](./scan.md)
