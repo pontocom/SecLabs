@@ -52,7 +52,7 @@
     * [Windows Eternalblue [CVE-2017-143,144,145,146,148]]()
   * [Create payload to exploit users](vulnexploit/payload.md)
 * [Application Security](appsecurity/README.md)
-  * [DVWA - Damn Vulnerable Web Application](appsecurity/dvwa/intro.md)
+  * [DVWA - Damn Vulnerable Web Application](appsecurity/dvwa/README.md)
     * [Introduction](appsecurity/dvwa/intro.md)
     * [Setup](appsecurity/dvwa/setup.md)
     * [Web Apps Vulnerability Testing](appsecurity/dvwa/vulnerabilities.md) 
