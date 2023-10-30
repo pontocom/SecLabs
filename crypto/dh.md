@@ -193,6 +193,33 @@ Here are the contents of the key:
     000000f0  cb 2a 46 5e 6a 78 36 2f  51 ff ba b5 7a 17 45 33  |�*F^jx6/Q���z.E3|
     00000100
 
+As an alternative for the creation of keys we could use the following examples. In these examples, we create the common DH key and after that we create an SHA-256 hash of the key. This way, we end-up with a raw 256-bit key that can be used directly. This key is store on the `alice_common_key.dh` and `bob_common_key.dh`.
+
+So **Alice** does:
+
+    openssl pkeyutl -derive -inkey alice_private.dh -peerkey bob_public.dh | openssl dgst -sha256 -binary > alice_common_key.dh
+
+For the case of **Bob**:
+
+    openssl pkeyutl -derive -inkey bob_private.dh -peerkey alice_public.dh | openssl dgst -sha256 -binary > bob_common_key.dh
+
+In this case, we end up with this key (`dd7fa8bee81aa373924fcf68348fff7c8cdf4eb2078b0000ebf1f7899802c48f`). 
+
+Looking at the files:
+
+    hexdump alice_common_key.dh
+
+    hexdump bob_common_key.dh
+
+They both contain the same information:
+
+    0000000 dd7f a8be e81a a373 924f cf68 348f ff7c
+    0000010 8cdf 4eb2 078b 0000 ebf1 f789 9802 c48f
+    0000020
+
+This key can be used as secret key to cipher and decipher data, as we can see in the next section.
+
+
 ### Encrypt and decrypt with DH
 
 Now that we have a common key between **Alice** and **Bob**, this key can be used to do symmetric cryptography between the two parties communicating. Consider the `plain.txt` and `cipher.txt` below, two examples of files that are going to be encrypted or decrypted.
@@ -205,4 +232,10 @@ To decrypt data in the **Bob** side, we can do:
 
     openssl aes-256-ecb -base64 -kfile bob_common_key.dh -d -in cipher.txt -out clear.txt -pbkdf2
 
-And this is a possible way to encrypt and decrypt data using a DH common key.
+Another possibility is to use the raw key that we've created before. To encrypt data **Alice** can do the following:
+
+    openssl aes-256-ecb -base64 -e -in plain.txt -out cipher.txt -K dd7fa8bee81aa373924fcf68348fff7c8cdf4eb2078b0000ebf1f7899802c48f
+
+**Bob** to decrypt data does the following:
+
+    openssl aes-256-ecb -base64 -d -in cipher.txt -out clear.txt -K dd7fa8bee81aa373924fcf68348fff7c8cdf4eb2078b0000ebf1f7899802c48f

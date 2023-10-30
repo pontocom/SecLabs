@@ -19,7 +19,7 @@ The first think that is necessary to do is to select the appropriate curve to wo
 
     openssl ecparam -list_curves
 
-As a result, we obtain a list of possible curves (this is just a sample):
+As a result, we obtain a list of possible curves (this is just a small sample):
 
     secp112r1 : SECG/WTLS curve over a 112 bit prime field
     secp112r2 : SECG curve over a 112 bit prime field
