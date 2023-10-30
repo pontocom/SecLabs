@@ -10,11 +10,11 @@
 
 ## Using Diffie-Hellman (DH) for key exchange
 
-Diffie-Hellman is one of the oldest public-key cryptosystems. It is often called a key-agreement protocol, because it allows the establishment of a common secret key, that can be used to encrypt and decrypt messages.
+Diffie-Hellman is one of the oldest public-key cryptosystems. It is often called a **_key-agreement protocol_**, because it allows the establishment of a common secret key, that can be used to encrypt and decrypt messages.
 
 ### Generate DH public key parameters
 
-Generate the DH public key parameters and save them to a file (this may take a while to complete, be patient).
+Generate the DH public key parameters and save them to a file (this may take a while to complete depending on the key size - you need to be patient).
 
     openssl dhparam -out dhparams.pem 2048
 
@@ -67,17 +67,17 @@ And you'll have access to the parameters created.
 
 ### Generate the DH private and public keys
 
-Using the DH public parameters that were created in the previous step, it is now necessary to create the public and private keys of both entities that need to communicate (again **Alice** and **Bob**).
+Using the DH public parameters that were created in the previous step, it is now necessary to create the **public** and **private** keys of both entities that need to communicate (again **Alice** and **Bob**).
 
 So, both **Alice** and **Bob**, need to have the `dhparams.pem` file created in the previous step.
 
 Now, **Alice** can do the following to create its private key:
 
-    openssl genpkey -paramfile dhparams.pem -out alice_dh_key.pem
+    openssl genpkey -paramfile dhparams.pem -out alice_private.dh
 
 Let’s look at the content of **Alice** private key:
 
-    openssl pkey -in alice_dh_key.pem -text -noout
+    openssl pkey -in alice_private.dh -text -noout
 
 This is the contents of the private key:
 
@@ -143,31 +143,35 @@ This is the contents of the private key:
 
 Now **Bob**, needs to do the same thing:
 
-    openssl genpkey -paramfile dhparams.pem -out bob_dh_key.pem
+    openssl genpkey -paramfile dhparams.pem -out bob_private.dh
 
-After this, **Bob** and **Alice** need to exchange their public keys. These need to get extracted from their key files. 
+After this, **Bob** and **Alice** need to exchange their **public keys**. These need to **get extracted from their private key files** generated in the previous step. 
 
 So, **Alice** does:
 
-    openssl pkey -in alice_dh_key.pem -pubout -out alice_dh_public.pem
+    openssl pkey -in alice_private.dh -pubout -out alice_public.dh
 
 And **Bob**, does:
 
-    openssl pkey -in bob_dh_key.pem -pubout -out bob_dh_public.pem
+    openssl pkey -in bob_private.dh -pubout -out bob_public.dh
 
-Now, **Alice** can send `alice_dh_public.pem` to **Bob**, and **Bob** can send `bob_dh_public.pem` to **Alice**.
+Now, **Alice** can send `alice_public.dh` to **Bob**, and **Bob** can send `bob_public.dh` to **Alice**.
 
-Finally, both **Alice** and **Bob**, can compute a common secret key that can be used to exchange encrypted information. **Alice**, needs to derive its key:
+Finally, both **Alice** and **Bob**, can compute a **common secret key** that can be used to exchange encrypted information. **Alice**, needs to derive its key:
 
-    openssl pkeyutl -derive -inkey alice_dh_key.pem -peerkey bob_dh_public.pem -out alice_dh_common_key.bin
+    openssl pkeyutl -derive -inkey alice_private.dh -peerkey bob_public.dh -out alice_common_key.dh
 
 And **Bob**, can do the same:
 
-    openssl pkeyutl -derive -inkey bob_dh_key.pem -peerkey alice_dh_public.pem -out bob_dh_common_key.bin
+    openssl pkeyutl -derive -inkey bob_private.dh -peerkey alice_public.dh -out bob_common_key.dh
 
-If we campare them both, they are equal.
+If we compare them both, they are equal.
 
-    hexdump -C alice_dh_common_key.bin
+    diff alice_common_key.dh bob_common_key.dh
+
+And you can look at the content of the files... using `hexdump` utility.
+
+    hexdump -C alice_common_key.dh
 
 Here are the contents of the key:
 
@@ -191,11 +195,14 @@ Here are the contents of the key:
 
 ### Encrypt and decrypt with DH
 
-Now that we have a common key between **Alice** and **Bob**, this key can be used to do symmetric cryptography between the two parties communicating.
-To encrypt data, we can use:
+Now that we have a common key between **Alice** and **Bob**, this key can be used to do symmetric cryptography between the two parties communicating. Consider the `plain.txt` and `cipher.txt` below, two examples of files that are going to be encrypted or decrypted.
 
-    openssl aes-256-ecb -base64 -kfile alice_dh_common_key.bin -e -in plain.txt -out cipher.txt -pbkdf2
+To encrypt data in **Alice**, we can use:
 
-To decrypt data, we can do:
+    openssl aes-256-ecb -base64 -kfile alice_common_key.dh -e -in plain.txt -out cipher.txt -pbkdf2
 
-    openssl aes-256-ecb -base64 -kfile dh_common_key.bin -d -in cipher.txt -out clear.txt -pbkdf2
+To decrypt data in the **Bob** side, we can do:
+
+    openssl aes-256-ecb -base64 -kfile bob_common_key.dh -d -in cipher.txt -out clear.txt -pbkdf2
+
+And this is a possible way to encrypt and decrypt data using a DH common key.
