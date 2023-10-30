@@ -30,7 +30,38 @@ Using RIPEMD160
 
     RIPEMD160(./imagem.jpg)= f9bb6ff349a5f03531af89774f9a6578a785aec8
 
-### Generate a Message Authentication Code
+It is also possible to use the openssl `dgst` command to create hashes from data. 
+
+### Listing the available hash functions
+
+To list the available hash functions, simply do:
+
+    openssl dgst -list
+
+This will present all the hash functions that are supported by openssl:
+
+    Supported digests:
+    -blake2b512                -blake2s256                -md4
+    -md5                       -md5-sha1                  -mdc2
+    -ripemd                    -ripemd160                 -rmd160
+    -sha1                      -sha224                    -sha256
+    -sha3-224                  -sha3-256                  -sha3-384
+    -sha3-512                  -sha384                    -sha512
+    -sha512-224                -sha512-256                -shake128
+    -shake256                  -sm3                       -ssl3-md5
+    -ssl3-sha1                 -whirlpool
+
+### Create an hash from a file
+
+To create a hash from a specific file, we need to do:
+
+    openssl dgst -sha256 tux_original.bmp
+
+That produces the appropriate value:
+
+    SHA2-256(tux_original.bmp)= 76e3bccb0c1e24061c17f286e5eec8425e9fc22800a446dfbfe6fad3d3ecd950
+
+## Generate a Message Authentication Code
 
 In order to generate a hash-based message authentication code, we need to provide the hash algorithm to be used and the secret key to encrypt the hash.
 
