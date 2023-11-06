@@ -61,6 +61,12 @@ That produces the appropriate value:
 
     SHA2-256(tux_original.bmp)= 76e3bccb0c1e24061c17f286e5eec8425e9fc22800a446dfbfe6fad3d3ecd950
 
+## Create a hash with a "salt"
+
+The following command will create an hash value from a password (`mypassword`) with a "salt" value (`mysaltvalue`):
+
+    openssl passwd -5 -d -salt mysaltvalue mypassword 
+
 ## Generate a Message Authentication Code
 
 In order to generate a hash-based message authentication code, we need to provide the hash algorithm to be used and the secret key to encrypt the hash.
