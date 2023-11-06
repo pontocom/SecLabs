@@ -1,6 +1,6 @@
 # Cryptography
 
-In this lab we will demonstrate the usage of some cryptographic mechanisms using Openssl.
+In this lab we will demonstrate the usage of some cryptographic mechanisms using OpenSSL.
 
   * [Introduction to OpenSSL/LibreSSL](intro.md)
   * [Symmetric cryptography](symmetric.md)
@@ -13,3 +13,4 @@ In this lab we will demonstrate the usage of some cryptographic mechanisms using
   * [S/MIME](smime.md)
   * [OCSP - Online Certificate Status Protocol](ocsp.md)
   * [SSL/TLS](tls.md)
+
