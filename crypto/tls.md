@@ -557,7 +557,7 @@ Another interesting tool to test SSL/TLS is to use the [testssl.sh](https://gith
 
 To use it simply execute:
 
-testssl.sh carlos.serrao.me
+    testssl.sh carlos.serrao.me
 
 The obtained output is something like this (just a small portion):
 
