@@ -10,6 +10,7 @@
   * [Diffie-Hellman (DH)](crypto/dh.md)
   * [Digital Signatures](crypto/signatures.md)
   * [Digital Certificates](crypto/certificates.md)
+  * [S/MIME](crypto/smime.md)
   * [OCSP - Online Certificate Status Protocol](crypto/ocsp.md)
   * [SSL/TLS](crypto/tls.md)
 * [Passwords](passwords/README.md)
