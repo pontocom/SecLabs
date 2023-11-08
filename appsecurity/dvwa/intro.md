@@ -7,11 +7,10 @@ For these laboratories will be used an application purposely vulnerable as a way
 To run these labs the following requirements are needed:
 - Kali Linux, in particular the following tools (although others can also be used):
   - Nikto
-  - W3af
+  - W3af (note: this tool is no longer supported by Kali Linux)
   - Skipfish
   - Burp Suite
   - OWASP ZAP
-  - OWASP
   - Metasploit
   - sqlmap
   - Hydra

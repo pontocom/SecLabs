@@ -59,6 +59,8 @@ At the end we can observe the results on the console.
 
 ## W3AF
 
+**Quick note**: looks like this tool is no longer supported by Kali Linux.
+
 To run the W3af tool it is preferable to use the console version (it is faster). To make a test, we can use a pre-configured profile or use a custom audit. In this case we will perform an automatic audit using the `OWASP_TOP10` profile, which allows detecting the most common vulnerabilities in Web applications.
 
     w3af_console
