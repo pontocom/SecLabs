@@ -16,19 +16,21 @@ OpenSSL also has features for generating hashes of various types.
 
 Using SHA1
 
-    openssl sha1 ./imagem.jpg 
+    openssl sha1 <FILE> 
 
-    SHA1(./imagem.jpg)= 95e91837dc1a4a8eeb42208420d8620cb8d7785f
+    SHA1(<FILE>)= 95e91837dc1a4a8eeb42208420d8620cb8d7785f
 
 Using SHA256
-    openssl sha256 ./imagem.jpg 
 
-    SHA256(./imagem.jpg)= b110ed205353743923c7d66811a2916e2cc3bb3a06e7411e79a4b124ca1322d0
+    openssl sha256 <FILE> 
+
+    SHA256(<FILE>)= b110ed205353743923c7d66811a2916e2cc3bb3a06e7411e79a4b124ca1322d0
 
 Using RIPEMD160
-    openssl ripemd160 ./imagem.jpg 
 
-    RIPEMD160(./imagem.jpg)= f9bb6ff349a5f03531af89774f9a6578a785aec8
+    openssl ripemd160 <FILE> 
+
+    RIPEMD160(<FILE>)= f9bb6ff349a5f03531af89774f9a6578a785aec8
 
 It is also possible to use the openssl `dgst` command to create hashes from data. 
 
@@ -51,19 +53,19 @@ This will present all the hash functions that are supported by openssl:
     -shake256                  -sm3                       -ssl3-md5
     -ssl3-sha1                 -whirlpool
 
-### Create an hash from a file
+### Create a hash from a file
 
 To create a hash from a specific file, we need to do:
 
-    openssl dgst -sha256 tux_original.bmp
+    openssl dgst -sha256 <FILE>
 
 That produces the appropriate value:
 
-    SHA2-256(tux_original.bmp)= 76e3bccb0c1e24061c17f286e5eec8425e9fc22800a446dfbfe6fad3d3ecd950
+    SHA2-256(<FILE>)= 76e3bccb0c1e24061c17f286e5eec8425e9fc22800a446dfbfe6fad3d3ecd950
 
 ## Create a hash with a "salt"
 
-The following command will create an hash value from a password (`mypassword`) with a "salt" value (`mysaltvalue`):
+The following command will create a hash value from a password (`mypassword`) with a "salt" value (`mysaltvalue`):
 
     openssl passwd -5 -d -salt mysaltvalue mypassword 
 
@@ -71,7 +73,7 @@ The following command will create an hash value from a password (`mypassword`) w
 
 In order to generate a hash-based message authentication code, we need to provide the hash algorithm to be used and the secret key to encrypt the hash.
 
-    openssl sha1 -hmac 24899ec1e452d219121f0d07cd6975b7 ./imagem.jpg
+    openssl sha1 -hmac 24899ec1e452d219121f0d07cd6975b7 <FILE>
 
-    HMAC-SHA1(./imagem.jpg)= 384773867cb7bce6ffd97a95c26e65666c045ea7
+    HMAC-SHA1(<FILE>)= 384773867cb7bce6ffd97a95c26e65666c045ea7
 
