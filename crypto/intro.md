@@ -7,6 +7,7 @@
 - [Basic commands](#basic-commands)
   - [Check the OpenSSL version](#check-the-openssl-version)
 - [OpenSSL interactive console access](#openssl-interactive-console-access)
+- [Generic structure of OpenSSL application and commands](#generic-structure-of-openssl-application-and-commands)
 - [Check the options for a particular command](#check-the-options-for-a-particular-command)
 
 ## Introduction
@@ -47,6 +48,11 @@ Regarding option 3, it consists of:
 - Download a Linux distribution, such as **[Ubuntu](https://ubuntu.com/download/desktop/thank-you?version=20.04.3&architecture=amd64)** 
 - Download and install either **[VMware Workstation Player](https://www.vmware.com/products/workstation-player.html)** or **[VirtualBox](https://www.virtualbox.org/)** on Windows 10/11. This site even has already prepared Ubuntu images to be installed in both virtualization environments;
 - Install the Linux distribution in the selected virtualization environment.
+
+[This page](https://thesecmaster.com/procedure-to-install-openssl-on-the-windows-platform/) contains also important and relevant information on how to install OpenSSL on Windows. It provides a detailed step-by-step process on how to do it.
+
+If you choose, you may also not install OpenSSL natively and use a web-based version that can be found [here](https://www.cryptool.org/en/cto/openssl).
+
 
 ## Basic commands
 
@@ -107,9 +113,27 @@ Here we will just list some of the basic commands for working with OpenSSL.
 
 ## OpenSSL interactive console access
 
+Oldest versions of OpenSSL supported an interactive console mode, when the user invoked the `openssl` command. Newer versions don't support it anymore.
+
     openssl
 
     OpenSSL> 
+
+## Generic structure of OpenSSL application and commands
+
+OpenSSL CLI application has the following structure of commands:
+
+    openssl [command] -[options]
+
+Where the `command` is a set of commands supported by the OpenSSL CLI application, and `options` is a set of options supported by a given command.
+
+In order to know which options are supported by a given command, simply do:
+
+    openssl [command] -help
+
+Usually, each OpenSSL command supports `general options`, `input options` and `output options`. Depending on the type of command, other specific options may be available.
+
+
 
 ## Check the options for a particular command
 
@@ -156,3 +180,5 @@ Here we will just list some of the basic commands for working with OpenSSL.
     -updatedb       - Updates db for expired certificates
 
 Most of the times, it is also better to read the documentation on the [OpenSSL website](https://www.openssl.org), since it is must more verbose than the information provided by the CLI.
+
+Another important source of information about OpenSSL is the [OpenSSL Cookbook](https://www.feistyduck.com/books/openssl-cookbook/), an online free book that covers diverse information about OpenSSL.
