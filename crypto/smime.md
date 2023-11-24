@@ -16,6 +16,8 @@
 
 S/MIME is a standard for encrypting and signing MIME (Multipurpose Internet Mail Extensions) data. It is widely used for electronic mail. OpenSSL provides support for this type of functionality.
 
+S/MIME (Secure/Multipurpose Internet Mail Extensions) is a standard for public-key encryption and signing of MIME data. S/MIME is on an IETF standards track and defined in a number of documents, most importantly [RFC 8551](https://datatracker.ietf.org/doc/html/rfc8551). It was originally developed by RSA Data Security, and the original specification used the [IETF MIME specification](https://datatracker.ietf.org/doc/html/rfc2045) with the de facto industry standard [PKCS #7](https://en.wikipedia.org/wiki/PKCS_7) secure message format, called [Cryptographic Message Syntax (CMS)](https://datatracker.ietf.org/doc/html/rfc5652).
+
 For the next operations let's assume that there are two entities, **Alice** and **Bob** who want to exchange and sign information using public key cryptography - to do this we will create key pairs and certificates (containing the public key) for each of them.
 
 ### Create keys and certificates
