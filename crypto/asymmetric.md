@@ -51,7 +51,7 @@ Let's generate a key pair with 4096 bits of dimension.
     ..........................++
     e is 65537 (0x10001)
 
-The generated key is stored in [PKCS#1](https://en.wikipedia.org/wiki/PKCS) format, with the following structure ([ASN.1](https://en.wikipedia.org/wiki/ASN.1)):
+The key generation process follows the recommendations of [PKCS#1](https://en.wikipedia.org/wiki/PKCS_1), with the following structure represented in [ASN.1](https://en.wikipedia.org/wiki/ASN.1):
 
     RSAPrivateKey ::= SEQUENCE {
         version           Version,
@@ -65,6 +65,8 @@ The generated key is stored in [PKCS#1](https://en.wikipedia.org/wiki/PKCS) form
         coefficient       INTEGER,  -- (inverse of q) mod p
         otherPrimeInfos   OtherPrimeInfos OPTIONAL
     }
+
+Also, you may notice that the file format that we are using uses the [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) format, which is a standard file format for storing cryptographic keys and certificates. This format is specified in the following [RFC 7468](https://datatracker.ietf.org/doc/html/rfc7468).
 
 To view it, we can do:
 
