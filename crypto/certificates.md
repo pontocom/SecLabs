@@ -279,6 +279,8 @@ And look at the certificate data:
             1e:49:93:5c:b2:82:01:c6:91:9f:bd:16:2e:0c:ff:a9:b8:6a:
             92:91
 
+This [book in this link](https://www.feistyduck.com/library/openssl-cookbook/online/openssl-command-line/private-ca-creating-root.html) also contains detailed instructions on how to create your own private CA.
+
 ### Revocation of digital certificates
 
 One of the functions of a CA is also to maintain information about the digital certificates it issues. Whenever a certificate, for whatever reason, is no longer valid, it must be revoked. One of the ways to revoke and communicate this revocation to "third parties" is through a Certificate Revocation List (CRL).
