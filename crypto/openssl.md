@@ -101,6 +101,10 @@ Regarding option 3, it consists of:
 - Download and install either VMware Workstation Player (https://www.vmware.com/products/workstation-player.html) or VirtualBox  (https://www.virtualbox.org/) on Windows 10/11. This site even has already prepared Ubuntu images to be installed in both virtualization environments;
 - Install the Linux distribution in the selected virtualization environment.
 
+[This page](https://thesecmaster.com/procedure-to-install-openssl-on-the-windows-platform/) contains also important and relevant information on how to install OpenSSL on Windows. It provides a detailed step-by-step process on how to do it.
+
+If you choose, you may also not install OpenSSL natively and use a web-based version that can be found [here](https://www.cryptool.org/en/cto/openssl).
+
 ## Basic commands
 
 Here we will just list some of the basic commands for working with OpenSSL.
