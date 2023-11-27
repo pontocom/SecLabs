@@ -8,4 +8,4 @@ In this part of the lab the objective is to learn how to do vulnerability identi
   * [Starting and Stopping OpenVAS](openvas/startstop.md)
   * [Navigating through OpenVAS](openvas/navigation.md)
   * [Scanning a target](openvas/scan.md)
-* [Nessus]() 
+* [Nessus](nessus/README.md) 
