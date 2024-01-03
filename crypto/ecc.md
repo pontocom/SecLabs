@@ -1,4 +1,4 @@
-# Elliptic Curve Cryptography <!-- omit in toc -->
+# Elliptic Curve Cryptography (ECC) <!-- omit in toc -->
 
 ## Index <!-- omit in toc -->
 
