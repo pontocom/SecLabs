@@ -65,9 +65,9 @@ That produces the appropriate value:
 
 ## Create a hash with a "salt"
 
-The following command will create a hash value from a password (`mypassword`) with a "salt" value (`mysaltvalue`):
+The following command will create a hash value from a password (`mypassword`) with a "salt" value (`mysaltvalue`) - using the **SHA256**:
 
-    openssl passwd -5 -d -salt mysaltvalue mypassword 
+    openssl passwd -5 -salt mysaltvalue mypassword 
 
 ## Generate a Message Authentication Code
 
